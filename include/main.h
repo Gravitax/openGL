@@ -5,26 +5,26 @@
 # include "glad.h"
 # include <GLFW/glfw3.h>
 
-# include <unistd.h>
 # include <stdio.h>
-# include <stdbool.h>
-# include <errno.h>
-
-# include <sys/mman.h>
-# include <sys/types.h>
-# include <sys/stat.h>
-
-# include <fcntl.h>
-# include <limits.h>
-# include <float.h>
 
 // Homemade libs
 # include "libft.h"
 # include "lib_vec.h"
 
-#define GLFW_INCLUDE_NONE
- 
-#include "linmath.h"
+# include "linmath.h"
 
+# define GLFW_INCLUDE_NONE
+
+# define _WIDTH 640
+# define _HEIGHT 480
+
+
+// CALLBACK
+void    error_callback(int error, const char* description);
+void    key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);
+void    cursor_position_callback(GLFWwindow* window, double xpos, double ypos);
+void    window_maximize_callback(GLFWwindow* window, int maximized);
+void    window_focus_callback(GLFWwindow* window, int focused);
+void    scroll_callback(GLFWwindow* window, double xoffset, double yoffset);
 
 #endif
