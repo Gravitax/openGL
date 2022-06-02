@@ -25,6 +25,12 @@ void    key_callback(GLFWwindow *window, int key, int scancode, int action, int 
             case GLFW_KEY_R:
                 glfwRestoreWindow(window);
                 break ;
+            case GLFW_KEY_A:
+                printf("key A pressed\n");
+                break ;
+            case GLFW_KEY_D:
+                printf("key D pressed\n");
+                break ;
             default:
                 printf("key: %d\n", key);
         }

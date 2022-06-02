@@ -21,11 +21,7 @@ const char   *fragment_shader_text =
 "    outColor = vec4(Color, 1.f);\n"
 "}\n";
 
-const struct
-{
-    GLfloat x, y, z;
-    GLfloat r, g, b;
-} vertices[4] =
+t_vertices vertices[4] =
 {
     { // top_left
         -0.5f, 0.5f, 0.f,

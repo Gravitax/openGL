@@ -20,6 +20,11 @@
 # define _HEIGHT    480
 # define _LENGTH    _WIDTH * _HEIGHT
 
+typedef struct	s_vertices
+{
+    float   x, y, z;
+    float   r, g, b;
+}               t_vertices;
 
 typedef struct	s_env
 {
@@ -33,6 +38,7 @@ typedef struct	s_env
     double      time;
     int         frames;
     int         fps;
+    t_vertices  vertices[4];
 }				t_env;
 
 // CALLBACK
