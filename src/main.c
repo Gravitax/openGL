@@ -21,26 +21,14 @@ int         window_open(t_env *env)
     return (0);
 }
 
-void        gl_exit(t_env *env)
-{
-    glDeleteProgram(env->shader_program);
-    glDeleteShader(env->shader_vertex);
-    glDeleteShader(env->shader_fragment);
-    glDeleteBuffers(1, &env->ebo);
-    glDeleteBuffers(1, &env->vbo);
-    glDeleteVertexArrays(1, &env->vao);
-    glfwDestroyWindow(env->window);
-    glfwTerminate();
-}
-
 int         scop(t_env *env)
 {
-    if (gl_init(env) < 0)
+    if (env_init(env) < 0 || gl_init(env) < 0)
         return (-1);
     env->time = glfwGetTime();
     while (window_open(env) > -1)
         ;
-    gl_exit(env);
+    scop_exit(env);
     return (0);
 }
  

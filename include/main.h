@@ -11,6 +11,7 @@
 // Homemade libs
 # include "libft.h"
 # include "lib_vec.h"
+# include "bmp.h"
 
 # include "linmath.h"
 
@@ -20,25 +21,48 @@
 # define _HEIGHT    480
 # define _LENGTH    _WIDTH * _HEIGHT
 
+
+typedef struct  s_vec3
+{
+    float   x, y, z, w;
+}               t_vec3;
+
+typedef struct  s_color
+{
+    float   r, g, b, a;
+}               t_color;
+
+typedef struct  s_texture
+{
+    float   x, y;
+}               t_texture;
+
 typedef struct	s_vertices
 {
-    float   x, y, z;
-    float   r, g, b;
+    t_vec3      pos;
+    t_color     col;
+    t_texture   tex;
 }               t_vertices;
 
 typedef struct	s_env
 {
-    GLFWwindow  *window;
-    GLuint      ebo;
-    GLuint      vao;
-    GLuint      vbo;
-    GLuint      shader_program;
-    GLuint      shader_vertex;
-    GLuint      shader_fragment;
-    double      time;
-    int         frames;
-    int         fps;
-    t_vertices  vertices[4];
+    GLFWwindow      *window;
+    GLuint          ebo;
+    GLuint          vao;
+    GLuint          vbo;
+    GLuint          shader_program;
+    GLuint          shader_vertex;
+    GLuint          shader_fragment;
+    GLuint          tex;
+    double          time;
+    int             frames;
+    int             fps;
+    t_dynarray      vertices;
+    unsigned char   *img;
+    int             img_w;
+    int             img_h;
+    const GLchar    *shader_vertex_text;
+    const GLchar    *shader_fragment_text;
 }				t_env;
 
 // CALLBACK
@@ -52,5 +76,13 @@ void    scroll_callback(GLFWwindow *window, double xoffset, double yoffset);
 void    gl_fps(t_env *env, bool print);
 
 int     gl_init(t_env *env);
+
+void    gl_shaders(t_env *env);
+
+int     env_init(t_env *env);
+
+void    scop_exit(t_env *env);
+
+t_env   *singleton(t_env *env);
 
 #endif
