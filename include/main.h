@@ -13,8 +13,6 @@
 # include "lib_vec.h"
 # include "bmp.h"
 
-# include "linmath.h"
-
 # define GLFW_INCLUDE_NONE
 
 # define _WIDTH     640
