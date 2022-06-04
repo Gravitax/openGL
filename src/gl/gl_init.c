@@ -26,19 +26,23 @@ static int  gl_create_window(GLFWwindow* *window, const char *title, bool fullsc
         glfwTerminate();
         return (-1);
     }
-    glfwMakeContextCurrent(*window);
+    return(0);
+}
+
+static void gl_load(t_env *env)
+{
+    glfwMakeContextCurrent(env->window);
     gladLoadGL();
     glfwSwapInterval(1);
-    return(0);
 }
 
 static void gl_init_callback(GLFWwindow* window)
 {
-    glfwSetKeyCallback(window, key_callback);
-    // glfwSetCursorPosCallback(window, cursor_position_callback);
-    // glfwSetWindowMaximizeCallback(window, window_maximize_callback);
-    // glfwSetWindowFocusCallback(window, window_focus_callback);
-    // glfwSetScrollCallback(window, scroll_callback);
+    glfwSetKeyCallback(window, cb_key);
+    // glfwSetCursorPosCallback(window, cb_cursor_position);
+    // glfwSetWindowMaximizeCallback(window, cb_window_maximize);
+    // glfwSetWindowFocusCallback(window, cb_window_focus);
+    // glfwSetScrollCallback(window, cb_scroll);
 }
 
 static void gl_vobjects(t_env *env)
@@ -67,11 +71,13 @@ static void gl_vobjects(t_env *env)
 
 int         gl_init(t_env *env)
 {
-    glfwSetErrorCallback(error_callback);
+    glfwSetErrorCallback(cb_error);
     if (!glfwInit() || gl_create_window(&env->window, "scop", false) < 0)
         return (-1);
+    gl_load(env);
     gl_init_callback(env->window);
     gl_vobjects(env);
     gl_shaders(env);
+    gl_textures(env);
     return (0);
 }

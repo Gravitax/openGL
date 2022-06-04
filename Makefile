@@ -22,13 +22,15 @@ endif
 
 SRC_PATH=src/
 SRC_NAME=main.c\
-			callback.c\
+			gl/callbacks.c\
+			gl/gl_fps.c\
+			gl/gl_init.c\
+			gl/gl_render.c\
+			gl/gl_shaders.c\
+			gl/gl_textures.c\
 			env_init.c\
-			fps.c\
-			gl_init.c\
-			gl_shaders.c\
 			scop_exit.c\
-			singleton.c
+			singletons.c
 
 SRC=$(addprefix $(SRC_PATH), $(SRC_NAME))
 

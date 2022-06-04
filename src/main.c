@@ -1,34 +1,17 @@
 #include "main.h"
 
 
-int         window_open(t_env *env)
-{
-    int     width, height;
-
-    if (glfwWindowShouldClose(env->window))
-        return (-1);
-    gl_fps(env, true);
-    glfwGetFramebufferSize(env->window, &width, &height);
-    glViewport(0, 0, width, height);
-    glClear(GL_COLOR_BUFFER_BIT);
-
-    glUseProgram(env->shader_program);
-
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-
-    glfwSwapBuffers(env->window);
-    glfwPollEvents();
-    return (0);
-}
-
 int         scop(t_env *env)
 {
     if (env_init(env) < 0 || gl_init(env) < 0)
+    {
+        scop_exit();
         return (-1);
+    }
     env->time = glfwGetTime();
-    while (window_open(env) > -1)
+    while (gl_render(env) > -1)
         ;
-    scop_exit(env);
+    scop_exit();
     return (0);
 }
  

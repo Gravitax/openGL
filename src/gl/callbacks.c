@@ -1,12 +1,13 @@
 #include "main.h"
 
 
-void    error_callback(int error, const char *description)
+void    cb_error(int error, const char *description)
 {
     fprintf(stderr, "Error: (%d): %s\n", error, description);
+    scop_exit();
 }
  
-void    key_callback(GLFWwindow *window, int key, int scancode, int action, int mods)
+void    cb_key(GLFWwindow *window, int key, int scancode, int action, int mods)
 {
     if (action == GLFW_PRESS)
     {
@@ -37,13 +38,13 @@ void    key_callback(GLFWwindow *window, int key, int scancode, int action, int 
     }
 }
 
-void    cursor_position_callback(GLFWwindow *window, double xpos, double ypos)
+void    cb_cursor_position(GLFWwindow *window, double xpos, double ypos)
 {
     glfwGetCursorPos(window, &xpos, &ypos);
     // printf("mouse_x: %f, mouse_y: %f\n", xpos, ypos);
 }
 
-void    window_maximize_callback(GLFWwindow *window, int maximized)
+void    cb_window_maximize(GLFWwindow *window, int maximized)
 {
     if (maximized)
     {
@@ -57,7 +58,7 @@ void    window_maximize_callback(GLFWwindow *window, int maximized)
     }
 }
 
-void    window_focus_callback(GLFWwindow *window, int focused)
+void    cb_window_focus(GLFWwindow *window, int focused)
 {
     if (focused)
     {
@@ -71,7 +72,7 @@ void    window_focus_callback(GLFWwindow *window, int focused)
     }
 }
 
-void    scroll_callback(GLFWwindow *window, double xoffset, double yoffset)
+void    cb_scroll(GLFWwindow *window, double xoffset, double yoffset)
 {
     printf("offset_x: %f, offset_y: %f\n", xoffset, yoffset);
 }

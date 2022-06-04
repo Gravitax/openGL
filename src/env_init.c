@@ -81,11 +81,9 @@ static void shader_init(t_env *env)
 
 int         env_init(t_env *env)
 {
-    if (load_square(env) < 0)
-        return (-1);
-    if (load_img(env) < 0)
+    st_env(env, false);
+    if (load_square(env) < 0 || load_img(env) < 0)
         return (-1);
     shader_init(env);
-    singleton(env);
     return (0);
 }

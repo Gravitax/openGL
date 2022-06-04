@@ -63,24 +63,26 @@ typedef struct	s_env
     const GLchar    *shader_fragment_text;
 }				t_env;
 
-// CALLBACK
-void    error_callback(int error, const char *description);
-void    key_callback(GLFWwindow *window, int key, int scancode, int action, int mods);
-void    cursor_position_callback(GLFWwindow *window, double xpos, double ypos);
-void    window_maximize_callback(GLFWwindow *window, int maximized);
-void    window_focus_callback(GLFWwindow *window, int focused);
-void    scroll_callback(GLFWwindow *window, double xoffset, double yoffset);
+// CALLBACKS
+void    cb_error(int error, const char *description);
+void    cb_key(GLFWwindow *window, int key, int scancode, int action, int mods);
+void    cb_cursor_position(GLFWwindow *window, double xpos, double ypos);
+void    cb_window_maximize(GLFWwindow *window, int maximized);
+void    cb_window_focus(GLFWwindow *window, int focused);
+void    cb_scroll(GLFWwindow *window, double xoffset, double yoffset);
 
+// openGL
 void    gl_fps(t_env *env, bool print);
-
 int     gl_init(t_env *env);
-
+int     gl_render(t_env *env);
 void    gl_shaders(t_env *env);
+void    gl_textures(t_env *env);
 
+// ENV
 int     env_init(t_env *env);
+void    scop_exit();
 
-void    scop_exit(t_env *env);
-
-t_env   *singleton(t_env *env);
+// SINGLETONS
+t_env   *st_env(t_env *env, bool unsave);
 
 #endif
