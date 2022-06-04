@@ -36,7 +36,7 @@ static void gl_load(t_env *env)
     glfwSwapInterval(1);
 }
 
-static void gl_init_callback(GLFWwindow* window)
+static void gl_init_callbacks(GLFWwindow* window)
 {
     glfwSetKeyCallback(window, cb_key);
     // glfwSetCursorPosCallback(window, cb_cursor_position);
@@ -75,7 +75,7 @@ int         gl_init(t_env *env)
     if (!glfwInit() || gl_create_window(&env->window, "scop", false) < 0)
         return (-1);
     gl_load(env);
-    gl_init_callback(env->window);
+    gl_init_callbacks(env->window);
     gl_vobjects(env);
     gl_shaders(env);
     gl_textures(env);

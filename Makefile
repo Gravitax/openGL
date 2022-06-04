@@ -22,7 +22,7 @@ endif
 
 SRC_PATH=src/
 SRC_NAME=main.c\
-			gl/callbacks.c\
+			gl/gl_callbacks.c\
 			gl/gl_fps.c\
 			gl/gl_init.c\
 			gl/gl_render.c\
