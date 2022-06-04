@@ -61,6 +61,8 @@ typedef struct	s_env
     int             img_h;
     const GLchar    *shader_vertex_text;
     const GLchar    *shader_fragment_text;
+	int				ww;
+	int				wh;
 }				t_env;
 
 // CALLBACKS
@@ -70,6 +72,7 @@ void    cb_cursor_position(GLFWwindow *window, double xpos, double ypos);
 void    cb_window_maximize(GLFWwindow *window, int maximized);
 void    cb_window_focus(GLFWwindow *window, int focused);
 void    cb_scroll(GLFWwindow *window, double xoffset, double yoffset);
+void	cb_framebuffer_size(GLFWwindow *window, int width, int height);
 
 // openGL
 void    gl_fps(t_env *env, bool print);

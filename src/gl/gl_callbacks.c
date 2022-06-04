@@ -41,7 +41,6 @@ void    cb_key(GLFWwindow *window, int key, int scancode, int action, int mods)
 void    cb_cursor_position(GLFWwindow *window, double xpos, double ypos)
 {
     glfwGetCursorPos(window, &xpos, &ypos);
-    // printf("mouse_x: %f, mouse_y: %f\n", xpos, ypos);
 }
 
 void    cb_window_maximize(GLFWwindow *window, int maximized)
@@ -75,4 +74,16 @@ void    cb_window_focus(GLFWwindow *window, int focused)
 void    cb_scroll(GLFWwindow *window, double xoffset, double yoffset)
 {
     printf("offset_x: %f, offset_y: %f\n", xoffset, yoffset);
+}
+
+void	cb_framebuffer_size(GLFWwindow *window, int width, int height)
+{
+	t_env	*env;
+
+	env = st_env(NULL, false);
+	if (env == NULL)
+		return ;
+    glViewport(0, 0, width, height);
+	env->ww = width;
+	env->wh = height;
 }

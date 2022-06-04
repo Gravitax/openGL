@@ -20,6 +20,12 @@ ifeq ($(OPTI), 1)
     FLAGS += -Ofast -march=native
 endif
 
+ifeq ($(OS), Linux)
+	FLAGS_OS = -lGL -ldl -lm
+else
+	FLAGS_OS = -framework OpenGL
+endif 
+
 SRC_PATH=src/
 SRC_NAME=main.c\
 			gl/gl_callbacks.c\
@@ -63,7 +69,7 @@ LIB_GLAD = $(LIB_GLAD_PATH)/libglad.a
 all: $(NAME)
 
 $(NAME): $(LIB) $(LIB_VEC) $(LIBBMP) $(LIB_GLAD) $(OBJS)
-	$(CC) $(FLAGS) -o $(NAME) $(OBJS) $(LIB) $(LIB_VEC) $(LIBBMP) $(LIB_GLAD) ${CMAKE_DL_LIBS} -lpthread -lglfw -lGL -ldl -lm
+	$(CC) $(FLAGS) -o $(NAME) $(OBJS) $(LIB) $(LIB_VEC) $(LIBBMP) $(LIB_GLAD) ${CMAKE_DL_LIBS} -lpthread -lglfw ${FLAGS_OS}
 
 $(SRC_PATH)%.o: $(SRC_PATH)%.c $(INC)
 	@tput civis
