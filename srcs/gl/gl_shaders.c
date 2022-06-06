@@ -29,6 +29,7 @@ static void shader_layout(t_env *env)
 {
     GLint   position;
 
+    // Specify the layout of the vertex data
     // position
     position = glGetAttribLocation(env->shader_program, "position");
     glEnableVertexAttribArray(position);
@@ -50,6 +51,5 @@ void        gl_shaders(t_env *env)
 {
     shader_create(env);
     shader_attach(env);
-    // Specify the layout of the vertex data
     shader_layout(env);
 }

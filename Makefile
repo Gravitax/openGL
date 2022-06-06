@@ -20,13 +20,14 @@ ifeq ($(OPTI), 1)
     FLAGS += -Ofast -march=native
 endif
 
-ifeq ($(OS), Linux)
+UNAME_S := $(shell uname -s)
+ifeq ($(UNAME_S), Linux)
 	FLAGS_OS = -lGL -ldl -lm
 else
 	FLAGS_OS = -framework OpenGL
 endif 
 
-SRC_PATH=src/
+SRC_PATH=srcs/
 SRC_NAME=main.c\
 			gl/gl_callbacks.c\
 			gl/gl_fps.c\
@@ -40,7 +41,7 @@ SRC_NAME=main.c\
 
 SRC=$(addprefix $(SRC_PATH), $(SRC_NAME))
 
-INC_PATH=include/
+INC_PATH=includes/
 INC_NAME=main.h
 
 INC=$(addprefix $(INC_PATH), $(INC_NAME))
@@ -56,8 +57,9 @@ LIB=$(LIB_PATH)/libft.a
 LIB_VEC_PATH=$(LIBS_PATH)/lib_vec
 LIB_VEC=$(LIB_VEC_PATH)/lib_vec.a
 
-LIBBMP_PATH=$(LIBS_PATH)/libbmp
-LIBBMP=$(LIBBMP_PATH)/libbmp.a
+LIBSOIL_PATH=$(LIBS_PATH)/libsoil
+LIBSOIL=$(LIBSOIL_PATH)/lib/libSOIL.a
+SOIL_PATH=$(LIBSOIL_PATH)/src/
 
 LIB_GLAD_PATH = $(LIBS_PATH)/glad
 GLAD_PATH = $(LIB_GLAD_PATH)/include/glad/
@@ -68,15 +70,16 @@ LIB_GLAD = $(LIB_GLAD_PATH)/libglad.a
 
 all: $(NAME)
 
-$(NAME): $(LIB) $(LIB_VEC) $(LIBBMP) $(LIB_GLAD) $(OBJS)
-	$(CC) $(FLAGS) -o $(NAME) $(OBJS) $(LIB) $(LIB_VEC) $(LIBBMP) $(LIB_GLAD) ${CMAKE_DL_LIBS} -lpthread -lglfw ${FLAGS_OS}
+$(NAME): $(LIB) $(LIB_VEC) $(LIBSOIL) $(LIB_GLAD) $(OBJS)
+	$(CC) $(FLAGS) -o $(NAME) $(OBJS) $(LIB) $(LIB_VEC) $(LIBSOIL) $(LIB_GLAD) -lpthread -lglfw ${FLAGS_OS}
 
 $(SRC_PATH)%.o: $(SRC_PATH)%.c $(INC)
 	@tput civis
 	@printf " Compiling $<"
 	@printf "                                       \\r"
+	@printf "$(OS)"
 	@tput cnorm
-	@$(CC) $(FLAGS) -I$(INC_PATH) -I$(LIB_PATH) -I$(LIB_VEC_PATH) -I$(LIBBMP_PATH) -I$(GLAD_PATH) -o $@ -c $<
+	@$(CC) $(FLAGS) -I$(INC_PATH) -I$(LIB_PATH) -I$(LIB_VEC_PATH) -I$(LIBSOIL_PATH) -I$(GLAD_PATH) -I$(SOIL_PATH) -o $@ -c $<
 
 ########################## Library rules ##########################
 
@@ -88,9 +91,9 @@ $(LIB_VEC): $(LIB_VEC_PATH)
 	@echo "Making lib_vec..."
 	@make -C $(LIB_VEC_PATH)
 
-$(LIBBMP): $(LIBBMP_PATH)
-	@echo "Making libbmp..."
-	@make -C $(LIBBMP_PATH)
+$(LIBSOIL): $(LIBSOIL_PATH)
+	@echo "Making libsoil..."
+	@make -C $(LIBSOIL_PATH)
 
 $(LIB_GLAD): $(LIB_GLAD_PATH)
 	@echo "Making libglad..."
@@ -103,14 +106,14 @@ clean:
 	@rm -rf $(OBJS)
 	@make -C $(LIB_PATH) clean
 	@make -C $(LIB_VEC_PATH) clean
-	@make -C $(LIBBMP_PATH) clean
+	@make -C $(LIBSOIL_PATH) clean
 	@make -C $(LIB_GLAD_PATH) clean
 
 fclean: clean
 	@rm -rf $(NAME)
 	@make -C $(LIB_PATH) fclean
 	@make -C $(LIB_VEC_PATH) fclean
-	@make -C $(LIBBMP_PATH) fclean
+	@make -C $(LIBSOIL_PATH) fclean
 	@make -C $(LIB_GLAD_PATH) fclean
 
 re: fclean all

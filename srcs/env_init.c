@@ -46,9 +46,12 @@ static int  load_img(t_env *env)
 {
     int code;
 
-    code = loadBMP("./ressources/images/test.bmp",
-        &env->img, &env->img_w, &env->img_h);
-    return (code);
+    env->img = SOIL_load_image("./ressources/images/test.png",
+        &env->img_w, &env->img_h, 0, SOIL_LOAD_RGB);
+    return (env->img ? 0 : -1);
+    // code = loadBMP("./ressources/images/test.bmp",
+    //     &env->img, &env->img_w, &env->img_h);
+    // return (code);
 }
 
 static void shader_init(t_env *env)
@@ -68,13 +71,14 @@ static void shader_init(t_env *env)
         "}\n";
     env->shader_fragment_text =
         "#version 330\n"
-        "in vec4 Color;\n"
+        // "in vec4 Color;\n"
         "in vec2 Texcoord;\n"
         "out vec4 vColor;\n"
         "uniform sampler2D tex;\n"
         "void main()\n"
         "{\n"
-        "    vColor = texture(tex, Texcoord) * Color;\n"
+        // "    vColor = texture(tex, Texcoord) * Color;\n"
+        "    vColor = texture(tex, Texcoord);\n"
         // "    vColor = Color;\n"
         "}\n";
 }

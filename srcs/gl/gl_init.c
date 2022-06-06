@@ -7,7 +7,7 @@ static int  gl_create_window(GLFWwindow* *window, const char *title, bool fullsc
     const GLFWvidmode   *mode;
 
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	#ifdef __APPLE__
 		glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
@@ -86,8 +86,8 @@ int         gl_init(t_env *env)
 	if (gl_load(env) < 0)
 		return (-1);
     gl_init_callbacks(env->window);
+    gl_vobjects(env);
     gl_shaders(env);
     gl_textures(env);
-    gl_vobjects(env);
     return (0);
 }

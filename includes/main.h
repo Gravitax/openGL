@@ -11,7 +11,8 @@
 // Homemade libs
 # include "libft.h"
 # include "lib_vec.h"
-# include "bmp.h"
+
+# include "SOIL.h"
 
 # define GLFW_INCLUDE_NONE
 
