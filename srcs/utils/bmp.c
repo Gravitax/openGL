@@ -19,9 +19,8 @@ static unsigned char	*read_bmp(FILE *file, unsigned char *header, int *width, in
 		image_size = w * h * 3;
 	if (data_pos == 0)
 		data_pos = 54;
-	if (!(data = (unsigned char *)ft_memalloc(sizeof(unsigned char) * image_size)))
-		return (NULL);
-	fread(data, 1, image_size, file);
+	data = (unsigned char *)ft_memalloc(sizeof(unsigned char) * image_size);
+	data && fread(data, 1, image_size, file);
 	fclose(file);
 	return (data);
 }
