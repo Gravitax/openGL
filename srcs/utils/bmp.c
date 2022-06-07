@@ -3,23 +3,17 @@
 
 static unsigned char	*read_bmp(FILE *file, unsigned char *header, int *width, int *height)
 {
-	int				w;
-	int				h;
-	unsigned char	*data;
-	int				image_size;
 	int				data_pos;
+	int				image_size;
+	unsigned char	*data;
 
-	data_pos = *(int *)&(header[0x0A]);
-	image_size = *(int *)&(header[0x22]);
-	w = *(int *)&(header[0x12]);
-	h = *(int *)&(header[0x16]);
-	*width = w;
-	*height = h;
-	if (image_size == 0)
-		image_size = w * h * 3;
-	if (data_pos == 0)
-		data_pos = 54;
-	data = (unsigned char *)ft_memalloc(sizeof(unsigned char) * image_size);
+	data_pos	= *(int *)&(header[0x0A]);
+	image_size	= *(int *)&(header[0x22]);
+	*width		= *(int *)&(header[0x12]);
+	*height		= *(int *)&(header[0x16]);
+	image_size	= image_size == 0 ? (*width) * (*height) * 3 : image_size;
+	data_pos	= data_pos == 0 ? 54 : data_pos;
+	data		= (unsigned char *)ft_memalloc(sizeof(unsigned char) * image_size);
 	data && fread(data, 1, image_size, file);
 	fclose(file);
 	return (data);
