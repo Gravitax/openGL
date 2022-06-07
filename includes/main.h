@@ -65,29 +65,29 @@ typedef struct	s_env
 }				t_env;
 
 // GLFW
-void    glfw_fps(t_env *env, bool print);
-int     glfw_init(t_env *env);
-// GLFW CALLBACKS
-void    cb_error(int error, const char *description);
-void    cb_key(GLFWwindow *window, int key, int scancode, int action, int mods);
-void    cb_cursor_position(GLFWwindow *window, double xpos, double ypos);
-void    cb_window_maximize(GLFWwindow *window, int maximized);
-void    cb_window_focus(GLFWwindow *window, int focused);
-void    cb_scroll(GLFWwindow *window, double xoffset, double yoffset);
-void	cb_framebuffer_size(GLFWwindow *window, int width, int height);
+void    		glfw_fps(t_env *env, bool print);
+int     		glfw_init(t_env *env);
+// callbacks
+void    		cb_error(int error, const char *description);
+void    		cb_key(GLFWwindow *window, int key, int scancode, int action, int mods);
+void    		cb_cursor_position(GLFWwindow *window, double xpos, double ypos);
+void    		cb_window_maximize(GLFWwindow *window, int maximized);
+void    		cb_window_focus(GLFWwindow *window, int focused);
+void    		cb_scroll(GLFWwindow *window, double xoffset, double yoffset);
+void			cb_framebuffer_size(GLFWwindow *window, int width, int height);
 
-// openGL
-int     gl_init(t_env *env);
-int		gl_shaders(t_env *env);
-int		gl_textures(t_env *env);
+// GL
+int     		gl_init(t_env *env);
+int				gl_shaders(t_env *env);
+int				gl_textures(t_env *env);
 
-int		render(t_env *env);
+// UTILS
+unsigned char	*load_bmp(char const *pathname, int *width, int *height);
+// singletons
+t_env			*st_env(t_env *env, bool unsave);
 
-// ENV
-int     env_init(t_env *env);
-void    scop_exit();
-
-// SINGLETONS
-t_env   *st_env(t_env *env, bool unsave);
+int				render(t_env *env);
+int     		env_init(t_env *env);
+void    		scop_exit();
 
 #endif

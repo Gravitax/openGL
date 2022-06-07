@@ -35,10 +35,11 @@ SRC_NAME=main.c\
 			glfw/glfw_callbacks.c\
 			glfw/glfw_fps.c\
 			glfw/glfw_init.c\
+			utils/bmp.c\
+			utils/scop_exit.c\
+			utils/singletons.c\
 			env_init.c\
-			render.c\
-			scop_exit.c\
-			singletons.c
+			render.c
 
 SRC=$(addprefix $(SRC_PATH), $(SRC_NAME))
 
