@@ -5,11 +5,6 @@
 # include "glad.h"
 # include <GLFW/glfw3.h>
 
-// # include <sys/types.h>
-// # include <sys/stat.h>
-
-// # include <fcntl.h>
-// # include <unistd.h>
 # include <stdio.h>
 # include <stdbool.h>
 
@@ -69,7 +64,10 @@ typedef struct	s_env
 	int				wh;
 }				t_env;
 
-// CALLBACKS
+// GLFW
+void    glfw_fps(t_env *env, bool print);
+int     glfw_init(t_env *env);
+// GLFW CALLBACKS
 void    cb_error(int error, const char *description);
 void    cb_key(GLFWwindow *window, int key, int scancode, int action, int mods);
 void    cb_cursor_position(GLFWwindow *window, double xpos, double ypos);
@@ -79,11 +77,11 @@ void    cb_scroll(GLFWwindow *window, double xoffset, double yoffset);
 void	cb_framebuffer_size(GLFWwindow *window, int width, int height);
 
 // openGL
-void    gl_fps(t_env *env, bool print);
 int     gl_init(t_env *env);
-int     gl_render(t_env *env);
 int		gl_shaders(t_env *env);
 int		gl_textures(t_env *env);
+
+int		render(t_env *env);
 
 // ENV
 int     env_init(t_env *env);

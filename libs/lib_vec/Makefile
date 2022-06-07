@@ -3,14 +3,14 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: gedemais <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: maboye <marcaboye@gmail.com>               +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/05 17:34:45 by gedemais          #+#    #+#              #
-#    Updated: 2022/03/22 15:04:46 by gedemais         ###   ########.fr        #
+#    Updated: 2022/06/07 15:37:06 by maboye           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-.PHONY: all, $(NAME), $(OBJS), clean, fclean, re
+.PHONY: all, clean, fclean, re
 
 DEF = \033[0m
 GRA = \033[1m

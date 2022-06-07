@@ -3,13 +3,13 @@
 
 int         scop(t_env *env)
 {
-    if (env_init(env) < 0 || gl_init(env) < 0)
+    if (env_init(env) < 0 || glfw_init(env) < 0 || gl_init(env) < 0)
     {
         scop_exit();
         return (-1);
     }
     env->time = glfwGetTime();
-    while (gl_render(env) > -1)
+    while (render(env) > -1)
         ;
     scop_exit();
     return (0);

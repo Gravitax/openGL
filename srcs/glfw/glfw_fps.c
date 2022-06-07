@@ -9,7 +9,7 @@ static void set_fps(t_env *env)
     env->fps = 1 / ms_per_frame * 1000.f;
 }
 
-void        gl_fps(t_env *env, bool print)
+void        glfw_fps(t_env *env, bool print)
 {
     double  currentTime;
 

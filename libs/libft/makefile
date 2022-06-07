@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: maboye <maboye@student.42.fr>              +#+  +:+       +#+         #
+#    By: maboye <marcaboye@gmail.com>               +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/06 11:17:40 by maboye            #+#    #+#              #
-#    Updated: 2020/08/10 20:12:29 by maboye           ###   ########.fr        #
+#    Updated: 2022/06/07 15:36:41 by maboye           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -118,7 +118,7 @@ SRC		=	$(addprefix $(D_ARRAY)/,$(S_ARRAY))\
 			$(addprefix $(D_PRINT)/,$(S_PRINT))\
 			$(addprefix $(D_STRING)/,$(S_STRING))
 
-OBJ 	=	$(SRC:.c=.o)
+OBJS 	=	$(SRC:.c=.o)
 
 RED		=	\033[31m
 GREEN	=	\033[32m
@@ -131,17 +131,17 @@ all:		$(NAME)
 			@printf "                            \\r${END}"
 			@$(CC) $(FLAGS) -c -o $@ $<
 
-$(NAME):	$(OBJ)
-			@ar rcs $(NAME) $(OBJ)
+$(NAME):	$(OBJS)
+			@ar rcs $(NAME) $(OBJS)
 			@printf "$(GREEN)Libft successfully compiled !"
 			@printf "                             \n${END}"
 
 clean:
-			@/bin/rm -rf $(OBJ)
+			@/bin/rm -rf $(OBJS)
 
 fclean:		clean
 			@/bin/rm -rf $(NAME)
 
 re:			fclean all
 
-.PHONY:		all clean fclean re
+.PHONY:		all, clean, fclean, re

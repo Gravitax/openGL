@@ -29,13 +29,14 @@ endif
 
 SRC_PATH=srcs/
 SRC_NAME=main.c\
-			gl/gl_callbacks.c\
-			gl/gl_fps.c\
 			gl/gl_init.c\
-			gl/gl_render.c\
 			gl/gl_shaders.c\
 			gl/gl_textures.c\
+			glfw/glfw_callbacks.c\
+			glfw/glfw_fps.c\
+			glfw/glfw_init.c\
 			env_init.c\
+			render.c\
 			scop_exit.c\
 			singletons.c
 
