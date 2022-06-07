@@ -1,7 +1,7 @@
 #include "main.h"
 
 
-static void gl_free(t_env *env)
+static void free_gl(t_env *env)
 {
     if (env->tex)
         glDeleteTextures(1, &env->tex);
@@ -17,12 +17,16 @@ static void gl_free(t_env *env)
         glDeleteBuffers(1, &env->vbo);
     if (env->vao)
         glDeleteVertexArrays(1, &env->vao);
-    if (env->window)
+}
+
+static void	free_glfw(t_env *env)
+{
+	if (env->window)
         glfwDestroyWindow(env->window);
     glfwTerminate();
 }
 
-static void env_free(t_env *env)
+static void free_env(t_env *env)
 {
     dynarray_free(&env->vertices);
     free(env->img);
@@ -35,7 +39,8 @@ void        scop_exit()
     env = st_env(NULL, false);
     if (env == NULL)
         return ;
-    gl_free(env);
-    env_free(env);
+    free_gl(env);
+	free_glfw(env);
+    free_env(env);
     st_env(NULL, true);
 }

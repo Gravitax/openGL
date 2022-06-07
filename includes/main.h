@@ -66,6 +66,7 @@ typedef struct	s_env
 
 // CORE
 int				render(t_env *env);
+void    		scop_exit();
 int     		scop_init(t_env *env);
 
 // GLFW
@@ -87,7 +88,6 @@ int				gl_textures(t_env *env);
 
 // UTILS
 unsigned char	*load_bmp(char const *pathname, int *width, int *height);
-void    		scop_exit();
 // singletons
 t_env			*st_env(t_env *env, bool unsave);
 

@@ -30,6 +30,7 @@ endif
 SRC_PATH=srcs/
 SRC_NAME=main.c\
 	core/render.c\
+	core/scop_exit.c\
 	core/scop_init.c\
 	gl/gl_init.c\
 	gl/gl_shaders.c\
@@ -38,7 +39,6 @@ SRC_NAME=main.c\
 	glfw/glfw_fps.c\
 	glfw/glfw_init.c\
 	utils/bmp.c\
-	utils/scop_exit.c\
 	utils/singletons.c
 
 SRC=$(addprefix $(SRC_PATH), $(SRC_NAME))
