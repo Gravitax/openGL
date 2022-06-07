@@ -29,8 +29,8 @@ endif
 
 SRC_PATH=srcs/
 SRC_NAME=main.c\
-	core/env_init.c\
 	core/render.c\
+	core/scop_init.c\
 	gl/gl_init.c\
 	gl/gl_shaders.c\
 	gl/gl_textures.c\

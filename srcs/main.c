@@ -3,7 +3,7 @@
 
 int         scop(t_env *env)
 {
-    if (env_init(env) < 0 || glfw_init(env) < 0 || gl_init(env) < 0)
+    if (scop_init(env) < 0)
     {
         scop_exit();
         return (-1);

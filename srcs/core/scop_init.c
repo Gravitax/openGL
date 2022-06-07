@@ -75,11 +75,13 @@ static void shader_init(t_env *env)
         "}\n";
 }
 
-int         env_init(t_env *env)
+int         scop_init(t_env *env)
 {
     st_env(env, false);
     if (load_square(env) < 0)
         return (-1);
     shader_init(env);
+	if (glfw_init(env) < 0 || gl_init(env) < 0)
+		return (-1);
     return (0);
 }

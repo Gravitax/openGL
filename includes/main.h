@@ -65,8 +65,8 @@ typedef struct	s_env
 }				t_env;
 
 // CORE
-int     		env_init(t_env *env);
 int				render(t_env *env);
+int     		scop_init(t_env *env);
 
 // GLFW
 void    		glfw_fps(t_env *env, bool print);
