@@ -64,6 +64,10 @@ typedef struct	s_env
 	int				wh;
 }				t_env;
 
+// CORE
+int     		env_init(t_env *env);
+int				render(t_env *env);
+
 // GLFW
 void    		glfw_fps(t_env *env, bool print);
 int     		glfw_init(t_env *env);
@@ -83,11 +87,8 @@ int				gl_textures(t_env *env);
 
 // UTILS
 unsigned char	*load_bmp(char const *pathname, int *width, int *height);
+void    		scop_exit();
 // singletons
 t_env			*st_env(t_env *env, bool unsave);
-
-int				render(t_env *env);
-int     		env_init(t_env *env);
-void    		scop_exit();
 
 #endif

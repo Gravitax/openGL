@@ -1,8 +1,8 @@
 NAME=scop
 
 CC=gcc
-# FLAGS = -Wall -Werror -Wextra
-# FLAGS += -Weverything
+
+# FLAGS = -Wall -Werror -Wextra -Weverything
 FLAGS += -Wno-documentation
 FLAGS += -Wno-documentation-unknown-command
 FLAGS += -Wno-reserved-id-macro
@@ -29,17 +29,17 @@ endif
 
 SRC_PATH=srcs/
 SRC_NAME=main.c\
-			gl/gl_init.c\
-			gl/gl_shaders.c\
-			gl/gl_textures.c\
-			glfw/glfw_callbacks.c\
-			glfw/glfw_fps.c\
-			glfw/glfw_init.c\
-			utils/bmp.c\
-			utils/scop_exit.c\
-			utils/singletons.c\
-			env_init.c\
-			render.c
+	core/env_init.c\
+	core/render.c\
+	gl/gl_init.c\
+	gl/gl_shaders.c\
+	gl/gl_textures.c\
+	glfw/glfw_callbacks.c\
+	glfw/glfw_fps.c\
+	glfw/glfw_init.c\
+	utils/bmp.c\
+	utils/scop_exit.c\
+	utils/singletons.c
 
 SRC=$(addprefix $(SRC_PATH), $(SRC_NAME))
 
@@ -59,10 +59,10 @@ LIB=$(LIB_PATH)/libft.a
 LIB_VEC_PATH=$(LIBS_PATH)/lib_vec
 LIB_VEC=$(LIB_VEC_PATH)/lib_vec.a
 
-LIB_GLAD_PATH = $(LIBS_PATH)/glad
-GLAD_PATH = $(LIB_GLAD_PATH)/include/glad/
-KHR_PATH = $(LIBS_PATH)/include/KHR/
-LIB_GLAD = $(LIB_GLAD_PATH)/libglad.a
+LIB_GLAD_PATH=$(LIBS_PATH)/glad
+GLAD_PATH=$(LIB_GLAD_PATH)/include/glad/
+KHR_PATH=$(LIBS_PATH)/include/KHR/
+LIB_GLAD=$(LIB_GLAD_PATH)/libglad.a
 
 ##########################################################
 
