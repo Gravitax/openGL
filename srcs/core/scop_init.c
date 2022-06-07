@@ -83,5 +83,6 @@ int         scop_init(t_env *env)
     shader_init(env);
 	if (glfw_init(env) < 0 || gl_init(env) < 0)
 		return (-1);
+	env->time = glfwGetTime();
     return (0);
 }

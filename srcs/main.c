@@ -8,7 +8,6 @@ int         scop(t_env *env)
         scop_exit();
         return (-1);
     }
-    env->time = glfwGetTime();
     while (render(env) > -1)
         ;
     scop_exit();
