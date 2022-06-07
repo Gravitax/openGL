@@ -20,7 +20,7 @@ static unsigned char	*read_bmp(FILE *file, unsigned char *header, int *width, in
 	if (data_pos == 0)
 		data_pos = 54;
 	if (!(data = (unsigned char *)ft_memalloc(sizeof(unsigned char) * image_size)))
-		scop_exit();
+		return (NULL);
 	fread(data, 1, image_size, file);
 	fclose(file);
 	return (data);
@@ -33,8 +33,11 @@ unsigned char			*load_bmp(char const *pathname, int *width, int *height)
 
 	file = fopen(pathname, "rb");
 	if (!file || fread(header, 1, 54, file) != 54)
-		scop_exit();
+		return (NULL);
 	if (header[0] != 'B' || header[1] != 'M')
-		scop_exit();
+	{
+		fclose(file);
+		return (NULL);
+	}
 	return (read_bmp(file, header, width, height));
 }
