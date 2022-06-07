@@ -5,14 +5,17 @@
 # include "glad.h"
 # include <GLFW/glfw3.h>
 
+// # include <sys/types.h>
+// # include <sys/stat.h>
+
+// # include <fcntl.h>
+// # include <unistd.h>
 # include <stdio.h>
 # include <stdbool.h>
 
 // Homemade libs
 # include "libft.h"
 # include "lib_vec.h"
-
-# include "SOIL.h"
 
 # define GLFW_INCLUDE_NONE
 
@@ -79,8 +82,8 @@ void	cb_framebuffer_size(GLFWwindow *window, int width, int height);
 void    gl_fps(t_env *env, bool print);
 int     gl_init(t_env *env);
 int     gl_render(t_env *env);
-void    gl_shaders(t_env *env);
-void    gl_textures(t_env *env);
+int		gl_shaders(t_env *env);
+int		gl_textures(t_env *env);
 
 // ENV
 int     env_init(t_env *env);

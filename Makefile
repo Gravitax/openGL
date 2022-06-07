@@ -57,10 +57,6 @@ LIB=$(LIB_PATH)/libft.a
 LIB_VEC_PATH=$(LIBS_PATH)/lib_vec
 LIB_VEC=$(LIB_VEC_PATH)/lib_vec.a
 
-LIBSOIL_PATH=$(LIBS_PATH)/libsoil
-LIBSOIL=$(LIBSOIL_PATH)/lib/libSOIL.a
-SOIL_PATH=$(LIBSOIL_PATH)/src/
-
 LIB_GLAD_PATH = $(LIBS_PATH)/glad
 GLAD_PATH = $(LIB_GLAD_PATH)/include/glad/
 KHR_PATH = $(LIBS_PATH)/include/KHR/
@@ -70,8 +66,8 @@ LIB_GLAD = $(LIB_GLAD_PATH)/libglad.a
 
 all: $(NAME)
 
-$(NAME): $(LIB) $(LIB_VEC) $(LIBSOIL) $(LIB_GLAD) $(OBJS)
-	$(CC) $(FLAGS) -o $(NAME) $(OBJS) $(LIB) $(LIB_VEC) $(LIBSOIL) $(LIB_GLAD) -lpthread -lglfw ${FLAGS_OS}
+$(NAME): $(LIB) $(LIB_VEC) $(LIB_GLAD) $(OBJS)
+	$(CC) $(FLAGS) -o $(NAME) $(OBJS) $(LIB) $(LIB_VEC) $(LIB_GLAD) -lpthread -lglfw ${FLAGS_OS}
 
 $(SRC_PATH)%.o: $(SRC_PATH)%.c $(INC)
 	@tput civis
@@ -79,7 +75,7 @@ $(SRC_PATH)%.o: $(SRC_PATH)%.c $(INC)
 	@printf "                                       \\r"
 	@printf "$(OS)"
 	@tput cnorm
-	@$(CC) $(FLAGS) -I$(INC_PATH) -I$(LIB_PATH) -I$(LIB_VEC_PATH) -I$(LIBSOIL_PATH) -I$(GLAD_PATH) -I$(SOIL_PATH) -o $@ -c $<
+	@$(CC) $(FLAGS) -I$(INC_PATH) -I$(LIB_PATH) -I$(LIB_VEC_PATH) -I$(GLAD_PATH) -o $@ -c $<
 
 ########################## Library rules ##########################
 
@@ -90,10 +86,6 @@ $(LIB): $(LIB_PATH)
 $(LIB_VEC): $(LIB_VEC_PATH)
 	@echo "Making lib_vec..."
 	@make -C $(LIB_VEC_PATH)
-
-$(LIBSOIL): $(LIBSOIL_PATH)
-	@echo "Making libsoil..."
-	@make -C $(LIBSOIL_PATH)
 
 $(LIB_GLAD): $(LIB_GLAD_PATH)
 	@echo "Making libglad..."
@@ -106,14 +98,12 @@ clean:
 	@rm -rf $(OBJS)
 	@make -C $(LIB_PATH) clean
 	@make -C $(LIB_VEC_PATH) clean
-	@make -C $(LIBSOIL_PATH) clean
 	@make -C $(LIB_GLAD_PATH) clean
 
 fclean: clean
 	@rm -rf $(NAME)
 	@make -C $(LIB_PATH) fclean
 	@make -C $(LIB_VEC_PATH) fclean
-	@make -C $(LIBSOIL_PATH) fclean
 	@make -C $(LIB_GLAD_PATH) fclean
 
 re: fclean all

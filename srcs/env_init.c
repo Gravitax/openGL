@@ -11,7 +11,8 @@ static int  load_square(t_env *env)
     v = (t_vertices){
         (t_vec3){ -0.5f, 0.5f, 0.f, 1.f },
         (t_color){ 1.f, 0.f, 0.f, 1.f },
-        (t_texture){ 0.f, 0.f }
+		// (t_texture){ 0.f, 0.f }
+        (t_texture){ 1.f, 1.f }
     };
     if (dynarray_push(&env->vertices, &v, false) < 0)
         return (-1);
@@ -19,7 +20,8 @@ static int  load_square(t_env *env)
     v = (t_vertices){
         (t_vec3){ 0.5f, 0.5f, 0.f, 1.f },
         (t_color){ 0.f, 1.f, 0.f, 1.f },
-        (t_texture){ 1.f, 0.f }
+        // (t_texture){ 1.f, 0.f }
+		(t_texture){ 0.f, 1.f }
     };
     if (dynarray_push(&env->vertices, &v, false) < 0)
         return (-1);
@@ -27,7 +29,8 @@ static int  load_square(t_env *env)
     v = (t_vertices){
         (t_vec3){ -0.5f, -0.5f, 0.f, 1.f },
         (t_color){ 1.f, 1.f, 1.f, 1.f },
-        (t_texture){ 0.f, 1.f }
+        // (t_texture){ 0.f, 1.f }
+		(t_texture){ 1.f, 0.f }
     };
     if (dynarray_push(&env->vertices, &v, false) < 0)
         return (-1);
@@ -35,23 +38,12 @@ static int  load_square(t_env *env)
     v = (t_vertices){
         (t_vec3){ 0.5f, -0.5f, 0.f, 1.f },
         (t_color){ 0.f, 0.f, 1.f, 1.f },
-        (t_texture){ 1.f, 1.f }
+        // (t_texture){ 1.f, 1.f }
+		(t_texture){ 0.f, 0.f }
     };
     if (dynarray_push(&env->vertices, &v, false) < 0)
         return (-1);
     return (0);
-}
-
-static int  load_img(t_env *env)
-{
-    int code;
-
-    env->img = SOIL_load_image("./ressources/images/test.png",
-        &env->img_w, &env->img_h, 0, SOIL_LOAD_RGB);
-    return (env->img ? 0 : -1);
-    // code = loadBMP("./ressources/images/test.bmp",
-    //     &env->img, &env->img_w, &env->img_h);
-    // return (code);
 }
 
 static void shader_init(t_env *env)
@@ -86,7 +78,7 @@ static void shader_init(t_env *env)
 int         env_init(t_env *env)
 {
     st_env(env, false);
-    if (load_square(env) < 0 || load_img(env) < 0)
+    if (load_square(env) < 0)
         return (-1);
     shader_init(env);
     return (0);

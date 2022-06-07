@@ -47,9 +47,10 @@ static void shader_layout(t_env *env)
         sizeof(t_vertices), (void *)(sizeof(t_vec3) + sizeof(t_color)));
 }
 
-void        gl_shaders(t_env *env)
+int			gl_shaders(t_env *env)
 {
     shader_create(env);
     shader_attach(env);
     shader_layout(env);
+	return (0);
 }

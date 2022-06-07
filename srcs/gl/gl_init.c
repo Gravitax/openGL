@@ -87,7 +87,7 @@ int         gl_init(t_env *env)
 		return (-1);
     gl_init_callbacks(env->window);
     gl_vobjects(env);
-    gl_shaders(env);
-    gl_textures(env);
+    if (gl_shaders(env) < 0 || gl_textures(env) < 0)
+		return (-1);
     return (0);
 }
