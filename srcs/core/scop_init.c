@@ -11,8 +11,7 @@ static int  load_square(t_env *env)
     v = (t_vertices){
         (t_vec3){ -0.5f, 0.5f, 0.f, 1.f },
         (t_color){ 1.f, 0.f, 0.f, 1.f },
-		// (t_texture){ 0.f, 0.f }
-        (t_texture){ 1.f, 1.f }
+        (t_texture){ 0.f, 1.f }
     };
     if (dynarray_push(&env->vertices, &v, false) < 0)
         return (-1);
@@ -20,8 +19,7 @@ static int  load_square(t_env *env)
     v = (t_vertices){
         (t_vec3){ 0.5f, 0.5f, 0.f, 1.f },
         (t_color){ 0.f, 1.f, 0.f, 1.f },
-        // (t_texture){ 1.f, 0.f }
-		(t_texture){ 0.f, 1.f }
+		(t_texture){ 1.f, 1.f }
     };
     if (dynarray_push(&env->vertices, &v, false) < 0)
         return (-1);
@@ -29,8 +27,7 @@ static int  load_square(t_env *env)
     v = (t_vertices){
         (t_vec3){ -0.5f, -0.5f, 0.f, 1.f },
         (t_color){ 1.f, 1.f, 1.f, 1.f },
-        // (t_texture){ 0.f, 1.f }
-		(t_texture){ 1.f, 0.f }
+		(t_texture){ 0.f, 0.f }
     };
     if (dynarray_push(&env->vertices, &v, false) < 0)
         return (-1);
@@ -38,8 +35,7 @@ static int  load_square(t_env *env)
     v = (t_vertices){
         (t_vec3){ 0.5f, -0.5f, 0.f, 1.f },
         (t_color){ 0.f, 0.f, 1.f, 1.f },
-        // (t_texture){ 1.f, 1.f }
-		(t_texture){ 0.f, 0.f }
+		(t_texture){ 1.f, 0.f }
     };
     if (dynarray_push(&env->vertices, &v, false) < 0)
         return (-1);
