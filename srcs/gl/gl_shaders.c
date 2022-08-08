@@ -20,9 +20,11 @@ static void shader_attach(t_env *env)
     env->shader_program = glCreateProgram();
     glAttachShader(env->shader_program, env->shader_vertex);
     glAttachShader(env->shader_program, env->shader_fragment);
-    glBindFragDataLocation(env->shader_program, 0, "vColor");
+    glBindFragDataLocation(env->shader_program, 0, "FragColor");
     glLinkProgram(env->shader_program);
     glUseProgram(env->shader_program);
+	glDeleteShader(env->shader_vertex);
+	glDeleteShader(env->shader_fragment);
 }
 
 static void shader_layout(t_env *env)
@@ -31,20 +33,20 @@ static void shader_layout(t_env *env)
 
     // Specify the layout of the vertex data
     // position
-    position = glGetAttribLocation(env->shader_program, "position");
+    position = glGetAttribLocation(env->shader_program, "in_position");
     glEnableVertexAttribArray(position);
     glVertexAttribPointer(position, sizeof(t_vec3) * 0.25, GL_FLOAT, GL_FALSE,
-        sizeof(t_vertices), (void *)0);
+        sizeof(t_vertice), (void *)0);
     // color
-    position = glGetAttribLocation(env->shader_program, "color");
+    position = glGetAttribLocation(env->shader_program, "in_color");
     glEnableVertexAttribArray(position);
     glVertexAttribPointer(position, sizeof(t_color) * 0.25, GL_FLOAT, GL_FALSE,
-        sizeof(t_vertices), (void *)sizeof(t_vec3));
+        sizeof(t_vertice), (void *)sizeof(t_vec3));
     // texture
-    position = glGetAttribLocation(env->shader_program, "texcoord");
+    position = glGetAttribLocation(env->shader_program, "in_texcoord");
     glEnableVertexAttribArray(position);
     glVertexAttribPointer(position, sizeof(t_texture) * 0.25, GL_FLOAT, GL_FALSE,
-        sizeof(t_vertices), (void *)(sizeof(t_vec3) + sizeof(t_color)));
+        sizeof(t_vertice), (void *)(sizeof(t_vec3) + sizeof(t_color)));
 }
 
 int			gl_shaders(t_env *env)

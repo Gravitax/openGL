@@ -6,6 +6,13 @@ void    cb_error(int error, const char *description)
     fprintf(stderr, "Error: (%d): %s\n", error, description);
     scop_exit();
 }
+
+static void	set_image(t_image image) {
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, image.w, image.h, 0, GL_BGR, GL_UNSIGNED_BYTE, image.img);
+	// Black/white checkerboard
+    // checkerboard();
+	glGenerateMipmap(GL_TEXTURE_2D);
+}
  
 void    cb_key(GLFWwindow *window, int key, int scancode, int action, int mods)
 {
@@ -28,6 +35,13 @@ void    cb_key(GLFWwindow *window, int key, int scancode, int action, int mods)
                 break ;
             case GLFW_KEY_A:
                 printf("key A pressed\n");
+				t_env	*env;
+
+				env = st_env(NULL, false);
+				if (env == NULL)
+					return ;
+				env->texture = env->texture + 1 >= TEXTURES_MAX ? 0 : env->texture + 1;
+				set_image(env->images[env->texture]);
                 break ;
             case GLFW_KEY_D:
                 printf("key D pressed\n");

@@ -83,15 +83,15 @@ $(SRC_PATH)%.o: $(SRC_PATH)%.c $(INC)
 
 $(LIB): $(LIB_PATH)
 	@echo "Making Libft..."
-	@make -C $(LIB_PATH)
+	@make -C $(LIB_PATH) -j4
 
 $(LIB_VEC): $(LIB_VEC_PATH)
 	@echo "Making lib_vec..."
-	@make -C $(LIB_VEC_PATH)
+	@make -C $(LIB_VEC_PATH) -j4
 
 $(LIB_GLAD): $(LIB_GLAD_PATH)
 	@echo "Making libglad..."
-	@make -C $(LIB_GLAD_PATH)
+	@make -C $(LIB_GLAD_PATH) -j4
 
 
 ###################################################################

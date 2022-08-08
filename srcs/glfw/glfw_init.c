@@ -6,12 +6,18 @@ static int  glfw_create_window(GLFWwindow* *window, const char *title, bool full
     GLFWmonitor         *monitor;
     const GLFWvidmode   *mode;
 
+	// Setting a Minimum OpenGL Version to Use
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	#ifdef __APPLE__
 		glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 	#endif
+
+	// Anti-Aliasing built-in "smoothing"
+	// The more "samples" or passes it does, the more smoothed it will look, but it gets more expensive. Set it to "16" before taking screen shots!
+	glfwWindowHint(GLFW_SAMPLES, 4);
+
     if (fullscreen)
     {
         monitor = glfwGetPrimaryMonitor();

@@ -25,6 +25,19 @@
 # define _LENGTH    _WIDTH * _HEIGHT
 
 
+enum			e_elements
+{
+	ELEMENT_ONE,
+	ELEMENTS_MAX
+};
+
+enum			e_textures
+{
+	TEXTURE_DS,
+	TEXTURE_NYAN,
+	TEXTURES_MAX
+};
+
 typedef struct  s_vec3
 {
     float   x, y, z, w;
@@ -40,30 +53,36 @@ typedef struct  s_texture
     float   x, y;
 }               t_texture;
 
-typedef struct	s_vertices
+typedef struct	s_vertice
 {
     t_vec3      pos;
     t_color     col;
     t_texture   tex;
-}               t_vertices;
+}               t_vertice;
+
+typedef struct	s_image
+{
+	int             w;
+    int             h;
+	unsigned char	*img;
+}				t_image;
 
 typedef struct	s_env
 {
     GLFWwindow      *window;
-    GLuint          ebo;
-    GLuint          vao;
-    GLuint          vbo;
+    GLuint          ebo[ELEMENTS_MAX];
+    GLuint          vao[ELEMENTS_MAX];
+    GLuint          vbo[ELEMENTS_MAX];
     GLuint          shader_program;
     GLuint          shader_vertex;
     GLuint          shader_fragment;
-    GLuint          tex;
+    GLuint          textures[TEXTURES_MAX];
+	unsigned int	texture;
     double          time;
     int             frames;
     int             fps;
-    t_dynarray      vertices;
-    unsigned char   *img;
-    int             img_w;
-    int             img_h;
+    t_dynarray      vertices[ELEMENTS_MAX];
+    t_image			images[TEXTURES_MAX];
     const GLchar    *shader_vertex_text;
     const GLchar    *shader_fragment_text;
 	int				ww;
