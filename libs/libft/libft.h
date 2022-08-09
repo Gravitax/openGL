@@ -18,7 +18,8 @@
 # include <stdlib.h>
 # include "dynarray/dynarray.h"
 
-# define BUFF_SIZE 4096
+# define BUFF_SIZE	4096
+# define M_PI		3.14159
 
 typedef union	u_rsqrt
 {
@@ -89,6 +90,8 @@ char			*ft_strncpy(char *dst, const char *src, size_t n);
 char			**ft_strsplit(const char *s, char c);
 char			*ft_strstr(const char *str, const char *to_find);
 char			*ft_strsub(char const *str, unsigned int start, size_t len);
+double			ft_to_degrees(double radians);
+double			ft_to_radians(double degrees);
 int				ft_tolower(int c);
 int				ft_toupper(int c);
 int				ft_wordcount(const char *str, char c);

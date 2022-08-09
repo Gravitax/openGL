@@ -37,6 +37,7 @@ SRC_NAME=main.c\
 	glfw/glfw_callbacks.c\
 	glfw/glfw_fps.c\
 	glfw/glfw_init.c\
+	utils/matrix/matrix.c\
 	utils/matrix/matrix_ops.c\
 	utils/matrix/matrix_rot.c\
 	utils/matrix/matrix_tools.c\

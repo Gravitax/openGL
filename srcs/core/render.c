@@ -19,21 +19,20 @@ void		matrix(t_env *env)
 
 	identity_matrix(model);
 	identity_matrix(view);
-	identity_matrix(projection);
 
-	// update_xrotation_matrix(model, -55);
-
-	compute_rotation_matrix(tmp);
-	matrix_x_vector((t_vec3d){ 1, 1, -5, 1 }, tmp, model);
+	update_xrotation_matrix(model, -55);
 
 	translation_matrix(view, (t_vec3d){ 0.f, 0.f, -.5f });
+
+	compute_projection_matrix(env);
 
 	matrix_flattener(model, mat_flat);
     glUniformMatrix4fv(glGetUniformLocation(env->shader_program, "model"), 1, GL_FALSE, mat_flat);
 	matrix_flattener(view, mat_flat);
     glUniformMatrix4fv(glGetUniformLocation(env->shader_program, "view"), 1, GL_FALSE, mat_flat);
-	// matrix_flattener(projection, mat_flat);
-    // glUniformMatrix4fv(glGetUniformLocation(env->shader_program, "projection"), 1, GL_FALSE, mat_flat);
+	matrix_flattener(env->camera.cam, mat_flat);
+    glUniformMatrix4fv(glGetUniformLocation(env->shader_program, "projection"), 1, GL_FALSE, mat_flat);
+
 	// glUseProgram(env->shader_program);
 }
 

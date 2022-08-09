@@ -56,6 +56,16 @@ typedef struct	s_image
 	unsigned char	*img;
 }				t_image;
 
+typedef struct	s_camera
+{
+	float		rot_x[4][4];
+	float		rot_y[4][4];
+	float		rot[4][4];
+	float		cam[4][4];
+	float		pitch;
+	float		yaw;
+}				t_camera;
+
 typedef struct	s_env
 {
     GLFWwindow      *window;
@@ -72,6 +82,7 @@ typedef struct	s_env
     int             fps;
     t_dynarray      vertices;
     t_image			images[TEXTURES_MAX];
+	t_camera		camera;
     const GLchar    *shader_vertex_text;
     const GLchar    *shader_fragment_text;
 	int				ww;
@@ -109,7 +120,7 @@ void			inverse_matrix(float m[4][4], float r[4][4]);
 void			translation_matrix(float m[4][4], t_vec3d v);
 void			matrix_flattener(float m[4][4], float flat[16]);
 
-void			compute_view_matrix(t_env *env);
+void			compute_projection_matrix(t_env *env);
 void			compute_rotation_matrix(float m[4][4]);
 
 void			update_xrotation_matrix(float m[4][4], float theta);
@@ -117,7 +128,6 @@ void			update_yrotation_matrix(float m[4][4], float theta);
 void			update_zrotation_matrix(float m[4][4], float theta);
 
 void			identity_matrix(float m[4][4]);
-void			matrix_x_vector(t_vec3d vec, float mat[4][4], float ret[4][4]);
 // bmp
 unsigned char	*load_bmp(char const *pathname, int *width, int *height);
 // singletons

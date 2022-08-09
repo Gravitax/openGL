@@ -105,6 +105,8 @@ S_STRING =	ft_abs.c\
 			ft_strsplit.c\
 			ft_strstr.c\
 			ft_strsub.c\
+			ft_to_degrees.c\
+			ft_to_radians.c\
 			ft_tolower.c\
 			ft_toupper.c\
 			ft_wordcount.c\

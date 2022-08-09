@@ -1,28 +1,6 @@
 #include "main.h"
 
 
-void		matrix_pointat(float m[4][4], t_vec3d pos, t_vec3d target, t_vec3d up)
-{
-	t_vec3d		new_f;
-	t_vec3d		new_up;
-	t_vec3d		new_r;
-	t_vec3d		t;
-
-	new_f = vec_sub(target, pos);
-	new_f = vec_normalize(new_f);
-	t = vec_fmult(new_f, vec_dot(up, new_f));
-	new_up = vec_sub(up, t);
-	new_r = vec_cross(new_up, new_f);
-	ft_memcpy(m[0], &new_r, sizeof(t_vec3d));
-	m[0][3] = -vec_dot(new_r, pos);
-	ft_memcpy(m[1], &new_up, sizeof(t_vec3d));
-	m[1][3] = -vec_dot(new_up, pos);
-	ft_memcpy(m[2], &new_f, sizeof(t_vec3d));
-	m[2][3] = -vec_dot(new_f, pos);
-	ft_memcpy(m[3], &pos, sizeof(t_vec3d));
-	m[3][3] = 1;
-}
-
 void		inverse_matrix(float m[4][4], float r[4][4])
 {
 	r[0][0] = m[0][0];
