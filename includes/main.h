@@ -25,12 +25,6 @@
 # define _LENGTH    _WIDTH * _HEIGHT
 
 
-enum			e_elements
-{
-	ELEMENT_ONE,
-	ELEMENTS_MAX
-};
-
 enum			e_textures
 {
 	TEXTURE_DS,
@@ -70,9 +64,9 @@ typedef struct	s_image
 typedef struct	s_env
 {
     GLFWwindow      *window;
-    GLuint          ebo[ELEMENTS_MAX];
-    GLuint          vao[ELEMENTS_MAX];
-    GLuint          vbo[ELEMENTS_MAX];
+    GLuint          ebo;
+    GLuint          vao;
+    GLuint          vbo;
     GLuint          shader_program;
     GLuint          shader_vertex;
     GLuint          shader_fragment;
@@ -81,7 +75,7 @@ typedef struct	s_env
     double          time;
     int             frames;
     int             fps;
-    t_dynarray      vertices[ELEMENTS_MAX];
+    t_dynarray      vertices;
     t_image			images[TEXTURES_MAX];
     const GLchar    *shader_vertex_text;
     const GLchar    *shader_fragment_text;
@@ -108,7 +102,6 @@ void			cb_framebuffer_size(GLFWwindow *window, int width, int height);
 
 // GL
 int     		gl_init(t_env *env);
-int				gl_shaders(t_env *env);
 int				gl_textures(t_env *env);
 
 // UTILS

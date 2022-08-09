@@ -56,14 +56,10 @@ static int	load_rect(t_dynarray *vertices, float x, float y) {
 
 static int  load_elements(t_env *env)
 {
-	int	i = -1;
-
-	while (++i < ELEMENTS_MAX) {
-		if (dynarray_init(&env->vertices[i], sizeof(t_vertice), 4) < 0)
-			return (-1);
-		if (load_rect(&env->vertices[i], 0, 0) < 0)
-			return (-1);
-	}
+	if (dynarray_init(&env->vertices, sizeof(t_vertice), 4) < 0)
+		return (-1);
+	if (load_rect(&env->vertices, 0, 0) < 0)
+		return (-1);
     return (0);
 }
 
@@ -90,7 +86,7 @@ static void load_shaders(t_env *env)
         "uniform sampler2D in_texture;\n"
         "void main()\n"
         "{\n"
-		// "    FragColor = texture(in_texture, Texcoord) * vec4(255, 255, 255, 0);\n"
+		// "    FragColor = texture(in_texture_0, Texcoord) * vec4(255, 255, 255, 0);\n"
 		"    FragColor = texture(in_texture, Texcoord);\n"
         "}\n";
 }

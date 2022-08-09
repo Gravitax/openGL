@@ -13,15 +13,12 @@ static void free_gl(t_env *env)
         glDeleteShader(env->shader_fragment);
     if (env->shader_program)
         glDeleteProgram(env->shader_program);
-	i = -1;
-	while (++i < ELEMENTS_MAX) {
-		if (env->ebo[i])
-			glDeleteBuffers(1, &env->ebo[i]);
-		if (env->vbo[i])
-			glDeleteBuffers(1, &env->vbo[i]);
-		if (env->vao[i])
-			glDeleteVertexArrays(1, &env->vao[i]);
-	}
+    if (env->ebo)
+        glDeleteBuffers(1, &env->ebo);
+    if (env->vbo)
+        glDeleteBuffers(1, &env->vbo);
+    if (env->vao)
+        glDeleteVertexArrays(1, &env->vao);
 }
 
 static void	free_glfw(t_env *env)
@@ -35,9 +32,7 @@ static void free_env(t_env *env)
 {
     int				i = -1;
 
-	while (++i < ELEMENTS_MAX)
-		dynarray_free(&env->vertices[i]);
-	i = -1;
+	dynarray_free(&env->vertices);
 	while (++i < TEXTURES_MAX) {
 		if (env->images[i].img)
 			free(env->images[i].img);

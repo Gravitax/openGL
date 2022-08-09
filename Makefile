@@ -33,7 +33,6 @@ SRC_NAME=main.c\
 	core/scop_exit.c\
 	core/scop_init.c\
 	gl/gl_init.c\
-	gl/gl_shaders.c\
 	gl/gl_textures.c\
 	glfw/glfw_callbacks.c\
 	glfw/glfw_fps.c\
