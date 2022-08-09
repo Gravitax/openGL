@@ -32,11 +32,6 @@ enum			e_textures
 	TEXTURES_MAX
 };
 
-typedef struct  s_vec3
-{
-    float   x, y, z, w;
-}               t_vec3;
-
 typedef struct  s_color
 {
     float   r, g, b, a;
@@ -44,12 +39,12 @@ typedef struct  s_color
 
 typedef struct  s_texture
 {
-    float   x, y;
+    float   u, v;
 }               t_texture;
 
 typedef struct	s_vertice
 {
-    t_vec3      pos;
+    t_vec3d		pos;
     t_color     col;
     t_texture   tex;
 }               t_vertice;
@@ -105,6 +100,25 @@ int     		gl_init(t_env *env);
 int				gl_textures(t_env *env);
 
 // UTILS
+// matrix
+t_vec3d			multiply_matrix(float m[4][4], t_vec3d o);
+void			matrix_mult_matrix(float m1[4][4], float m2[4][4], float ret[4][4]);
+t_vec3d			matrix_mult_vec(float m[4][4], t_vec3d i);
+void			matrix_pointat(float m[4][4], t_vec3d pos, t_vec3d target, t_vec3d up);
+void			inverse_matrix(float m[4][4], float r[4][4]);
+void			translation_matrix(float m[4][4], t_vec3d v);
+void			matrix_flattener(float m[4][4], float flat[16]);
+
+void			compute_view_matrix(t_env *env);
+void			compute_rotation_matrix(float m[4][4]);
+
+void			update_xrotation_matrix(float m[4][4], float theta);
+void			update_yrotation_matrix(float m[4][4], float theta);
+void			update_zrotation_matrix(float m[4][4], float theta);
+
+void			identity_matrix(float m[4][4]);
+void			matrix_x_vector(t_vec3d vec, float mat[4][4], float ret[4][4]);
+// bmp
 unsigned char	*load_bmp(char const *pathname, int *width, int *height);
 // singletons
 t_env			*st_env(t_env *env, bool unsave);

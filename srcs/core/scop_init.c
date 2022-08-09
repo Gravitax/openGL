@@ -16,50 +16,44 @@ static int	load_images(t_env *env)
 	return (0);
 }
 
-static int	load_rect(t_dynarray *vertices, float x, float y) {
+static int  load_element(t_env *env)
+{
 	t_vertice  v;
 
+	if (dynarray_init(&env->vertices, sizeof(t_vertice), 4) < 0)
+		return (-1);
 	// top_left
     v = (t_vertice){
-        .pos = (t_vec3){ .x = -0.5f + x, 0.5f + y, 0.f, 1.f },
+        .pos = (t_vec3d){ -0.5f, 0.5f, 0.f, 1.f },
         .col = (t_color){ 1.f, 0.f, 0.f, 1.f },
         .tex = (t_texture){ 0.f, 1.f }
     };
-    if (dynarray_push(vertices, &v, false) < 0)
+    if (dynarray_push(&env->vertices, &v, false) < 0)
         return (-1);
     // top_right
     v = (t_vertice){
-        (t_vec3){ 0.5f + x, 0.5f + y, 0.f, 1.f },
+        (t_vec3d){ 0.5f, 0.5f, 0.f, 1.f },
         (t_color){ 0.f, 1.f, 0.f, 1.f },
 		(t_texture){ 1.f, 1.f }
     };
-    if (dynarray_push(vertices, &v, false) < 0)
+    if (dynarray_push(&env->vertices, &v, false) < 0)
         return (-1);
     // bottom_left
     v = (t_vertice){
-        (t_vec3){ -0.5f + x, -0.5f + y, 0.f, 1.f },
+        (t_vec3d){ -0.5f, -0.5f, 0.f, 1.f },
         (t_color){ 1.f, 1.f, 1.f, 1.f },
 		(t_texture){ 0.f, 0.f }
     };
-    if (dynarray_push(vertices, &v, false) < 0)
+    if (dynarray_push(&env->vertices, &v, false) < 0)
         return (-1);
     // bottom_right
     v = (t_vertice){
-        (t_vec3){ 0.5f + x, -0.5f + y, 0.f, 1.f },
+        (t_vec3d){ 0.5f, -0.5f, 0.f, 1.f },
         (t_color){ 0.f, 0.f, 1.f, 1.f },
 		(t_texture){ 1.f, 0.f }
     };
-    if (dynarray_push(vertices, &v, false) < 0)
+    if (dynarray_push(&env->vertices, &v, false) < 0)
         return (-1);
-	return (0);
-}
-
-static int  load_elements(t_env *env)
-{
-	if (dynarray_init(&env->vertices, sizeof(t_vertice), 4) < 0)
-		return (-1);
-	if (load_rect(&env->vertices, 0, 0) < 0)
-		return (-1);
     return (0);
 }
 
@@ -72,11 +66,14 @@ static void load_shaders(t_env *env)
 		"layout (location = 2) in vec2 in_texcoord;\n"
  		"out vec4 Color;\n"
         "out vec2 Texcoord;\n"
+		"uniform mat4 model;\n"
+		"uniform mat4 view;\n"
         "void main()\n"
         "{\n"
         "    Color = in_color;\n"
         "    Texcoord = in_texcoord;\n"
-        "    gl_Position = in_position;\n"
+        "    gl_Position = model * view * in_position;\n"
+        // "    gl_Position = in_position;\n"
         "}\n";
     env->shader_fragment_text =
         "#version 330\n"
@@ -94,7 +91,7 @@ static void load_shaders(t_env *env)
 int         scop_init(t_env *env)
 {
     st_env(env, false);
-    if (load_elements(env) < 0 || load_images(env) < 0)
+    if (load_element(env) < 0 || load_images(env) < 0)
         return (-1);
     load_shaders(env);
 	env->texture = TEXTURE_DS;

@@ -35,18 +35,18 @@ static void	gl_set_layout(t_env *env)
     // position
     position = glGetAttribLocation(env->shader_program, "in_position");
     glEnableVertexAttribArray(position);
-    glVertexAttribPointer(position, sizeof(t_vec3) * 0.25, GL_FLOAT, GL_FALSE,
+    glVertexAttribPointer(position, sizeof(t_vec3d) * 0.25, GL_FLOAT, GL_FALSE,
         sizeof(t_vertice), (void *)0);
     // color
     color = glGetAttribLocation(env->shader_program, "in_color");
     glEnableVertexAttribArray(color);
     glVertexAttribPointer(color, sizeof(t_color) * 0.25, GL_FLOAT, GL_FALSE,
-        sizeof(t_vertice), (void *)sizeof(t_vec3));
+        sizeof(t_vertice), (void *)sizeof(t_vec3d));
     // texture
     texcoord = glGetAttribLocation(env->shader_program, "in_texcoord");
     glEnableVertexAttribArray(texcoord);
     glVertexAttribPointer(texcoord, sizeof(t_texture) * 0.25, GL_FLOAT, GL_FALSE,
-        sizeof(t_vertice), (void *)(sizeof(t_vec3) + sizeof(t_color)));
+        sizeof(t_vertice), (void *)(sizeof(t_vec3d) + sizeof(t_color)));
 
 	glUniform1i(glGetUniformLocation(env->shader_program, "in_texture"), 0);
 }

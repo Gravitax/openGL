@@ -1,6 +1,42 @@
 #include "main.h"
 
 
+void		print_matrix(float mat[4][4])
+{
+	for (int i = 0; i < 4; i++) {
+		for (int j = 0; j < 4; j++) {
+			printf("[%.2f]", mat[i][j]);
+		}
+		printf("\n");
+	}
+	printf("\n----------------------------\n");
+}
+
+void		matrix(t_env *env)
+{
+	const float		mat_flat[16];
+	float			model[4][4], view[4][4], projection[4][4], tmp[4][4];
+
+	identity_matrix(model);
+	identity_matrix(view);
+	identity_matrix(projection);
+
+	// update_xrotation_matrix(model, -55);
+
+	compute_rotation_matrix(tmp);
+	matrix_x_vector((t_vec3d){ 1, 1, -5, 1 }, tmp, model);
+
+	translation_matrix(view, (t_vec3d){ 0.f, 0.f, -.5f });
+
+	matrix_flattener(model, mat_flat);
+    glUniformMatrix4fv(glGetUniformLocation(env->shader_program, "model"), 1, GL_FALSE, mat_flat);
+	matrix_flattener(view, mat_flat);
+    glUniformMatrix4fv(glGetUniformLocation(env->shader_program, "view"), 1, GL_FALSE, mat_flat);
+	// matrix_flattener(projection, mat_flat);
+    // glUniformMatrix4fv(glGetUniformLocation(env->shader_program, "projection"), 1, GL_FALSE, mat_flat);
+	// glUseProgram(env->shader_program);
+}
+
 int         render(t_env *env)
 {
     if (glfwWindowShouldClose(env->window))
@@ -13,6 +49,8 @@ int         render(t_env *env)
 
  	glClearColor(0, 0, 0, 1);
     glClear(GL_COLOR_BUFFER_BIT);
+
+	matrix(env);
 
 	for (int i = 0; i < TEXTURES_MAX; i++) {
 		glActiveTexture(GL_TEXTURE0 + i);
