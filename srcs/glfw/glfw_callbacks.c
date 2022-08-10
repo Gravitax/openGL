@@ -90,6 +90,6 @@ void	cb_framebuffer_size(GLFWwindow *window, int width, int height)
 	if (env == NULL)
 		return ;
     glViewport(0, 0, width, height);
-	env->ww = width;
-	env->wh = height;
+	env->gl.window.w = width;
+	env->gl.window.h = height;
 }

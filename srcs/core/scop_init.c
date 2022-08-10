@@ -10,7 +10,7 @@ static int	load_images(t_env *env)
 	int				i = -1;
 
 	while (++i < TEXTURES_MAX) {
-		if (!(env->images[i].img = load_bmp(images_path[i], &env->images[i].w, &env->images[i].h)))
+		if (!(env->images[i].ptr = load_bmp(images_path[i], &env->images[i].w, &env->images[i].h)))
 			return (-1);
 	}
 	return (0);
@@ -59,7 +59,7 @@ static int  load_element(t_env *env)
 
 static void load_shaders(t_env *env)
 {
-    env->shader_vertex_text =
+    env->gl.shader_vertex_text =
         "#version 330\n"
 		"layout (location = 0) in vec4 in_position;\n"
 		"layout (location = 1) in vec4 in_color;\n"
@@ -68,14 +68,15 @@ static void load_shaders(t_env *env)
         "out vec2 Texcoord;\n"
 		"uniform mat4 model;\n"
 		"uniform mat4 view;\n"
+        "uniform mat4 projection;\n"
         "void main()\n"
         "{\n"
         "    Color = in_color;\n"
         "    Texcoord = in_texcoord;\n"
-        "    gl_Position = model * view * in_position;\n"
+        "    gl_Position = model * view * projection * in_position;\n"
         // "    gl_Position = in_position;\n"
         "}\n";
-    env->shader_fragment_text =
+    env->gl.shader_fragment_text =
         "#version 330\n"
 		// "in vec4 Color;\n"
         "in vec2 Texcoord;\n"

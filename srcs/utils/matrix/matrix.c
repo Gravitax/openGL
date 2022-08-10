@@ -26,30 +26,30 @@ void		matrix_pointat(float m[4][4], t_vec3d pos, t_vec3d target, t_vec3d up)
 void		compute_projection_matrix(t_env *env)
 {
 	t_vec3d		up, target, dir, pos;
-	float		yaw_rad, pitch_rad;
-	t_camera	camera;
+	float		yaw, pitch;
+	t_camera	*camera;
 
-	dir = (t_vec3d){0, 0, 1, 0};
-	target = (t_vec3d){0, 0, 1, 0};
+	dir = (t_vec3d){ 0, 0, 1, 0 };
+	target = (t_vec3d){ 0, 0, 1, 0 };
 	pos = (t_vec3d){ 0, 0, 0, 1 };
 
-	camera = env->camera;
-	yaw_rad = (float)ft_to_radians(camera.yaw);
-	pitch_rad = (float)ft_to_radians(camera.pitch);
+	camera = &env->camera;
+	yaw = (float)ft_to_radians(camera->yaw);
+	pitch = (float)ft_to_radians(camera->pitch);
 
-	identity_matrix(camera.rot_x);
-	identity_matrix(camera.rot_y);
-	identity_matrix(camera.rot);
+	identity_matrix(camera->rot_x);
+	identity_matrix(camera->rot_y);
+	identity_matrix(camera->rot);
 
-	update_xrotation_matrix(camera.rot_x, pitch_rad);
-	update_yrotation_matrix(camera.rot_y, yaw_rad);
-	matrix_mult_matrix(camera.rot_x, camera.rot_y, camera.rot);
+	update_xrotation_matrix(camera->rot_x, pitch);
+	update_yrotation_matrix(camera->rot_y, yaw);
+	matrix_mult_matrix(camera->rot_x, camera->rot_y, camera->rot);
 
-	dir = matrix_mult_vec(camera.rot, target);
-	up = matrix_mult_vec(camera.rot, (t_vec3d){0, -1, 0, 0});
+	dir = matrix_mult_vec(camera->rot, target);
+	up = matrix_mult_vec(camera->rot, (t_vec3d){ 0, -1, 0, 0 });
 	target = vec_add(pos, dir);
 
-	matrix_pointat(camera.cam, pos, target, up);
+	matrix_pointat(camera->cam, pos, target, up);
 }
 
 void		compute_rotation_matrix(float rot_xyz[4][4])

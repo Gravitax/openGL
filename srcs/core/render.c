@@ -14,52 +14,56 @@ void		print_matrix(float mat[4][4])
 
 void		matrix(t_env *env)
 {
-	const float		mat_flat[16];
+	float			mat_flat[16];
 	float			model[4][4], view[4][4], projection[4][4], tmp[4][4];
 
 	identity_matrix(model);
 	identity_matrix(view);
 
-	update_xrotation_matrix(model, -55);
+	update_xrotation_matrix(model, (float)ft_to_radians(112.5));
 
-	translation_matrix(view, (t_vec3d){ 0.f, 0.f, -.5f });
+	translation_matrix(view, (t_vec3d){ 0.f, 0.f, -.75f });
+
+	// env->camera.pitch += 0.1f;
 
 	compute_projection_matrix(env);
+	print_matrix(env->camera.cam);
 
 	matrix_flattener(model, mat_flat);
-    glUniformMatrix4fv(glGetUniformLocation(env->shader_program, "model"), 1, GL_FALSE, mat_flat);
+    glUniformMatrix4fv(glGetUniformLocation(env->gl.shader_program, "model"), 1, GL_FALSE, mat_flat);
 	matrix_flattener(view, mat_flat);
-    glUniformMatrix4fv(glGetUniformLocation(env->shader_program, "view"), 1, GL_FALSE, mat_flat);
+    glUniformMatrix4fv(glGetUniformLocation(env->gl.shader_program, "view"), 1, GL_FALSE, mat_flat);
 	matrix_flattener(env->camera.cam, mat_flat);
-    glUniformMatrix4fv(glGetUniformLocation(env->shader_program, "projection"), 1, GL_FALSE, mat_flat);
-
-	// glUseProgram(env->shader_program);
+    glUniformMatrix4fv(glGetUniformLocation(env->gl.shader_program, "projection"), 1, GL_FALSE, mat_flat);
 }
 
 int         render(t_env *env)
 {
-    if (glfwWindowShouldClose(env->window))
+    if (glfwWindowShouldClose(env->gl.window.ptr))
         return (-1);
 
     glfw_fps(env, true);
 
-    glfwGetFramebufferSize(env->window, &env->ww, &env->wh);
-	glViewport(0, 0, env->ww, env->wh);
+    glfwGetFramebufferSize(env->gl.window.ptr, &env->gl.window.w, &env->gl.window.h);
+	glViewport(0, 0, env->gl.window.w, env->gl.window.h);
 
  	glClearColor(0, 0, 0, 1);
     glClear(GL_COLOR_BUFFER_BIT);
 
-	matrix(env);
-
 	for (int i = 0; i < TEXTURES_MAX; i++) {
 		glActiveTexture(GL_TEXTURE0 + i);
-		glBindTexture(GL_TEXTURE_2D, env->textures[env->texture]);
+		glBindTexture(GL_TEXTURE_2D, env->gl.textures[env->texture]);
 	}
+
+	matrix(env);
 
     glDrawElements(GL_TRIANGLES, env->vertices.byte_size, GL_UNSIGNED_INT, 0);
     // glDrawElements(GL_LINE, env->vertices.byte_size, GL_UNSIGNED_INT, 0);
 
-    glfwSwapBuffers(env->window);
+	// glUseProgram(env->shader_program);
+	// glBindVertexArray(env->gl.vao);
+
+    glfwSwapBuffers(env->gl.window.ptr);
     glfwPollEvents();
     return (0);
 }

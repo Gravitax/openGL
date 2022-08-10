@@ -54,12 +54,12 @@ int         glfw_init(t_env *env)
     glfwSetErrorCallback(cb_error);
 	if (!glfwInit() || !GL_VERSION_2_1)
 		return (-1);
-    if (glfw_create_window(&env->window, "scop", false) < 0)
+    if (glfw_create_window(&env->gl.window.ptr, "scop", false) < 0)
         return (-1);
-	glfwMakeContextCurrent(env->window);
+	glfwMakeContextCurrent(env->gl.window.ptr);
 	if (!gladLoadGL())
 		return (-1);
 	glfwSwapInterval(1);
-    glfw_init_callbacks(env->window);
+    glfw_init_callbacks(env->gl.window.ptr);
     return (0);
 }

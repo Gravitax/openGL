@@ -51,42 +51,51 @@ typedef struct	s_vertice
 
 typedef struct	s_image
 {
-	int             w;
-    int             h;
-	unsigned char	*img;
+	unsigned int    w, h;
+	unsigned char	*ptr;
 }				t_image;
 
 typedef struct	s_camera
 {
-	float		rot_x[4][4];
-	float		rot_y[4][4];
+	float		rot_x[4][4], rot_y[4][4];
 	float		rot[4][4];
 	float		cam[4][4];
-	float		pitch;
-	float		yaw;
+	float		pitch, yaw;
 }				t_camera;
 
-typedef struct	s_env
+typedef struct  s_window
 {
-    GLFWwindow      *window;
-    GLuint          ebo;
-    GLuint          vao;
-    GLuint          vbo;
+    unsigned int	w;
+	unsigned int	h;
+    GLFWwindow      *ptr;
+}               t_window;
+
+
+typedef struct  s_gltools
+{
     GLuint          shader_program;
     GLuint          shader_vertex;
     GLuint          shader_fragment;
+    GLuint          ebo;
+    GLuint          vao;
+    GLuint          vbo;
     GLuint          textures[TEXTURES_MAX];
-	unsigned int	texture;
-    double          time;
-    int             frames;
-    int             fps;
-    t_dynarray      vertices;
-    t_image			images[TEXTURES_MAX];
-	t_camera		camera;
     const GLchar    *shader_vertex_text;
     const GLchar    *shader_fragment_text;
-	int				ww;
-	int				wh;
+    t_window        window;
+}               t_gltools;
+
+
+typedef struct	s_env
+{
+	unsigned int	texture;
+    unsigned int    frames;
+    unsigned int    fps;
+    double          time;
+    t_gltools       gl;
+	t_camera		camera;
+    t_dynarray      vertices;
+    t_image			images[TEXTURES_MAX];
 }				t_env;
 
 // CORE
