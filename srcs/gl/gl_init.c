@@ -67,10 +67,6 @@ static void	gl_buffers(t_env *env)
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, env->gl.ebo);
 	// Specify the layout of the vertex data
 	gl_set_layout(&env->gl);
-	// CULLING : we only draw front face in clock-wise order
-	// glEnable(GL_CULL_FACE);
-	// glCullFace(GL_FRONT);
-	// glFrontFace(GL_CW);
 }
 
 static void	gl_load_element()
@@ -90,6 +86,11 @@ int			gl_init(t_env *env)
 	gl_buffers(env);
 	if (gl_textures(env) < 0)
 		return (-1);
+	glEnable(GL_DEPTH_TEST);
+	// CULLING : we only draw front face in clock-wise order
+	// glEnable(GL_CULL_FACE);
+	// glCullFace(GL_FRONT);
+	// glFrontFace(GL_CW);
 	gl_load_element();
 	return (0);
 }

@@ -1,7 +1,15 @@
 #include "main.h"
 
 
-void		inverse_matrix(float m[4][4], float r[4][4])
+void		matrix_identity(float m[4][4])
+{
+	for (int i = 0; i < 4; i++) {
+		ft_memset(&m[i], 0, sizeof(float) * 4);
+		m[i][i] = 1;
+	}
+}
+
+void		matrix_inverse(float m[4][4], float r[4][4])
 {
 	r[0][0] = m[0][0];
 	r[0][1] = m[1][0];
@@ -21,7 +29,14 @@ void		inverse_matrix(float m[4][4], float r[4][4])
 	r[3][3] = 1.0f;
 }
 
-void		translation_matrix(float m[4][4], t_vec3d v)
+void		matrix_flattener(float m[4][4], float flat[16])
+{
+	for (int y = 0; y < 4; y++)
+		for (int x = 0; x < 4; x++)
+			flat[y * 4 + x] = m[y][x];
+}
+
+void		matrix_translation(float m[4][4], t_vec3d v)
 {
 	m[0][0] = 1.0f;
 	m[1][1] = 1.0f;
@@ -30,19 +45,4 @@ void		translation_matrix(float m[4][4], t_vec3d v)
 	m[3][0] = v.x;
 	m[3][1] = v.y;
 	m[3][2] = v.z;
-}
-
-void		matrix_flattener(float m[4][4], float flat[16])
-{
-	for (int y = 0; y < 4; y++)
-		for (int x = 0; x < 4; x++)
-			flat[y * 4 + x] = m[y][x];
-}
-
-void		identity_matrix(float m[4][4])
-{
-	for (int i = 0; i < 4; i++) {
-		ft_memset(&m[i], 0, sizeof(float) * 4);
-		m[i][i] = 1;
-	}
 }

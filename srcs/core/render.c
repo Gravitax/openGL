@@ -15,25 +15,23 @@ void		print_matrix(float mat[4][4])
 void		matrix(t_env *env)
 {
 	float			mat_flat[16];
-	float			model[4][4], view[4][4], projection[4][4], tmp[4][4];
+	float			tmp1[4][4], tmp2[4][4];
 
-	identity_matrix(model);
-	identity_matrix(view);
+	matrix_identity(tmp1);
+	matrix_identity(tmp2);
 
-	update_xrotation_matrix(model, (float)ft_to_radians(112.5));
+	matrix_xrotation(env->camera.model, (float)glfwGetTime() / 10 * -1);
+	// matrix_zrotation(tmp1, (float)glfwGetTime());
+	// matrix_yrotation(tmp2, (float)glfwGetTime());
+	// matrix_mult_matrix(tmp1, tmp2, model);
 
-	translation_matrix(view, (t_vec3d){ 0.f, 0.f, -.75f });
+	matrix_view(&env->camera);
 
-	// env->camera.pitch += 0.1f;
-
-	compute_projection_matrix(env);
-	print_matrix(env->camera.cam);
-
-	matrix_flattener(model, mat_flat);
+	matrix_flattener(env->camera.model, mat_flat);
     glUniformMatrix4fv(glGetUniformLocation(env->gl.shader_program, "model"), 1, GL_FALSE, mat_flat);
-	matrix_flattener(view, mat_flat);
+	matrix_flattener(env->camera.view, mat_flat);
     glUniformMatrix4fv(glGetUniformLocation(env->gl.shader_program, "view"), 1, GL_FALSE, mat_flat);
-	matrix_flattener(env->camera.cam, mat_flat);
+	matrix_flattener(tmp1, mat_flat);
     glUniformMatrix4fv(glGetUniformLocation(env->gl.shader_program, "projection"), 1, GL_FALSE, mat_flat);
 }
 
@@ -44,11 +42,11 @@ int         render(t_env *env)
 
     glfw_fps(env, true);
 
-    glfwGetFramebufferSize(env->gl.window.ptr, &env->gl.window.w, &env->gl.window.h);
-	glViewport(0, 0, env->gl.window.w, env->gl.window.h);
+    glfwGetFramebufferSize(env->gl.window.ptr, (int *)&env->gl.window.w, (int *)&env->gl.window.h);
+	glViewport(0, 0, (int)env->gl.window.w, (int)env->gl.window.h);
 
  	glClearColor(0, 0, 0, 1);
-    glClear(GL_COLOR_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	for (int i = 0; i < TEXTURES_MAX; i++) {
 		glActiveTexture(GL_TEXTURE0 + i);
@@ -57,6 +55,7 @@ int         render(t_env *env)
 
 	matrix(env);
 
+	// glDrawArrays(GL_TRIANGLES, 0, 36);
     glDrawElements(GL_TRIANGLES, env->vertices.byte_size, GL_UNSIGNED_INT, 0);
     // glDrawElements(GL_LINE, env->vertices.byte_size, GL_UNSIGNED_INT, 0);
 

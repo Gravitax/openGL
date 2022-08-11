@@ -57,10 +57,12 @@ typedef struct	s_image
 
 typedef struct	s_camera
 {
-	float		rot_x[4][4], rot_y[4][4];
-	float		rot[4][4];
-	float		cam[4][4];
-	float		pitch, yaw;
+	float		rot_x[4][4], rot_y[4][4], rot_z[4][4], rot[4][4];
+	float		model[4][4], view[4][4], proj[4][4];
+	float		pitch, roll, yaw;
+	float		aspect_ratio, far, near, delta;
+	float		fovd, fovr;
+	t_vec3d		pos, target, up;
 }				t_camera;
 
 typedef struct  s_window
@@ -99,6 +101,7 @@ typedef struct	s_env
 }				t_env;
 
 // CORE
+void			init_camera(t_env *env);
 int				render(t_env *env);
 void    		scop_exit();
 int     		scop_init(t_env *env);
@@ -121,24 +124,23 @@ int				gl_textures(t_env *env);
 
 // UTILS
 // matrix
-t_vec3d			multiply_matrix(float m[4][4], t_vec3d o);
 void			matrix_mult_matrix(float m1[4][4], float m2[4][4], float ret[4][4]);
 t_vec3d			matrix_mult_vec(float m[4][4], t_vec3d i);
-void			matrix_pointat(float m[4][4], t_vec3d pos, t_vec3d target, t_vec3d up);
-void			inverse_matrix(float m[4][4], float r[4][4]);
-void			translation_matrix(float m[4][4], t_vec3d v);
+
+void			matrix_xrotation(float m[4][4], float theta);
+void			matrix_yrotation(float m[4][4], float theta);
+void			matrix_zrotation(float m[4][4], float theta);
+
+void			matrix_identity(float m[4][4]);
+void			matrix_inverse(float m[4][4], float r[4][4]);
 void			matrix_flattener(float m[4][4], float flat[16]);
+void			matrix_translation(float m[4][4], t_vec3d v);
 
-void			compute_projection_matrix(t_env *env);
-void			compute_rotation_matrix(float m[4][4]);
+void			matrix_pointat(float m[4][4], t_vec3d pos, t_vec3d target, t_vec3d up);
+void			matrix_view(t_camera *camera);
 
-void			update_xrotation_matrix(float m[4][4], float theta);
-void			update_yrotation_matrix(float m[4][4], float theta);
-void			update_zrotation_matrix(float m[4][4], float theta);
-
-void			identity_matrix(float m[4][4]);
 // bmp
-unsigned char	*load_bmp(char const *pathname, int *width, int *height);
+unsigned char	*load_bmp(char const *pathname, unsigned int *width, unsigned int *height);
 // singletons
 t_env			*st_env(t_env *env, bool unsave);
 

@@ -99,5 +99,6 @@ int         scop_init(t_env *env)
 	if (glfw_init(env) < 0 || gl_init(env) < 0)
 		return (-1);
 	env->time = glfwGetTime();
+	init_camera(env);
     return (0);
 }

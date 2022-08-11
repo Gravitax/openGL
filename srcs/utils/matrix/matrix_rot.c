@@ -1,7 +1,7 @@
 #include "main.h"
 
 
-void		update_xrotation_matrix(float m[4][4], float theta)
+void		matrix_xrotation(float m[4][4], float theta)
 {
 	float	c;
 	float	s;
@@ -16,7 +16,7 @@ void		update_xrotation_matrix(float m[4][4], float theta)
 	m[3][3] = 1.0f;
 }
 
-void		update_yrotation_matrix(float m[4][4], float theta)
+void		matrix_yrotation(float m[4][4], float theta)
 {
 	float	c;
 	float	s;
@@ -31,7 +31,7 @@ void		update_yrotation_matrix(float m[4][4], float theta)
 	m[3][3] = 1.0f;
 }
 
-void		update_zrotation_matrix(float m[4][4], float theta)
+void		matrix_zrotation(float m[4][4], float theta)
 {
 	float	c;
 	float	s;

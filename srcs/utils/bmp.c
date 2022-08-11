@@ -1,7 +1,7 @@
 #include "main.h"
 
 
-static unsigned char	*read_bmp(FILE *file, unsigned char *header, int *width, int *height)
+static unsigned char	*read_bmp(FILE *file, unsigned char *header, unsigned int *width, unsigned int *height)
 {
 	int				data_pos;
 	int				image_size;
@@ -9,8 +9,8 @@ static unsigned char	*read_bmp(FILE *file, unsigned char *header, int *width, in
 
 	data_pos	= *(int *)&(header[0x0A]);
 	image_size	= *(int *)&(header[0x22]);
-	*width		= *(int *)&(header[0x12]);
-	*height		= *(int *)&(header[0x16]);
+	*width		= *(unsigned int *)&(header[0x12]);
+	*height		= *(unsigned int *)&(header[0x16]);
 	image_size	= image_size == 0 ? (*width) * (*height) * 3 : image_size;
 	data_pos	= data_pos == 0 ? 54 : data_pos;
 	data		= (unsigned char *)ft_memalloc(sizeof(unsigned char) * image_size);
@@ -19,7 +19,7 @@ static unsigned char	*read_bmp(FILE *file, unsigned char *header, int *width, in
 	return (data);
 }
 
-unsigned char			*load_bmp(char const *pathname, int *width, int *height)
+unsigned char			*load_bmp(char const *pathname, unsigned int *width, unsigned int *height)
 {
 	FILE			*file;
 	unsigned char	header[54];
