@@ -16,19 +16,22 @@ static int	load_images(t_env *env)
 	return (0);
 }
 
-static int  load_element(t_env *env)
+static int  face_one(t_dynarray *vertices)
 {
-	t_vertice  v;
+    // -0.5f, -0.5f, -0.5f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f,
+    //  0.5f, -0.5f, -0.5f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f,
+    //  0.5f,  0.5f, -0.5f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f,
+    // -0.5f,  0.5f, -0.5f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f,
 
-	if (dynarray_init(&env->vertices, sizeof(t_vertice), 4) < 0)
-		return (-1);
-	// top_left
+    t_vertice   v;
+
+    // top_left
     v = (t_vertice){
         .pos = (t_vec3d){ -0.5f, 0.5f, 0.f, 1.f },
         .col = (t_color){ 1.f, 0.f, 0.f, 1.f },
         .tex = (t_texture){ 0.f, 1.f }
     };
-    if (dynarray_push(&env->vertices, &v, false) < 0)
+    if (dynarray_push(vertices, &v, false) < 0)
         return (-1);
     // top_right
     v = (t_vertice){
@@ -36,7 +39,7 @@ static int  load_element(t_env *env)
         (t_color){ 0.f, 1.f, 0.f, 1.f },
 		(t_texture){ 1.f, 1.f }
     };
-    if (dynarray_push(&env->vertices, &v, false) < 0)
+    if (dynarray_push(vertices, &v, false) < 0)
         return (-1);
     // bottom_left
     v = (t_vertice){
@@ -44,7 +47,7 @@ static int  load_element(t_env *env)
         (t_color){ 1.f, 1.f, 1.f, 1.f },
 		(t_texture){ 0.f, 0.f }
     };
-    if (dynarray_push(&env->vertices, &v, false) < 0)
+    if (dynarray_push(vertices, &v, false) < 0)
         return (-1);
     // bottom_right
     v = (t_vertice){
@@ -52,8 +55,249 @@ static int  load_element(t_env *env)
         (t_color){ 0.f, 0.f, 1.f, 1.f },
 		(t_texture){ 1.f, 0.f }
     };
-    if (dynarray_push(&env->vertices, &v, false) < 0)
+    if (dynarray_push(vertices, &v, false) < 0)
         return (-1);
+    return (0);
+}
+
+static int  face_two(t_dynarray *vertices)
+{
+    // -0.5f, -0.5f,  0.5f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f,
+    //  0.5f, -0.5f,  0.5f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f,
+    //  0.5f,  0.5f,  0.5f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f,
+    // -0.5f,  0.5f,  0.5f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f,
+
+    t_vertice   v;
+
+    // top_left
+    v = (t_vertice){
+        .pos = (t_vec3d){ -0.5f, 0.5f, 0.f, 1.f },
+        .col = (t_color){ 1.f, 0.f, 0.f, 1.f },
+        .tex = (t_texture){ 0.f, 1.f }
+    };
+    if (dynarray_push(vertices, &v, false) < 0)
+        return (-1);
+    // top_right
+    v = (t_vertice){
+        (t_vec3d){ 0.5f, 0.5f, 0.f, 1.f },
+        (t_color){ 0.f, 1.f, 0.f, 1.f },
+		(t_texture){ 1.f, 1.f }
+    };
+    if (dynarray_push(vertices, &v, false) < 0)
+        return (-1);
+    // bottom_left
+    v = (t_vertice){
+        (t_vec3d){ -0.5f, -0.5f, 0.f, 1.f },
+        (t_color){ 1.f, 1.f, 1.f, 1.f },
+		(t_texture){ 0.f, 0.f }
+    };
+    if (dynarray_push(vertices, &v, false) < 0)
+        return (-1);
+    // bottom_right
+    v = (t_vertice){
+        (t_vec3d){ 0.5f, -0.5f, 0.f, 1.f },
+        (t_color){ 0.f, 0.f, 1.f, 1.f },
+		(t_texture){ 1.f, 0.f }
+    };
+    if (dynarray_push(vertices, &v, false) < 0)
+        return (-1);
+    return (0);
+}
+
+static int  face_three(t_dynarray *vertices)
+{
+    // -0.5f,  0.5f,  0.5f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f,
+    // -0.5f,  0.5f, -0.5f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f,
+    // -0.5f, -0.5f, -0.5f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f,
+    // -0.5f, -0.5f,  0.5f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f,
+
+    t_vertice   v;
+
+    // top_left
+    v = (t_vertice){
+        .pos = (t_vec3d){ -0.5f, 0.5f, 0.f, 1.f },
+        .col = (t_color){ 1.f, 0.f, 0.f, 1.f },
+        .tex = (t_texture){ 0.f, 1.f }
+    };
+    if (dynarray_push(vertices, &v, false) < 0)
+        return (-1);
+    // top_right
+    v = (t_vertice){
+        (t_vec3d){ 0.5f, 0.5f, 0.f, 1.f },
+        (t_color){ 0.f, 1.f, 0.f, 1.f },
+		(t_texture){ 1.f, 1.f }
+    };
+    if (dynarray_push(vertices, &v, false) < 0)
+        return (-1);
+    // bottom_left
+    v = (t_vertice){
+        (t_vec3d){ -0.5f, -0.5f, 0.f, 1.f },
+        (t_color){ 1.f, 1.f, 1.f, 1.f },
+		(t_texture){ 0.f, 0.f }
+    };
+    if (dynarray_push(vertices, &v, false) < 0)
+        return (-1);
+    // bottom_right
+    v = (t_vertice){
+        (t_vec3d){ 0.5f, -0.5f, 0.f, 1.f },
+        (t_color){ 0.f, 0.f, 1.f, 1.f },
+		(t_texture){ 1.f, 0.f }
+    };
+    if (dynarray_push(vertices, &v, false) < 0)
+        return (-1);
+    return (0);
+}
+
+static int  face_four(t_dynarray *vertices)
+{
+    //  0.5f,  0.5f,  0.5f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f,
+    //  0.5f,  0.5f, -0.5f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f,
+    //  0.5f, -0.5f, -0.5f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f,
+    //  0.5f, -0.5f,  0.5f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f,
+
+    t_vertice   v;
+
+    // top_left
+    v = (t_vertice){
+        .pos = (t_vec3d){ -0.5f, 0.5f, 0.f, 1.f },
+        .col = (t_color){ 1.f, 0.f, 0.f, 1.f },
+        .tex = (t_texture){ 0.f, 1.f }
+    };
+    if (dynarray_push(vertices, &v, false) < 0)
+        return (-1);
+    // top_right
+    v = (t_vertice){
+        (t_vec3d){ 0.5f, 0.5f, 0.f, 1.f },
+        (t_color){ 0.f, 1.f, 0.f, 1.f },
+		(t_texture){ 1.f, 1.f }
+    };
+    if (dynarray_push(vertices, &v, false) < 0)
+        return (-1);
+    // bottom_left
+    v = (t_vertice){
+        (t_vec3d){ -0.5f, -0.5f, 0.f, 1.f },
+        (t_color){ 1.f, 1.f, 1.f, 1.f },
+		(t_texture){ 0.f, 0.f }
+    };
+    if (dynarray_push(vertices, &v, false) < 0)
+        return (-1);
+    // bottom_right
+    v = (t_vertice){
+        (t_vec3d){ 0.5f, -0.5f, 0.f, 1.f },
+        (t_color){ 0.f, 0.f, 1.f, 1.f },
+		(t_texture){ 1.f, 0.f }
+    };
+    if (dynarray_push(vertices, &v, false) < 0)
+        return (-1);
+    return (0);
+}
+
+static int  face_five(t_dynarray *vertices)
+{
+    // -0.5f, -0.5f, -0.5f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f,
+    //  0.5f, -0.5f, -0.5f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f,
+    //  0.5f, -0.5f,  0.5f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f,
+    // -0.5f, -0.5f,  0.5f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f,
+
+    t_vertice   v;
+
+    // top_left
+    v = (t_vertice){
+        .pos = (t_vec3d){ -0.5f, 0.5f, 0.f, 1.f },
+        .col = (t_color){ 1.f, 0.f, 0.f, 1.f },
+        .tex = (t_texture){ 0.f, 1.f }
+    };
+    if (dynarray_push(vertices, &v, false) < 0)
+        return (-1);
+    // top_right
+    v = (t_vertice){
+        (t_vec3d){ 0.5f, 0.5f, 0.f, 1.f },
+        (t_color){ 0.f, 1.f, 0.f, 1.f },
+		(t_texture){ 1.f, 1.f }
+    };
+    if (dynarray_push(vertices, &v, false) < 0)
+        return (-1);
+    // bottom_left
+    v = (t_vertice){
+        (t_vec3d){ -0.5f, -0.5f, 0.f, 1.f },
+        (t_color){ 1.f, 1.f, 1.f, 1.f },
+		(t_texture){ 0.f, 0.f }
+    };
+    if (dynarray_push(vertices, &v, false) < 0)
+        return (-1);
+    // bottom_right
+    v = (t_vertice){
+        (t_vec3d){ 0.5f, -0.5f, 0.f, 1.f },
+        (t_color){ 0.f, 0.f, 1.f, 1.f },
+		(t_texture){ 1.f, 0.f }
+    };
+    if (dynarray_push(vertices, &v, false) < 0)
+        return (-1);
+    return (0);
+}
+
+static int  face_six(t_dynarray *vertices)
+{
+    // -0.5f,  0.5f, -0.5f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f,
+    //  0.5f,  0.5f, -0.5f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f,
+    //  0.5f,  0.5f,  0.5f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f,
+    // -0.5f,  0.5f,  0.5f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f,
+
+    t_vertice   v;
+
+    // top_left
+    v = (t_vertice){
+        .pos = (t_vec3d){ -0.5f, 0.5f, 0.f, 1.f },
+        .col = (t_color){ 1.f, 0.f, 0.f, 1.f },
+        .tex = (t_texture){ 0.f, 1.f }
+    };
+    if (dynarray_push(vertices, &v, false) < 0)
+        return (-1);
+    // top_right
+    v = (t_vertice){
+        (t_vec3d){ 0.5f, 0.5f, 0.f, 1.f },
+        (t_color){ 0.f, 1.f, 0.f, 1.f },
+		(t_texture){ 1.f, 1.f }
+    };
+    if (dynarray_push(vertices, &v, false) < 0)
+        return (-1);
+    // bottom_left
+    v = (t_vertice){
+        (t_vec3d){ -0.5f, -0.5f, 0.f, 1.f },
+        (t_color){ 1.f, 1.f, 1.f, 1.f },
+		(t_texture){ 0.f, 0.f }
+    };
+    if (dynarray_push(vertices, &v, false) < 0)
+        return (-1);
+    // bottom_right
+    v = (t_vertice){
+        (t_vec3d){ 0.5f, -0.5f, 0.f, 1.f },
+        (t_color){ 0.f, 0.f, 1.f, 1.f },
+		(t_texture){ 1.f, 0.f }
+    };
+    if (dynarray_push(vertices, &v, false) < 0)
+        return (-1);
+    return (0);
+}
+
+static int  load_element(t_env *env)
+{
+	t_vertice  v;
+
+	if (dynarray_init(&env->vertices, sizeof(t_vertice), 4) < 0)
+		return (-1);
+    if (face_one(&env->vertices) < 0)
+        return (-1);
+    // if (face_two(&env->vertices) < 0)
+    //     return (-1);
+    // if (face_three(&env->vertices) < 0)
+    //     return (-1);
+    // if (face_four(&env->vertices) < 0)
+    //     return (-1);
+    // if (face_five(&env->vertices) < 0)
+    //     return (-1);
+    // if (face_six(&env->vertices) < 0)
+    //     return (-1);
     return (0);
 }
 

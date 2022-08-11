@@ -1,48 +1,24 @@
 #include "main.h"
 
 
-void		matrix_identity(float m[4][4])
+void		mat4_identity(mat4 m)
 {
-	for (int i = 0; i < 4; i++) {
-		ft_memset(&m[i], 0, sizeof(float) * 4);
-		m[i][i] = 1;
-	}
+	ft_memset(m, 0, sizeof(float) * 16);
+	m[0] = 1.0f;
+	m[5] = 1.0f;
+	m[10] = 1.0f;
+	m[15] = 1.0f;
 }
 
-void		matrix_inverse(float m[4][4], float r[4][4])
+void		mat4_print(mat4 m)
 {
-	r[0][0] = m[0][0];
-	r[0][1] = m[1][0];
-	r[0][2] = m[2][0];
-	r[0][3] = 0.0f;
-	r[1][0] = m[0][1];
-	r[1][1] = m[1][1];
-	r[1][2] = m[2][1];
-	r[1][3] = 0.0f;
-	r[2][0] = m[0][2];
-	r[2][1] = m[1][2];
-	r[2][2] = m[2][2];
-	r[2][3] = 0.0f;
-	r[3][0] = -(m[3][0] * r[0][0] + m[3][1] * r[1][0] + m[3][2] * r[2][0]);
-	r[3][1] = -(m[3][0] * r[0][1] + m[3][1] * r[1][1] + m[3][2] * r[2][1]);
-	r[3][2] = -(m[3][0] * r[0][2] + m[3][1] * r[1][2] + m[3][2] * r[2][2]);
-	r[3][3] = 1.0f;
+	for (unsigned int i = 0; i < 16; i += 4)
+		printf("[ %4f | %4f | %4f | %4f ]\n", m[0 + i], m[1 + i], m[2 + i], m[3 + i]);
 }
 
-void		matrix_flattener(float m[4][4], float flat[16])
+void		mat4_translate(mat4 m, float x, float y, float z)
 {
-	for (int y = 0; y < 4; y++)
-		for (int x = 0; x < 4; x++)
-			flat[y * 4 + x] = m[y][x];
-}
-
-void		matrix_translation(float m[4][4], t_vec3d v)
-{
-	m[0][0] = 1.0f;
-	m[1][1] = 1.0f;
-	m[2][2] = 1.0f;
-	m[3][3] = 1.0f;
-	m[3][0] = v.x;
-	m[3][1] = v.y;
-	m[3][2] = v.z;
+	m[3] += x;
+	m[7] += y;
+	m[11] += z;
 }

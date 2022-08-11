@@ -1,34 +1,28 @@
 #include "main.h"
 
 
-void		matrix_mult_matrix(float m1[4][4], float m2[4][4], float ret[4][4])
+void		mat4_multiply(mat4 a, mat4 b)
 {
-	unsigned int	c;
-	unsigned int	r;
-	float			tmp;
+	mat4	res;
 
-	c = 0;
-	while (c < 4)
-	{
-		r = 0;
-		while (r < 4)
+	for (unsigned int j = 0; j < 4; j++)
+		for (unsigned int i = 0; i < 4; i++)
 		{
-			tmp = m1[r][0] * m2[0][c] + m1[r][1] * m2[1][c];
-			tmp += m1[r][2] * m2[2][c] + m1[r][3] * m2[3][c];
-			ret[r][c] = tmp;
-			r++;
+			res[j * 4 + i] = a[j * 4 + 0] * b[0 * 4 + i]
+				+ a[j * 4 + 1] * b[1 * 4 + i]
+				+ a[j * 4 + 2] * b[2 * 4 + i]
+				+ a[j * 4 + 3] * b[3 * 4 + i];
 		}
-		c++;
-	}
+	ft_memcpy(a, res, sizeof(mat4));
 }
 
-t_vec3d		matrix_mult_vec(float m[4][4], t_vec3d i)
+t_vec3d		mat4_mult_vec(mat4 m, t_vec3d i)
 {
 	t_vec3d v;
 
-	v.x = i.x * m[0][0] + i.y * m[1][0] + i.z * m[2][0] + i.w * m[3][0];
-	v.y = i.x * m[0][1] + i.y * m[1][1] + i.z * m[2][1] + i.w * m[3][1];
-	v.z = i.x * m[0][2] + i.y * m[1][2] + i.z * m[2][2] + i.w * m[3][2];
-	v.w = i.x * m[0][3] + i.y * m[1][3] + i.z * m[2][3] + i.w * m[3][3];
+	v.x = i.x * m[0] + i.y * m[1] + i.z * m[2] + i.w * m[3];
+	v.y = i.x * m[4] + i.y * m[5] + i.z * m[6] + i.w * m[7];
+	v.z = i.x * m[8] + i.y * m[9] + i.z * m[10] + i.w * m[11];
+	v.w = i.x * m[12] + i.y * m[13] + i.z * m[14] + i.w * m[15];
 	return (v);
 }

@@ -1,47 +1,55 @@
 #include "main.h"
 
 
-void		matrix_xrotation(float m[4][4], float theta)
+/*	1  0  0  0
+	0  C -S  0
+	0  S  C  0
+	0  0  0  1 */
+void		mat4_xrotation(mat4 m, float x) //
 {
-	float	c;
-	float	s;
-
-	c = cosf(theta);
-	s = sinf(theta);
-	m[0][0] = 1.0f;
-	m[1][1] = c;
-	m[1][2] = -s;
-	m[2][1] = s;
-	m[2][2] = c;
-	m[3][3] = 1.0f;
+	mat4_identity(m);
+	m[5] = cosf(x);
+	m[6] = -sinf(x);
+	m[9] = sinf(x);
+	m[10] = cosf(x);
 }
 
-void		matrix_yrotation(float m[4][4], float theta)
+/*	C  0  S  0
+	0  1  0  0
+	-S 0  C  0
+	0  0  0  1 */
+void		mat4_yrotation(mat4 m, float y) //
 {
-	float	c;
-	float	s;
-
-	c = cosf(theta);
-	s = sinf(theta);
-	m[0][0] = c;
-	m[0][2] = s;
-	m[1][1] = 1.0f;
-	m[2][0] = -s;
-	m[2][2] = c;
-	m[3][3] = 1.0f;
+	mat4_identity(m);
+	m[0] = cosf(y);
+	m[2] = sinf(y);
+	m[8] = -sinf(y);
+	m[10] = cosf(y);
 }
 
-void		matrix_zrotation(float m[4][4], float theta)
+/*	C -S  0  0
+	S  C  0  0
+	0  0  1  0
+	0  0  0  1 */
+void		mat4_zrotation(mat4 m, float z) //
 {
-	float	c;
-	float	s;
+	mat4_identity(m);
+	m[0] = cosf(z);
+	m[1] = -sinf(z);
+	m[4] = sinf(z);
+	m[5] = cosf(z);
+}
 
-	c = cosf(theta);
-	s = sinf(theta);
-	m[0][0] = c;
-	m[0][1] = s;
-	m[1][0] = -s;
-	m[1][1] = c;
-	m[2][2] = 1.0f;
-	m[3][3] = 1.0f;
+/* x: pitch, y:yaw, z:roll, applied yaw->pitch->roll in relative coordonates */
+void		mat4_rotate(mat4 m, float x, float y, float z)
+{
+	mat4 rot_x, rot_y, rot_z;
+
+	mat4_identity(m);
+	mat4_xrotation(rot_x, x);
+	mat4_yrotation(rot_y, y);
+	mat4_zrotation(rot_z, z);
+	mat4_multiply(rot_z, rot_x);
+	mat4_multiply(rot_z, rot_y);
+	mat4_multiply(m, rot_z);
 }

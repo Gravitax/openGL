@@ -59,11 +59,11 @@ void    cb_key(GLFWwindow *window, int key, int scancode, int action, int mods)
                 break ;
             case GLFW_KEY_Q:
                 printf("key A pressed\n");
-				env->camera.yaw += 2.5f;
+				env->camera.yaw += 2.f;
                 break ;
             case GLFW_KEY_E:
                 printf("key E pressed\n");
-				env->camera.yaw -= 2.5f;
+				env->camera.yaw -= 2.f;
                 break ;
             default:
                 printf("key: %d\n", key);

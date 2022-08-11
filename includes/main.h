@@ -55,13 +55,13 @@ typedef struct	s_image
 	unsigned char	*ptr;
 }				t_image;
 
+typedef float   mat4[16];
+
 typedef struct	s_camera
 {
-	float		rot_x[4][4], rot_y[4][4], rot_z[4][4], rot[4][4];
-	float		model[4][4], view[4][4], proj[4][4];
+	mat4		model, view, projection;
 	float		pitch, roll, yaw;
-	float		aspect_ratio, far, near, delta;
-	float		fovd, fovr;
+	float		aspect_ratio, far, near, fov;
 	t_vec3d		pos, target, up;
 }				t_camera;
 
@@ -72,6 +72,10 @@ typedef struct  s_window
     GLFWwindow      *ptr;
 }               t_window;
 
+typedef struct  s_uniform
+{
+    GLint   texture, model, view, projection;
+}               t_uniform;
 
 typedef struct  s_gltools
 {
@@ -85,6 +89,7 @@ typedef struct  s_gltools
     const GLchar    *shader_vertex_text;
     const GLchar    *shader_fragment_text;
     t_window        window;
+    t_uniform       uniform;
 }               t_gltools;
 
 
@@ -120,24 +125,24 @@ void			cb_framebuffer_size(GLFWwindow *window, int width, int height);
 
 // GL
 int     		gl_init(t_env *env);
-int				gl_textures(t_env *env);
+void            gl_textures(t_env *env);
 
 // UTILS
 // matrix
-void			matrix_mult_matrix(float m1[4][4], float m2[4][4], float ret[4][4]);
-t_vec3d			matrix_mult_vec(float m[4][4], t_vec3d i);
+void		    mat4_multiply(mat4 a, mat4 b);
+t_vec3d         mat4_mult_vec(mat4 m, t_vec3d i);
 
-void			matrix_xrotation(float m[4][4], float theta);
-void			matrix_yrotation(float m[4][4], float theta);
-void			matrix_zrotation(float m[4][4], float theta);
+void			mat4_xrotation(mat4 m, float x);
+void			mat4_yrotation(mat4 m, float y);
+void			mat4_zrotation(mat4 m, float z);
+void		    mat4_rotate(mat4 m, float x, float y, float z);
 
-void			matrix_identity(float m[4][4]);
-void			matrix_inverse(float m[4][4], float r[4][4]);
-void			matrix_flattener(float m[4][4], float flat[16]);
-void			matrix_translation(float m[4][4], t_vec3d v);
+void		    mat4_identity(mat4 mat);
+void		    mat4_print(mat4 m);
+void		    mat4_translate(mat4 m, float x, float y, float z);
 
-void			matrix_pointat(float m[4][4], t_vec3d pos, t_vec3d target, t_vec3d up);
-void			matrix_view(t_camera *camera);
+void		    mat4_projection(mat4 m, float fov, float near, float far, float aspect);
+void		    mat4_view(t_camera *camera);
 
 // bmp
 unsigned char	*load_bmp(char const *pathname, unsigned int *width, unsigned int *height);
