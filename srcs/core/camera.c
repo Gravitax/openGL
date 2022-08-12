@@ -9,7 +9,7 @@ static void	init_matrices(t_camera *camera)
 	/* set the view with camera orientations and rotations */
 	mat4_view(camera);
 	/* set the projection with camera data */
-	mat4_projection(camera->projection, (float)M_PI * camera->fov / 360.0, camera->near, camera->far, camera->aspect_ratio);
+	mat4_projection(camera->projection, (float)M_PI * camera->fov / 360.0, camera->near, camera->far, camera->ratio);
 }
 
 void		init_camera(t_env *env)
@@ -17,8 +17,8 @@ void		init_camera(t_env *env)
 	t_camera *camera = &env->camera;
 
 	// RATIO
-	// camera->aspect_ratio = (float)_HEIGHT / (float)_WIDTH;
-	camera->aspect_ratio = (float)_WIDTH / (float)_HEIGHT;
+	// camera->ratio = (float)_HEIGHT / (float)_WIDTH;
+	camera->ratio = (float)_WIDTH / (float)_HEIGHT;
 	// Far and near plane definitions
 	camera->near = 0.1f;
 	camera->far = 1000.0f;

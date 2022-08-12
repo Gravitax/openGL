@@ -3,9 +3,7 @@
 
 static void free_gl(t_env *env)
 {
-	int				i = -1;
-
-    if (env->gl.textures)
+    if (*env->gl.textures)
         glDeleteTextures(TEXTURES_MAX, env->gl.textures);
     if (env->gl.shader_vertex)
         glDeleteShader(env->gl.shader_vertex);

@@ -78,14 +78,15 @@ static void	gl_layouts(t_gltools *gl)
         sizeof(t_vertice), (void *)(sizeof(t_vec3d) + sizeof(t_color)));
 }
 
-static void	gl_load_element()
+static void	gl_load_element(t_env *env)
 {
     GLuint  elements[] = {
         3, 1, 0,
         2, 3, 0
     };
 
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(elements), elements, GL_STATIC_DRAW);
+    // glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(elements), elements, GL_STATIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, env->vertices.byte_size, env->vertices.arr, GL_STATIC_DRAW);
 }
 
 int			gl_init(t_env *env)
@@ -97,11 +98,11 @@ int			gl_init(t_env *env)
     gl_uniforms(&env->gl);
 	gl_textures(env);
     //  DEPTH BUFFER
-	// glEnable(GL_DEPTH_TEST);
+	glEnable(GL_DEPTH_TEST);
 	// CULLING : we only draw front face in clock-wise order
 	// glEnable(GL_CULL_FACE);
 	// glCullFace(GL_FRONT);
 	// glFrontFace(GL_CW);
-	gl_load_element();
+	gl_load_element(env);
 	return (0);
 }

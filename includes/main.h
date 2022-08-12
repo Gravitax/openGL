@@ -61,7 +61,7 @@ typedef struct	s_camera
 {
 	mat4		model, view, projection;
 	float		pitch, roll, yaw;
-	float		aspect_ratio, far, near, fov;
+	float		fov, near, far, ratio;
 	t_vec3d		pos, target, up;
 }				t_camera;
 
@@ -141,7 +141,7 @@ void		    mat4_identity(mat4 mat);
 void		    mat4_print(mat4 m);
 void		    mat4_translate(mat4 m, float x, float y, float z);
 
-void		    mat4_projection(mat4 m, float fov, float near, float far, float aspect);
+void		    mat4_projection(mat4 m, float fov, float near, float far, float ratio);
 void		    mat4_view(t_camera *camera);
 
 // bmp
