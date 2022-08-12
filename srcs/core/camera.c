@@ -25,9 +25,9 @@ void		init_camera(t_env *env)
 	// FOV
 	camera->fov = 90.0f;
 	// Camera's starting position and orientation
-	camera->pos = (t_vec3d){ 0, 0, 0, 0 };
-	camera->target = (t_vec3d){ 0, 0, 1, 0 };
-	camera->up = (t_vec3d){ 0, 1, 0, 0 };
+	camera->pos = (t_vec3d){ 0, 0, 0, 1 };
+	camera->target = (t_vec3d){ 0, 0, 1, 1 };
+	camera->up = (t_vec3d){ 0, 1, 0, 1 };
 	// Camera rotations
 	camera->pitch = 0;
 	camera->roll = 0;

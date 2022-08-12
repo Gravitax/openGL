@@ -14,61 +14,65 @@ void		mat4_projection(mat4 m, float fov, float near, float far, float ratio)
 	m[14] = -1;
 }
 
-static void	matrix_pointat(mat4 m, t_vec3d from, t_vec3d to, t_vec3d up)
+static void	mat4_pointat(mat4 m, t_vec3d from, t_vec3d to, t_vec3d up)
 {
-	t_vec3d		forward, new_up, right, t;
+	t_vec3d		forward, new_up, right;
 
 	forward = vec_normalize(vec_sub(to, from));
-
-	t = vec_fmult(forward, vec_dot(up, forward));
-
-	new_up = vec_sub(up, t);
-
+	new_up = vec_fmult(forward, vec_dot(up, forward));
+	new_up = vec_sub(up, new_up);
 	right = vec_cross(new_up, forward);
 
-	ft_memcpy(m, &right, sizeof(t_vec3d));
-	m[12] = -vec_dot(right, from);
-	ft_memcpy(m + 4, &new_up, sizeof(t_vec3d));
-	m[13] = -vec_dot(new_up, from);
-	ft_memcpy(m + 8, &forward, sizeof(t_vec3d));
-	m[14] = -vec_dot(forward, from);
-	ft_memcpy(m + 12, &from, sizeof(t_vec3d));
+	m[0] = right.x;
+	m[1] = right.y;
+	m[2] = right.z;
+	m[3] = -vec_dot(right, from);
+	m[3] = 0;
+	m[4] = new_up.x;
+	m[5] = new_up.y;
+	m[6] = new_up.z;
+	m[7] = -vec_dot(new_up, from);
+	m[7] = 0;
+	m[8] = forward.x;
+	m[9] = forward.y;
+	m[10] = forward.z;
+	m[11] = -vec_dot(forward, from);
+	m[11] = 0;
+	m[12] = from.x;
+	m[13] = from.y;
+	m[14] = from.z;
 	m[15] = 1;
 }
 
-static void	mat4_lookat(mat4 m, t_vec3d from, t_vec3d to)
+void		mat4_lookat(mat4 m, t_vec3d position, t_vec3d target, t_vec3d up)
 {
-	const t_vec3d	tmp = { 0, 1, 0 };
-	t_vec3d			forward, right, up;
-	
-	forward = vec_normalize(vec_sub(to, from));
-	right = vec_cross(vec_normalize(tmp), forward);
-	up = vec_cross(forward, right);
+    // 1. Position = known
+    // 2. Calculate cameraDirection
+    t_vec3d	zaxis = vec_normalize(vec_sub(position,target));
+    // 3. Get positive right axis vector
+    t_vec3d	xaxis = vec_normalize(vec_cross(vec_normalize(up), zaxis));
+    // 4. Calculate camera up vector
+    t_vec3d	yaxis = vec_cross(zaxis, xaxis);
 
-	// m[0][0] = right.x; 
-    // m[0][1] = right.y; 
-    // m[0][2] = right.z; 
-    // m[1][0] = up.x; 
-    // m[1][1] = up.y; 
-    // m[1][2] = up.z; 
-    // m[2][0] = forward.x; 
-    // m[2][1] = forward.y; 
-    // m[2][2] = forward.z; 
-    // m[3][0] = from.x; 
-    // m[3][1] = from.y; 
-    // m[3][2] = from.z; 
-	m[0] = right.x; 
-    m[4] = right.y; 
-    m[8] = right.z; 
-    m[1] = up.x; 
-    m[5] = up.y; 
-    m[9] = up.z; 
-    m[2] = forward.x; 
-    m[6] = forward.y; 
-    m[10] = forward.z; 
-    m[3] = from.x; 
-    m[7] = from.y; 
-    m[11] = from.z; 
+	mat4	translation, rotation;
+
+	mat4_identity(translation);
+    translation[3] = -position.x;
+    translation[7] = -position.y;
+    translation[11] = -position.z;
+    mat4_identity(rotation);
+    rotation[0] = xaxis.x;
+    rotation[1] = xaxis.y;
+    rotation[2] = xaxis.z;
+    rotation[4] = yaxis.x;
+    rotation[5] = yaxis.y;
+    rotation[6] = yaxis.z;
+    rotation[8] = zaxis.x;
+    rotation[9] = zaxis.y;
+    rotation[10] = zaxis.z;
+    
+	mat4_multiply(m, translation);
+	mat4_multiply(m, rotation);
 }
 
 void		mat4_view(t_camera *camera)
@@ -85,6 +89,6 @@ void		mat4_view(t_camera *camera)
 	dir = mat4_mult_vec(rot, camera->target);
 	up = mat4_mult_vec(rot, camera->up);
 	target = vec_add(camera->pos, dir);
-	matrix_pointat(camera->view, camera->pos, target, up);
-	// mat4_lookat(camera->view, camera->pos, target);
+	// mat4_pointat(camera->view, camera->pos, target, up);
+	mat4_lookat(camera->view, camera->pos, target, up);
 }

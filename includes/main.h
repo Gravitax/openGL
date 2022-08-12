@@ -59,7 +59,7 @@ typedef float   mat4[16];
 
 typedef struct	s_camera
 {
-	mat4		model, view, projection;
+	mat4		model, view, projection, mvp;
 	float		pitch, roll, yaw;
 	float		fov, near, far, ratio;
 	t_vec3d		pos, target, up;
@@ -74,7 +74,7 @@ typedef struct  s_window
 
 typedef struct  s_uniform
 {
-    GLint   texture, model, view, projection;
+    GLint   texture, model, view, projection, mvp;
 }               t_uniform;
 
 typedef struct  s_gltools

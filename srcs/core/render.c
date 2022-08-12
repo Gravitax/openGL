@@ -13,6 +13,13 @@ void		matrix(t_env *env)
 	glUniformMatrix4fv(env->gl.uniform.model, 1, GL_FALSE, env->camera.model);
 	glUniformMatrix4fv(env->gl.uniform.view, 1, GL_FALSE, env->camera.view);
     glUniformMatrix4fv(env->gl.uniform.projection, 1, GL_FALSE, env->camera.projection);
+
+	// mat4_identity(env->camera.mvp);
+	// mat4_multiply(env->camera.mvp, env->camera.model);
+	// mat4_multiply(env->camera.mvp, env->camera.view);
+	// mat4_multiply(env->camera.mvp, env->camera.projection);
+
+	// glUniformMatrix4fv(env->gl.uniform.mvp, 1, GL_FALSE, env->camera.mvp);
 }
 
 int         render(t_env *env)
