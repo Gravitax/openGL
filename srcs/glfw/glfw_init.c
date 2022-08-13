@@ -41,7 +41,7 @@ static int  glfw_create_window(GLFWwindow* *window, const char *title, bool full
 
 static void glfw_init_callbacks(GLFWwindow* window)
 {
-    glfwSetKeyCallback(window, cb_key);
+    // glfwSetKeyCallback(window, cb_key);
     // glfwSetCursorPosCallback(window, cb_cursor_position);
     // glfwSetWindowMaximizeCallback(window, cb_window_maximize);
     // glfwSetWindowFocusCallback(window, cb_window_focus);

@@ -8,8 +8,14 @@ void		matrix(t_env *env)
 	// env->camera.pos.x = sin(glfwGetTime()) * radius;
 	// env->camera.pos.z = cos(glfwGetTime()) * radius;
 
+	mat4_identity(env->camera.model);
+	mat4_translate(env->camera.model, 0, 0, 1);
+	// mat4_rotate(env->camera.model,
+	// 	(float)ft_to_radians(env->camera.pitch), (float)ft_to_radians(env->camera.yaw), (float)ft_to_radians(env->camera.roll),
+	// 	(t_vec3d){ env->camera.pos.x, env->camera.pos.y, env->camera.pos.z });
+	glUniformMatrix4fv(env->gl.uniform.model, 1, GL_FALSE, env->camera.model);
+	
 	mat4_view(&env->camera);
-
 	glUniformMatrix4fv(env->gl.uniform.view, 1, GL_FALSE, env->camera.view);
 
 	// mat4_identity(env->camera.mvp);
@@ -44,6 +50,7 @@ int         render(t_env *env)
 
     glfw_fps(&env->fps, true);
 	glfwPollEvents();
+	events(env);
 
     glfwGetFramebufferSize(env->gl.window.ptr, (int *)&env->gl.window.w, (int *)&env->gl.window.h);
 	glViewport(0, 0, (int)env->gl.window.w, (int)env->gl.window.h);

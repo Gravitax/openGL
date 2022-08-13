@@ -107,6 +107,7 @@ typedef struct	s_env
 
 // CORE
 void			init_camera(t_env *env);
+int				events(t_env *env);
 int				render(t_env *env);
 void    		scop_exit();
 int     		scop_init(t_env *env);
@@ -128,14 +129,14 @@ int     		gl_init(t_env *env);
 void            gl_textures(t_env *env);
 
 // UTILS
-// matrix
+// matrices
 void		    mat4_multiply(mat4 a, mat4 b);
 t_vec3d         mat4_x_vec3d(mat4 m, t_vec3d v);
 
 void			mat4_xrotation(mat4 m, float x);
 void			mat4_yrotation(mat4 m, float y);
 void			mat4_zrotation(mat4 m, float z);
-void		    mat4_rotate(mat4 m, float x, float y, float z);
+void		    mat4_rotate(mat4 m, float x, float y, float z, t_vec3d center);
 
 void		    mat4_identity(mat4 mat);
 void			mat4_inverse(mat4 m);

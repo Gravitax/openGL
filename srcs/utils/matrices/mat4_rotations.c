@@ -41,15 +41,18 @@ void		mat4_zrotation(mat4 m, float z) //
 }
 
 /* x: pitch, y:yaw, z:roll, applied yaw->pitch->roll in relative coordonates */
-void		mat4_rotate(mat4 m, float x, float y, float z)
+void		mat4_rotate(mat4 m, float x, float y, float z, t_vec3d center)
 {
 	mat4 rot_x, rot_y, rot_z;
 
-	mat4_identity(m);
 	mat4_xrotation(rot_x, x);
 	mat4_yrotation(rot_y, y);
 	mat4_zrotation(rot_z, z);
 	mat4_multiply(rot_z, rot_x);
 	mat4_multiply(rot_z, rot_y);
+
+	mat4_identity(m);
+	// mat4_translate(m, -center.x, -center.y, -center.z);
 	mat4_multiply(m, rot_z);
+	// mat4_translate(m, center.x, center.y, center.z);
 }

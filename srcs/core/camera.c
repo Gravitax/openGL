@@ -38,5 +38,10 @@ void		init_camera(t_env *env)
 	camera->pitch = 0;
 	camera->roll = 0;
 	camera->yaw = 0;
+
+	// camera->target.x = cosf((float)ft_to_radians(camera->yaw)) * cosf((float)ft_to_radians(camera->pitch));
+	// camera->target.y = sinf((float)ft_to_radians(camera->pitch));
+	// camera->target.z = sinf((float)ft_to_radians(camera->yaw)) * cosf((float)ft_to_radians(camera->pitch));
+
 	init_matrices(&env->gl, camera);
 }

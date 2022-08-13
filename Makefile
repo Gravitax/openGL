@@ -30,6 +30,7 @@ endif
 SRC_PATH=srcs/
 SRC_NAME=main.c\
 	core/camera.c\
+	core/events.c\
 	core/render.c\
 	core/scop_exit.c\
 	core/scop_init.c\

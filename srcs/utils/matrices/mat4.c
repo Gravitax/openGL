@@ -59,15 +59,16 @@ void		mat4_view(t_camera *camera)
 {
 	mat4	rot;
 	t_vec3d	dir, up, target;
-	float	pitch, yaw, roll;
 
-	pitch = (float)ft_to_radians(camera->pitch);
-	yaw = (float)ft_to_radians(camera->yaw);
-	roll = (float)ft_to_radians(camera->roll);
-	mat4_rotate(rot, pitch, yaw, roll);
+	mat4_rotate(rot,
+		(float)ft_to_radians(camera->pitch), (float)ft_to_radians(camera->yaw), (float)ft_to_radians(camera->roll),
+		(t_vec3d){ camera->pos.x, camera->pos.y, camera->pos.z });
 
 	dir = mat4_x_vec3d(rot, camera->target);
-	target = vec_add(camera->pos, dir);
+	target = vec_add(camera->pos, camera->target);
 	up = mat4_x_vec3d(rot, camera->up);
+	
 	mat4_pointat(camera->view, camera->pos, target, up);
+	
+	// mat4_pointat(camera->view, camera->pos, vec_add(camera->pos, camera->target), camera->up);
 }
