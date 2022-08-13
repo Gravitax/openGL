@@ -6,22 +6,17 @@ void    cb_error(int error, const char *description)
     fprintf(stderr, "Error: (%d): %s\n", error, description);
     scop_exit();
 }
-
-static void	camera_position(t_camera *camera, float x, float y, float z)
-{
-	camera->pos.x += x;
-	camera->pos.y += y;
-	camera->pos.z += z;
-}
  
 void    cb_key(GLFWwindow *window, int key, int scancode, int action, int mods)
 {
     if (action == GLFW_PRESS)
     {
-		t_env	*env;
+		t_env		*env;
+		t_camera	*camera;
 
 		if (!(env = st_env(NULL, false)))
 			return ;
+		camera = &env->camera;
         switch (key)
         {
             case GLFW_KEY_ESCAPE:
@@ -43,19 +38,19 @@ void    cb_key(GLFWwindow *window, int key, int scancode, int action, int mods)
 				break ;
             case GLFW_KEY_W:
 			    printf("key Z pressed\n");
-				camera_position(&env->camera, 0, 0, 0.1f);
+				camera->pos = vec_add(camera->pos, vec_fmult(camera->target, camera->speed));
 				break ;
             case GLFW_KEY_S:
 				printf("key S pressed\n");
-				camera_position(&env->camera, 0, 0, -0.1f);
+				camera->pos = vec_sub(camera->pos, vec_fmult(camera->target, camera->speed));
 				break ;
 			 case GLFW_KEY_A:
                 printf("key Q pressed\n");
-				camera_position(&env->camera, -0.1f, 0, 0);
+				camera->pos = vec_sub(camera->pos, vec_normalize(vec_fmult(vec_cross(camera->target, camera->up), camera->speed)));
                 break ;
 			 case GLFW_KEY_D:
                 printf("key D pressed\n");
-				camera_position(&env->camera, 0.1f, 0, 0);
+				camera->pos = vec_add(camera->pos, vec_normalize(vec_fmult(vec_cross(camera->target, camera->up), camera->speed)));
                 break ;
             case GLFW_KEY_Q:
                 printf("key A pressed\n");

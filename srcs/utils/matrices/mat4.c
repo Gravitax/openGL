@@ -26,20 +26,20 @@ static void	mat4_pointat(mat4 m, t_vec3d from, t_vec3d to, t_vec3d up)
 	m[0] = right.x;
 	m[1] = right.y;
 	m[2] = right.z;
-	m[3] = 0;
 	m[3] = -vec_dot(right, from);
+	m[3] = 0;
 
 	m[4] = new_up.x;
 	m[5] = new_up.y;
 	m[6] = new_up.z;
-	m[7] = 0;
 	m[7] = -vec_dot(new_up, from);
+	m[7] = 0;
 
 	m[8] = forward.x;
 	m[9] = forward.y;
 	m[10] = forward.z;
-	m[11] = 0;
 	m[11] = -vec_dot(forward, from);
+	m[11] = 0;
 
 	m[12] = from.x;
 	m[13] = from.y;
@@ -59,7 +59,9 @@ void		mat4_view(t_camera *camera)
 	mat4_rotate(rot, pitch, yaw, roll);
 
 	dir = mat4_x_vec3d(rot, camera->target);
-	up = mat4_x_vec3d(rot, camera->up);
 	target = vec_add(camera->pos, dir);
-	mat4_pointat(camera->view, camera->pos, target, up);
+	up = mat4_x_vec3d(rot, camera->up);
+	// mat4_pointat(camera->view, camera->pos, target, up);
+
+	mat4_pointat(camera->view, camera->pos, vec_add(camera->pos, camera->target), camera->up);
 }

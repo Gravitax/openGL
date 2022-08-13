@@ -34,6 +34,17 @@ t_vec3d		vec_fmult(t_vec3d a, float n)
 	return (ret);
 }
 
+t_vec3d		vec_fadd(t_vec3d a, float n)
+{
+	t_vec3d		ret;
+
+	ret.x = a.x + n;
+	ret.y = a.y + n;
+	ret.z = a.z + n;
+	ret.w = a.w + n;
+	return (ret);
+}
+
 t_vec3d		vec_fsub(t_vec3d a, float n)
 {
 	t_vec3d		ret;

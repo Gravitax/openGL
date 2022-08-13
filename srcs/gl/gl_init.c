@@ -44,17 +44,17 @@ static void	gl_buffers(t_env *env)
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, env->gl.ebo);
 }
 
-static void gl_uniforms(t_gltools *gl)
+static void gl_uniforms(t_env* env)
 {
     // get uniforms
-    gl->uniform.texture = glGetUniformLocation(gl->shader_program, "in_texture");
-    gl->uniform.model = glGetUniformLocation(gl->shader_program, "model");
-    gl->uniform.view = glGetUniformLocation(gl->shader_program, "view");
-    gl->uniform.projection = glGetUniformLocation(gl->shader_program, "projection");
-	gl->uniform.mvp = glGetUniformLocation(gl->shader_program, "mvp");
+    env->gl.uniform.texture = glGetUniformLocation(env->gl.shader_program, "in_texture");
+    env->gl.uniform.model = glGetUniformLocation(env->gl.shader_program, "model");
+    env->gl.uniform.view = glGetUniformLocation(env->gl.shader_program, "view");
+    env->gl.uniform.projection = glGetUniformLocation(env->gl.shader_program, "projection");
+	env->gl.uniform.mvp = glGetUniformLocation(env->gl.shader_program, "mvp");
 
     // consume texture uniforms
-    glUniform1i(gl->uniform.texture, 0);
+    glUniform1i(env->gl.uniform.texture, 0);
 }
 
 static void	gl_layouts(t_gltools *gl)
@@ -96,7 +96,7 @@ int			gl_init(t_env *env)
 	gl_program(&env->gl);
 	gl_buffers(env);
     gl_layouts(&env->gl);
-    gl_uniforms(&env->gl);
+    gl_uniforms(env);
 	gl_textures(env);
     //  DEPTH BUFFER
 	glEnable(GL_DEPTH_TEST);

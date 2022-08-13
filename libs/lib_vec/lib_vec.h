@@ -21,6 +21,7 @@ typedef union	rsqrt
 
 t_vec3d		vec_fdiv(t_vec3d a, float n);
 t_vec3d		vec_fmult(t_vec3d a, float n);
+t_vec3d		vec_fadd(t_vec3d a, float n);
 t_vec3d		vec_fsub(t_vec3d a, float n);
 
 t_vec3d		vec_cross(t_vec3d a, t_vec3d b);

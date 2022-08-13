@@ -12,7 +12,7 @@
 
 #include "lib_vec.h"
 
-float			ft_rsqrt(float number)
+float	ft_rsqrt(float number)
 {
 	float	i;
 	float	threehalfs;

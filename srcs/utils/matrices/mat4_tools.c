@@ -12,7 +12,9 @@ void		mat4_identity(mat4 m)
 
 void		mat4_print(mat4 m)
 {
-	for (unsigned int i = 0; i < 16; i += 4)
+	unsigned int	i;
+
+	for (i = 0; i < 16; i += 4)
 		printf("[ %4f | %4f | %4f | %4f ]\n", m[0 + i], m[1 + i], m[2 + i], m[3 + i]);
 }
 

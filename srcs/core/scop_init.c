@@ -83,10 +83,6 @@ static void	load_shaders(t_env *env)
 		// "	Color = in_color;\n"
 		"	Texcoord = in_texcoord;\n"
 		"	gl_Position = model * view * projection * in_position;\n"
-		// "	gl_Position.x /= gl_Position.w;\n"
-		// "	gl_Position.y /= gl_Position.w;\n"
-		// "	gl_Position.z /= gl_Position.w;\n"
-		// "	gl_Position.w /= gl_Position.w;\n"
 		"}\n";
 	env->gl.shader_fragment_text =
 		"#version 330\n"
@@ -96,7 +92,7 @@ static void	load_shaders(t_env *env)
 		"uniform sampler2D in_texture;\n"
 		"void main()\n"
 		"{\n"
-		// "	FragColor = texture(in_texture_0, Texcoord) * vec4(255, 255, 255, 0);\n"
+		// "	FragColor = texture(in_texture, Texcoord) * vec4(255, 255, 255, 0);\n"
 		"	FragColor = texture(in_texture, Texcoord);\n"
 		"}\n";
 }
@@ -107,10 +103,10 @@ int		 scop_init(t_env *env)
 	if (load_element(env) < 0 || load_images(env) < 0)
 		return (-1);
 	load_shaders(env);
-	env->texture = TEXTURE_DS;
 	if (glfw_init(env) < 0 || gl_init(env) < 0)
 		return (-1);
-	env->time = glfwGetTime();
 	init_camera(env);
+	env->texture = TEXTURE_DS;
+	env->time = glfwGetTime();
 	return (0);
 }

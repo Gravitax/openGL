@@ -63,6 +63,7 @@ typedef struct	s_camera
 	float		pitch, roll, yaw;
 	float		fov, near, far, ratio;
 	t_vec3d		pos, target, up;
+	float		speed;
 }				t_camera;
 
 typedef struct  s_window
