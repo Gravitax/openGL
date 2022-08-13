@@ -1,18 +1,17 @@
 #include "main.h"
 
 
-void        glfw_fps(t_env *env, bool print)
+void        glfw_fps(t_fps *fps, bool print)
 {
-    double	current_seconds = glfwGetTime();
-	double	elapsed_seconds = current_seconds - env->time;
+    fps->current_seconds = glfwGetTime();
+	fps->elapsed_seconds = fps->current_seconds - fps->time;
 
-	if (elapsed_seconds > 1) {
-		env->time = current_seconds;
-		double	fps = (double)env->frames / elapsed_seconds;
-
-		env->fps = fps;
-		print ? printf("fps: %d\n", env->fps) : 0;
-		env->frames = 0;
+	if (fps->elapsed_seconds > 1) {
+		fps->time = fps->current_seconds;
+		fps->value = (double)fps->frames / fps->elapsed_seconds;
+		fps->frames = 0;
+	
+		print ? printf("fps: %d\n", fps->value) : 0;
 	}
-	++env->frames;
+	++fps->frames;
 }

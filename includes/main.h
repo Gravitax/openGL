@@ -68,8 +68,7 @@ typedef struct	s_camera
 
 typedef struct  s_window
 {
-    unsigned int	w;
-	unsigned int	h;
+    unsigned int	w, h;
     GLFWwindow      *ptr;
 }               t_window;
 
@@ -81,29 +80,29 @@ typedef struct  s_uniform
 typedef struct  s_gltools
 {
     GLuint          shader_program;
-    GLuint          shader_vertex;
-    GLuint          shader_fragment;
-    GLuint          ebo;
-    GLuint          vao;
-    GLuint          vbo;
+    GLuint          shader_vertex, shader_fragment;
+    GLuint          ebo, vao, vbo;
     GLuint          textures[TEXTURES_MAX];
-    const GLchar    *shader_vertex_text;
-    const GLchar    *shader_fragment_text;
+    const GLchar	*shader_vertex_text, *shader_fragment_text;
     t_window        window;
     t_uniform       uniform;
 }               t_gltools;
 
+typedef struct	s_fps
+{
+	unsigned int	frames, value;
+	double			time, current_seconds, elapsed_seconds;
+}				t_fps;
 
 typedef struct	s_env
 {
 	unsigned int	texture;
-    unsigned int    frames;
-    unsigned int    fps;
-    double          time;
+	t_fps			fps;
     t_gltools       gl;
 	t_camera		camera;
     t_dynarray      vertices;
     t_image			images[TEXTURES_MAX];
+	t_vec3d			cube_positions[7];
 }				t_env;
 
 // CORE
@@ -113,7 +112,7 @@ void    		scop_exit();
 int     		scop_init(t_env *env);
 
 // GLFW
-void    		glfw_fps(t_env *env, bool print);
+void    		glfw_fps(t_fps *fps, bool print);
 int     		glfw_init(t_env *env);
 // callbacks
 void    		cb_error(int error, const char *description);
@@ -139,6 +138,7 @@ void			mat4_zrotation(mat4 m, float z);
 void		    mat4_rotate(mat4 m, float x, float y, float z);
 
 void		    mat4_identity(mat4 mat);
+void			mat4_inverse(mat4 m);
 void		    mat4_print(mat4 m);
 void		    mat4_translate(mat4 m, float x, float y, float z);
 

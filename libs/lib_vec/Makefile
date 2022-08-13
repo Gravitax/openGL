@@ -44,8 +44,7 @@ endif
 
 SRCS  = vec3d_ops.c\
 		vec3d_fops.c\
-		vec3d_tools.c\
-		vec3d_tools2.c
+		vec3d_tools.c
 
 INC=lib_vec.h
 
