@@ -130,7 +130,7 @@ void            gl_textures(t_env *env);
 // UTILS
 // matrix
 void		    mat4_multiply(mat4 a, mat4 b);
-t_vec3d         mat4_mult_vec(mat4 m, t_vec3d i);
+t_vec3d         mat4_x_vec3d(mat4 m, t_vec3d v);
 
 void			mat4_xrotation(mat4 m, float x);
 void			mat4_yrotation(mat4 m, float y);

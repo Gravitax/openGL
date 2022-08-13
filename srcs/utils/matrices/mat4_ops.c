@@ -16,7 +16,7 @@ void		mat4_multiply(mat4 a, mat4 b)
 	ft_memcpy(a, res, sizeof(mat4));
 }
 
-t_vec3d		mat4_mult_vec(mat4 m, t_vec3d i)
+t_vec3d		mat4_x_vec3d(mat4 m, t_vec3d i)
 {
 	t_vec3d v;
 

@@ -12,6 +12,20 @@
 
 #include "lib_vec.h"
 
+float			ft_rsqrt(float number)
+{
+	float	i;
+	float	threehalfs;
+	u_rsqrt	conv;
+
+	i = number * 0.5f;
+	threehalfs = 1.5f;
+	conv = (u_rsqrt){ number };
+	conv.i = 0x5f3759df - (conv.i >> 1);
+	conv.f *= (threehalfs - (i * conv.f * conv.f));
+	return (1 / conv.f);
+}
+
 t_vec3d	zero_vector(void)
 {
 	return ((t_vec3d){0.0f, 0.0f, 0.0f, 0.0f});
@@ -19,7 +33,7 @@ t_vec3d	zero_vector(void)
 
 float	vec_norm(t_vec3d vec)
 {
-	return (sqrt(vec.x * vec.x + vec.y * vec.y + vec.z * vec.z));
+	return (ft_rsqrt(vec.x * vec.x + vec.y * vec.y + vec.z * vec.z));
 }
 
 t_vec3d	vec_normalize(t_vec3d vec)
@@ -43,7 +57,7 @@ float	vec_dot(t_vec3d a, t_vec3d b)
 
 float	vec3d_dist(t_vec3d o, t_vec3d v)
 {
-	return (sqrt((o.x - v.x) * (o.x - v.x)
+	return (ft_rsqrt((o.x - v.x) * (o.x - v.x)
 		+ (o.y - v.y) * (o.y - v.y)
 		+ (o.z - v.z) * (o.z - v.z)));
 }

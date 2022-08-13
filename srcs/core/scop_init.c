@@ -86,6 +86,7 @@ static void	load_shaders(t_env *env)
 		// "	gl_Position.x /= gl_Position.w;\n"
 		// "	gl_Position.y /= gl_Position.w;\n"
 		// "	gl_Position.z /= gl_Position.w;\n"
+		// "	gl_Position.w /= gl_Position.w;\n"
 		"}\n";
 	env->gl.shader_fragment_text =
 		"#version 330\n"

@@ -1,7 +1,7 @@
 #include "main.h"
 
 
-int         scop(t_env *env)
+static int	scop(t_env *env)
 {
     if (scop_init(env) < 0)
     {
