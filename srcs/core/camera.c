@@ -1,20 +1,19 @@
 #include "main.h"
 
 
-static void	init_matrices(t_gltools *gl, t_camera *camera)
+static void	matrices(t_gltools *gl, t_camera *camera)
 {
-	// /* set the model */
+	// Rotation XYZ matrix
+	mat4_identity(camera->rot_xyz);
+	mat4_rotate(camera->rot_xyz, (float)ft_to_radians(camera->pitch), (float)ft_to_radians(camera->yaw), (float)ft_to_radians(camera->roll));
+	// Model matrix
 	mat4_identity(camera->model);
 	mat4_translate(camera->model, 0, 0, 1);
-	glUniformMatrix4fv(gl->uniform.model, 1, GL_FALSE, camera->model);
-
-	/* set the view with camera orientations and rotations */
-	// mat4_view(camera);
-
-	/* set the projection with camera data */
+	// View matrix
+	mat4_identity(camera->view);
+	// Projection matrix
+	mat4_identity(camera->projection);
 	mat4_projection(camera->projection, camera->fov, camera->near, camera->far, camera->ratio);
-	// mat4_identity(camera->projection);
-    glUniformMatrix4fv(gl->uniform.projection, 1, GL_FALSE, camera->projection);
 }
 
 void		init_camera(t_env *env)
@@ -30,7 +29,7 @@ void		init_camera(t_env *env)
 	// FOV
 	camera->fov = 45.0f;
 	// Camera's starting position and orientation
-	camera->pos = (t_vec3d){ 3, 2, -5 };
+	camera->pos = (t_vec3d){ 1.5f, 1.75f, -2.5f };
 	camera->target = (t_vec3d){ 0, 0, 1 };
 	camera->up = (t_vec3d){ 0, 1, 0 };
 	camera->speed = 0.1f;
@@ -38,10 +37,5 @@ void		init_camera(t_env *env)
 	camera->pitch = 0;
 	camera->roll = 0;
 	camera->yaw = 0;
-
-	// camera->target.x = cosf((float)ft_to_radians(camera->yaw)) * cosf((float)ft_to_radians(camera->pitch));
-	// camera->target.y = sinf((float)ft_to_radians(camera->pitch));
-	// camera->target.z = sinf((float)ft_to_radians(camera->yaw)) * cosf((float)ft_to_radians(camera->pitch));
-
-	init_matrices(&env->gl, camera);
+	matrices(&env->gl, camera);
 }

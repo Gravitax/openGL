@@ -1,29 +1,14 @@
 #include "main.h"
 
 
-void		matrix(t_env *env)
+static void	matrices(t_gltools *gl, t_camera *camera)
 {
-
-	// const float radius = 10.0f;
-	// env->camera.pos.x = sin(glfwGetTime()) * radius;
-	// env->camera.pos.z = cos(glfwGetTime()) * radius;
-
-	mat4_identity(env->camera.model);
-	mat4_translate(env->camera.model, 0, 0, 1);
-	// mat4_rotate(env->camera.model,
-	// 	(float)ft_to_radians(env->camera.pitch), (float)ft_to_radians(env->camera.yaw), (float)ft_to_radians(env->camera.roll),
-	// 	(t_vec3d){ env->camera.pos.x, env->camera.pos.y, env->camera.pos.z });
-	glUniformMatrix4fv(env->gl.uniform.model, 1, GL_FALSE, env->camera.model);
-	
-	mat4_view(&env->camera);
-	glUniformMatrix4fv(env->gl.uniform.view, 1, GL_FALSE, env->camera.view);
-
-	// mat4_identity(env->camera.mvp);
-	// mat4_multiply(env->camera.mvp, env->camera.model);
-	// mat4_multiply(env->camera.mvp, env->camera.view);
-	// mat4_multiply(env->camera.mvp, env->camera.projection);
-
-	// glUniformMatrix4fv(env->gl.uniform.mvp, 1, GL_FALSE, env->camera.mvp);
+	mat4_view(camera);
+	mat4_identity(camera->mvp);
+	mat4_multiply(camera->mvp, camera->projection);
+	mat4_multiply(camera->mvp, camera->view);
+	mat4_multiply(camera->mvp, camera->model);
+	glUniformMatrix4fv(gl->uniform.mvp, 1, GL_FALSE, camera->mvp);
 }
 
 static void	draw(t_env *env) {
@@ -32,7 +17,7 @@ static void	draw(t_env *env) {
     // while (i < 7)
     // {
     //     mat4_identity(env->camera.model);
-	// 	mat4_translate(env->camera.model, env->cube_positions[i].x, env->cube_positions[i].y, env->cube_positions[i].z + 1);
+	// 	mat4_translate(env->camera.model, env->cube_positions[i].x, env->cube_positions[i].y, env->cube_positions[i].z);
     //     glUniformMatrix4fv(env->gl.uniform.model, 1, GL_FALSE, env->camera.model);
     //     glDrawArrays(GL_TRIANGLES, 0, 36);
 	// 	++i;
@@ -63,7 +48,7 @@ int         render(t_env *env)
 		glBindTexture(GL_TEXTURE_2D, env->gl.textures[env->texture]);
 	}
 
-	matrix(env);
+	matrices(&env->gl, &env->camera);
 
 	// glUseProgram(env->gl.shader_program);
     // glBindVertexArray(env->gl.vao);

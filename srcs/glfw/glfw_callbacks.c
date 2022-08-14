@@ -60,4 +60,7 @@ void		cb_framebuffer_size(GLFWwindow *window, int width, int height)
     glViewport(0, 0, width, height);
 	env->gl.window.w = width;
 	env->gl.window.h = height;
+    env->camera.ratio = (float)height / (float)width;
+    // env->camera.ratio = (float)width / (float)height;
+    mat4_projection(env->camera.projection, env->camera.fov, env->camera.near, env->camera.far, env->camera.ratio);
 }

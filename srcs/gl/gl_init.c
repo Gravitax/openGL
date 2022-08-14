@@ -48,9 +48,6 @@ static void gl_uniforms(t_env* env)
 {
     // get uniforms
     env->gl.uniform.texture = glGetUniformLocation(env->gl.shader_program, "in_texture");
-    env->gl.uniform.model = glGetUniformLocation(env->gl.shader_program, "model");
-    env->gl.uniform.view = glGetUniformLocation(env->gl.shader_program, "view");
-    env->gl.uniform.projection = glGetUniformLocation(env->gl.shader_program, "projection");
 	env->gl.uniform.mvp = glGetUniformLocation(env->gl.shader_program, "mvp");
 
     // consume texture uniforms

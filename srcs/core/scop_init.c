@@ -64,12 +64,12 @@ static int	load_element(t_env *env)
 		return (-1);
 	cube(&env->vertices);
 	env->cube_positions[0] = (t_vec3d){ 0.0f, 0.0f, 0.0f };
-	env->cube_positions[1] = (t_vec3d){ 2.0f, 0.0f, 0.0f };
-	env->cube_positions[2] = (t_vec3d){ 0.0f, 2.0f, 0.0f };
-	env->cube_positions[3] = (t_vec3d){ 0.0f, 0.0f, 2.0f };
-	env->cube_positions[4] = (t_vec3d){ -2.0f, 0.0f, 0.0f };
-	env->cube_positions[5] = (t_vec3d){ 0.0f, -2.0f, 0.0f };
-	env->cube_positions[6] = (t_vec3d){ 0.0f, 0.0f, -2.0f };
+	env->cube_positions[1] = (t_vec3d){ 5.0f, 0.0f, 0.0f };
+	env->cube_positions[2] = (t_vec3d){ 0.0f, 5.0f, 0.0f };
+	env->cube_positions[3] = (t_vec3d){ 0.0f, 0.0f, 5.0f };
+	env->cube_positions[4] = (t_vec3d){ -5.0f, 0.0f, 0.0f };
+	env->cube_positions[5] = (t_vec3d){ 0.0f, -5.0f, 0.0f };
+	env->cube_positions[6] = (t_vec3d){ 0.0f, 0.0f, -5.0f };
 	return (0);
 }
 
@@ -82,14 +82,12 @@ static void	load_shaders(t_env *env)
 		"layout (location = 2) in vec2 in_texcoord;\n"
  		// "out vec4 Color;\n"
 		"out vec2 Texcoord;\n"
-		"uniform mat4 model;\n"
-		"uniform mat4 view;\n"
-		"uniform mat4 projection;\n"
+		"uniform mat4 mvp;\n"
 		"void main()\n"
 		"{\n"
 		// "	Color = in_color;\n"
 		"	Texcoord = in_texcoord;\n"
-		"	gl_Position = model * view * projection * in_position;\n"
+		"	gl_Position = mvp * in_position;\n"
 		"}\n";
 	env->gl.shader_fragment_text =
 		"#version 330\n"
