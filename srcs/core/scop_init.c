@@ -1,4 +1,4 @@
-#include "main.h"
+#include "../../includes/main.h"
 
 
 static int	load_images(t_env *env)
@@ -63,13 +63,6 @@ static int	load_element(t_env *env)
 	if (dynarray_init(&env->vertices, sizeof(t_vertice), 36) < 0)
 		return (-1);
 	cube(&env->vertices);
-	env->cube_positions[0] = (t_vec3d){ 0.0f, 0.0f, 0.0f };
-	env->cube_positions[1] = (t_vec3d){ 5.0f, 0.0f, 0.0f };
-	env->cube_positions[2] = (t_vec3d){ 0.0f, 5.0f, 0.0f };
-	env->cube_positions[3] = (t_vec3d){ 0.0f, 0.0f, 5.0f };
-	env->cube_positions[4] = (t_vec3d){ -5.0f, 0.0f, 0.0f };
-	env->cube_positions[5] = (t_vec3d){ 0.0f, -5.0f, 0.0f };
-	env->cube_positions[6] = (t_vec3d){ 0.0f, 0.0f, -5.0f };
 	return (0);
 }
 
@@ -110,7 +103,7 @@ int		 scop_init(t_env *env)
 	load_shaders(env);
 	if (glfw_init(env) < 0 || gl_init(env) < 0)
 		return (-1);
-	init_camera(env);
+	camera(env);
 	env->texture = TEXTURE_DS;
 	env->fps.time = glfwGetTime();
 	return (0);

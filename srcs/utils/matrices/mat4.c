@@ -1,4 +1,4 @@
-#include "main.h"
+#include "../../../includes/main.h"
 
 
 void		mat4_projection(mat4 m, float fov, float near, float far, float ratio)
@@ -24,9 +24,9 @@ void		mat4_projection(mat4 m, float fov, float near, float far, float ratio)
 	// m[14] = -1;
 }
 
-void		mat4_lookat(mat4 m, t_vec3d from, t_vec3d to, t_vec3d world_up)
+void		mat4_lookat(mat4 m, vec3 from, vec3 to, vec3 world_up)
 {
-	t_vec3d		forward, up, right;
+	vec3	forward, up, right;
 
 	forward = vec_normalize(vec_sub(from, to));
     right = vec_cross(vec_normalize(world_up), forward);

@@ -1,4 +1,4 @@
-#include "main.h"
+#include "../../includes/main.h"
 
 
 static void	gl_shaders(t_gltools *gl)
@@ -62,18 +62,18 @@ static void	gl_layouts(t_gltools *gl)
     // position
     position = glGetAttribLocation(gl->shader_program, "in_position");
     glEnableVertexAttribArray(position);
-    glVertexAttribPointer(position, sizeof(t_vec3d) * 0.25, GL_FLOAT, GL_FALSE,
+    glVertexAttribPointer(position, sizeof(vec3) * 0.25, GL_FLOAT, GL_FALSE,
         sizeof(t_vertice), (void *)0);
     // color
     color = glGetAttribLocation(gl->shader_program, "in_color");
     glEnableVertexAttribArray(color);
     glVertexAttribPointer(color, sizeof(t_color) * 0.25, GL_FLOAT, GL_FALSE,
-        sizeof(t_vertice), (void *)sizeof(t_vec3d));
+        sizeof(t_vertice), (void *)sizeof(vec3));
     // texture
     texcoord = glGetAttribLocation(gl->shader_program, "in_texcoord");
     glEnableVertexAttribArray(texcoord);
     glVertexAttribPointer(texcoord, sizeof(t_texture) * 0.25, GL_FLOAT, GL_FALSE,
-        sizeof(t_vertice), (void *)(sizeof(t_vec3d) + sizeof(t_color)));
+        sizeof(t_vertice), (void *)(sizeof(vec3) + sizeof(t_color)));
 }
 
 static void	gl_load_element(t_env *env)

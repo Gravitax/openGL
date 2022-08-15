@@ -1,4 +1,4 @@
-#include "main.h"
+#include "../../includes/main.h"
 
 
 static void free_gl(t_env *env)

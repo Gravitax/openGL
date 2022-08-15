@@ -1,4 +1,4 @@
-#include "main.h"
+#include "../../includes/main.h"
 
 
 t_env   *st_env(t_env *env, bool unsave)

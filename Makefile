@@ -66,7 +66,6 @@ LIB_VEC=$(LIB_VEC_PATH)/lib_vec.a
 
 LIB_GLAD_PATH=$(LIBS_PATH)/glad
 GLAD_PATH=$(LIB_GLAD_PATH)/include/glad/
-KHR_PATH=$(LIBS_PATH)/include/KHR/
 LIB_GLAD=$(LIB_GLAD_PATH)/libglad.a
 
 ##########################################################

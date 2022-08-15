@@ -1,4 +1,4 @@
-#include "main.h"
+#include "../../includes/main.h"
 
 
 void		gl_textures(t_env *env)

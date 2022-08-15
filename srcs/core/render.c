@@ -1,11 +1,15 @@
-#include "main.h"
+#include "../../includes/main.h"
 
 
 static void	mat4_view(t_camera *camera)
 {
-	t_vec3d	pos;
+	vec3	pos;
 
-	pos = mat4_x_vec3d(camera->rot_xyz, camera->pos);
+	// pos.x = cosf(camera->yaw) * cosf(camera->pitch);
+	// pos.y = sinf(camera->pitch);
+	// pos.z = sinf(camera->yaw) * cosf(camera->pitch);
+
+	pos = mat4_x_vec3(camera->rot_xyz, camera->pos);
 	mat4_lookat(camera->view, pos, vec_add(pos, camera->target), camera->up);
 }
 
@@ -20,20 +24,7 @@ static void	matrices(t_gltools *gl, t_camera *camera)
 }
 
 static void	draw(t_env *env) {
-	// int	i = 0;
-
-    // while (i < 7)
-    // {
-    //     mat4_identity(env->camera.model);
-	// 	mat4_translate(env->camera.model, env->cube_positions[i].x, env->cube_positions[i].y, env->cube_positions[i].z);
-    //     glUniformMatrix4fv(env->gl.uniform.model, 1, GL_FALSE, env->camera.model);
-    //     glDrawArrays(GL_TRIANGLES, 0, 36);
-	// 	++i;
-    // }
-
-	glDrawArrays(GL_TRIANGLES, 0, 36);
-    // glDrawElements(GL_TRIANGLES, env->vertices.byte_size, GL_UNSIGNED_INT, 0);
-    // glDrawElements(GL_LINE, env->vertices.byte_size, GL_UNSIGNED_INT, 0);
+	glDrawArrays(GL_TRIANGLES, 0, env->vertices.nb_cells);
 }
 
 int         render(t_env *env)
@@ -51,7 +42,8 @@ int         render(t_env *env)
  	glClearColor(255, 255, 255, 1);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	for (int i = 0; i < TEXTURES_MAX; i++) {
+	int	i = -1;
+	while (++i < TEXTURES_MAX) {
 		glActiveTexture(GL_TEXTURE0 + i);
 		glBindTexture(GL_TEXTURE_2D, env->gl.textures[env->texture]);
 	}

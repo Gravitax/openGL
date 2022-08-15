@@ -1,4 +1,4 @@
-#include "main.h"
+#include "../../includes/main.h"
 
 
 static void	matrices(t_gltools *gl, t_camera *camera)
@@ -18,7 +18,7 @@ static void	matrices(t_gltools *gl, t_camera *camera)
 	mat4_projection(camera->projection, camera->fov, camera->near, camera->far, camera->ratio);
 }
 
-void		init_camera(t_env *env)
+void		camera(t_env *env)
 {
 	t_camera *camera = &env->camera;
 
@@ -31,13 +31,17 @@ void		init_camera(t_env *env)
 	// FOV
 	camera->fov = 45.0f;
 	// Camera's starting position and orientation
-	camera->pos = (t_vec3d){ 1.5f, 1.75f, -2.5f };
-	camera->target = (t_vec3d){ 0, 0, 1 };
-	camera->up = (t_vec3d){ 0, 1, 0 };
-	camera->speed = 0.1f;
+	camera->pos = (vec3){ 1.5f, 1.75f, -2.5f };
+	camera->target = (vec3){ 0, 0, 1 };
+	camera->up = (vec3){ 0, 1, 0 };
+	camera->speed = 1.0f;
+	camera->sensitivity = 1.0f;
 	// Camera rotations
 	camera->pitch = 0;
 	camera->roll = 0;
 	camera->yaw = 0;
 	matrices(&env->gl, camera);
+	// Mouse
+	camera->first_mouse = true;
+	glfwSetInputMode(env->gl.window.ptr, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }

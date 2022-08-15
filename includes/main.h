@@ -15,8 +15,8 @@
 
 
 // Homemade libs
-# include "libft.h"
-# include "lib_vec.h"
+# include "../libs/libft/libft.h"
+# include "../libs/lib_vec/lib_vec.h"
 
 # define GLFW_INCLUDE_NONE
 
@@ -44,7 +44,7 @@ typedef struct  s_texture
 
 typedef struct	s_vertice
 {
-    t_vec3d		pos;
+    vec3		pos;
     t_color     col;
     t_texture   tex;
 }               t_vertice;
@@ -62,8 +62,10 @@ typedef struct	s_camera
 	mat4		model, view, projection, mvp, rot_xyz, rot_rxyz;
 	float		pitch, roll, yaw;
 	float		fov, near, far, ratio;
-	t_vec3d		pos, target, up;
-	float		speed;
+	vec3		pos, target, up;
+	float		speed, sensitivity;
+    bool        first_mouse;
+    float       lx, ly;
 }				t_camera;
 
 typedef struct  s_window
@@ -102,11 +104,10 @@ typedef struct	s_env
 	t_camera		camera;
     t_dynarray      vertices;
     t_image			images[TEXTURES_MAX];
-	t_vec3d			cube_positions[7];
 }				t_env;
 
 // CORE
-void			init_camera(t_env *env);
+void			camera(t_env *env);
 int				events(t_env *env);
 int				render(t_env *env);
 void    		scop_exit();
@@ -131,7 +132,7 @@ void            gl_textures(t_env *env);
 // UTILS
 // matrices
 void		    mat4_multiply(mat4 a, mat4 b);
-t_vec3d         mat4_x_vec3d(mat4 m, t_vec3d v);
+vec3            mat4_x_vec3(mat4 m, vec3 v);
 
 void			mat4_xrotation(mat4 m, float x);
 void			mat4_yrotation(mat4 m, float y);
@@ -144,7 +145,7 @@ void		    mat4_print(mat4 m);
 void		    mat4_translate(mat4 m, float x, float y, float z);
 
 void		    mat4_projection(mat4 m, float fov, float near, float far, float ratio);
-void		    mat4_lookat(mat4 m, t_vec3d from, t_vec3d to, t_vec3d world_up);
+void		    mat4_lookat(mat4 m, vec3 from, vec3 to, vec3 world_up);
 // bmp
 unsigned char	*load_bmp(char const *pathname, unsigned int *width, unsigned int *height);
 // singletons

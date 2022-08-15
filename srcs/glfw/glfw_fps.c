@@ -1,4 +1,4 @@
-#include "main.h"
+#include "../../includes/main.h"
 
 
 void        glfw_fps(t_fps *fps, bool print)

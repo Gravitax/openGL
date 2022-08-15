@@ -1,4 +1,4 @@
-#include "main.h"
+#include "../../includes/main.h"
 
 
 void    	cb_error(int error, const char *description)
@@ -12,9 +12,54 @@ void    	cb_key(GLFWwindow *window, int key, int scancode, int action, int mods)
     printf("key: %d\n", key);
 }
 
-void    	cb_cursor_position(GLFWwindow *window, double xpos, double ypos)
+static void update_matrices(t_camera *camera)
 {
-    glfwGetCursorPos(window, &xpos, &ypos);
+    // Rotation XYZ matrix
+	mat4_identity(camera->rot_xyz);
+	mat4_rotate(camera->rot_xyz, (float)ft_to_radians(camera->pitch), (float)ft_to_radians(camera->yaw), (float)ft_to_radians(camera->roll));
+	// Rotation XYZ reverse matrix
+	mat4_identity(camera->rot_rxyz);
+	mat4_rotate(camera->rot_rxyz, (float)ft_to_radians(-camera->pitch), (float)ft_to_radians(-camera->yaw), (float)ft_to_radians(-camera->roll));
+
+    // camera->target.x = cosf(camera->yaw) * cosf(camera->pitch);
+    // camera->target.y = sinf(camera->pitch);
+    // camera->target.z = sinf(camera->yaw) * cosf(camera->pitch);
+}
+
+void    	cb_cursor_position(GLFWwindow *window, double xposIn, double yposIn)
+{
+    glfwGetCursorPos(window, &xposIn, &yposIn);
+
+    t_env	    *env;
+    t_camera    *camera;
+    float       xpos, ypos, xoffset, yoffset, camera_speed;
+
+	env = st_env(NULL, false);
+	if (env == NULL)
+		return ;
+    camera = &env->camera;
+    xpos = (float)xposIn;
+    ypos = (float)yposIn;
+    if (camera->first_mouse)
+    {
+        camera->lx = xpos;
+        camera->ly = ypos;
+        camera->first_mouse = false;
+    }
+    xoffset = xpos - camera->lx;
+    yoffset = ypos - camera->ly;
+    camera->lx = xpos;
+    camera->ly = ypos;
+
+    camera_speed = camera->sensitivity * 0.1f;
+    xoffset *= camera_speed;
+    yoffset *= camera_speed;
+    camera->yaw += xoffset;
+    camera->pitch += yoffset;
+    printf("yaw   : %f\n", camera->yaw);
+    printf("pitch : %f\n", camera->pitch);
+
+    update_matrices(camera);
 }
 
 void    	cb_window_maximize(GLFWwindow *window, int maximized)

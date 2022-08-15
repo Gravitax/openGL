@@ -1,4 +1,4 @@
-#include "main.h"
+#include "../../includes/main.h"
 
 
 static void		window_events(GLFWwindow *window)
@@ -11,52 +11,33 @@ static void		window_events(GLFWwindow *window)
 		glfwIconifyWindow(window);
 }
 
-static void		camera_translation(GLFWwindow *window, t_camera *camera, float camera_speed)
+static void		camera_translations(GLFWwindow *window, t_camera *camera, float camera_speed)
 {
-	t_vec3d	target, up;
+	vec3	target;
 
-	camera_speed *= 0.01f;
-	target = mat4_x_vec3d(camera->rot_rxyz, camera->target);
-	up = mat4_x_vec3d(camera->rot_rxyz, camera->up);
+	camera_speed *= 0.001f;
+
+	// target.x = cosf(-camera->yaw) * cosf(-camera->pitch);
+    // target.y = sinf(-camera->pitch);
+    // target.z = sinf(-camera->yaw) * cosf(-camera->pitch);
+
+	target = mat4_x_vec3(camera->rot_rxyz, camera->target);
+
+	// TRANSLATION FRONT / BACK
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 		camera->pos = vec_add(camera->pos, vec_fmult(target, camera_speed));
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
 		camera->pos = vec_sub(camera->pos, vec_fmult(target, camera_speed));
-	if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS)
-		camera->pos = vec_add(camera->pos, vec_fmult(up, camera_speed));
-	if (glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS)
-		camera->pos = vec_sub(camera->pos, vec_fmult(up, camera_speed));
+	// TRANSLATION RIGHT / LEFT
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-		camera->pos = vec_add(camera->pos, vec_fmult(vec_cross(target, up), camera_speed));
+		camera->pos = vec_add(camera->pos, vec_fmult(vec_cross(camera->up, target), camera_speed));
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-		camera->pos = vec_sub(camera->pos, vec_fmult(vec_cross(target, up), camera_speed));
-}
-
-static void		update_matrix(t_camera *camera)
-{
-	camera->pitch = camera->pitch > 90 ? 90 : camera->pitch;
-	camera->pitch = camera->pitch < -90 ? -90 : camera->pitch;
-	camera->yaw = camera->yaw > 180 ? -180 : camera->yaw;
-	camera->yaw = camera->yaw < -180 ? 180 : camera->yaw;
-	// Rotation XYZ matrix
-	mat4_identity(camera->rot_xyz);
-	mat4_rotate(camera->rot_xyz, (float)ft_to_radians(camera->pitch), (float)ft_to_radians(camera->yaw), (float)ft_to_radians(camera->roll));
-	// Rotation XYZ reverse matrix
-	mat4_identity(camera->rot_rxyz);
-	mat4_rotate(camera->rot_rxyz, (float)ft_to_radians(-camera->pitch), (float)ft_to_radians(-camera->yaw), (float)ft_to_radians(-camera->roll));
-}
-
-static void		camera_rotation(GLFWwindow *window, t_camera *camera, float camera_speed)
-{
-	camera_speed *= 0.5f;
-	if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS) {
-		camera->yaw += camera_speed;
-		update_matrix(camera);
-	}
-    if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS) {
-		camera->yaw -= camera_speed;
-		update_matrix(camera);
-	}
+		camera->pos = vec_sub(camera->pos, vec_fmult(vec_cross(camera->up, target), camera_speed));
+	// TRANSLATION UP / DOWN
+	if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS)
+		camera->pos = vec_add(camera->pos, vec_fmult(camera->up, camera_speed));
+	if (glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS)
+		camera->pos = vec_sub(camera->pos, vec_fmult(camera->up, camera_speed));
 }
 
 int				events(t_env *env)
@@ -67,12 +48,11 @@ int				events(t_env *env)
 
 	window = env->gl.window.ptr;
 	window_events(window);
-	if (glfwGetKey(window, GLFW_KEY_G) == GLFW_PRESS)
+	if (glfwGetKey(window, GLFW_KEY_X) == GLFW_PRESS)
 		env->texture = env->texture > TEXTURES_MAX - 1 ? 0 : env->texture + 1;
 
 	camera = &env->camera;
 	camera_speed = camera->speed * env->fps.value;
-    camera_translation(window, camera, camera_speed);
-	camera_rotation(window, camera, camera_speed);
+    camera_translations(window, camera, camera_speed);
 	return (0);
 };

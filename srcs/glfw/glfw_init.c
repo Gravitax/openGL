@@ -1,4 +1,4 @@
-#include "main.h"
+#include "../../includes/main.h"
 
 
 static int  glfw_create_window(GLFWwindow* *window, const char *title, bool fullscreen)
@@ -42,7 +42,7 @@ static int  glfw_create_window(GLFWwindow* *window, const char *title, bool full
 static void glfw_init_callbacks(GLFWwindow* window)
 {
     // glfwSetKeyCallback(window, cb_key);
-    // glfwSetCursorPosCallback(window, cb_cursor_position);
+    glfwSetCursorPosCallback(window, cb_cursor_position);
     // glfwSetWindowMaximizeCallback(window, cb_window_maximize);
     // glfwSetWindowFocusCallback(window, cb_window_focus);
     // glfwSetScrollCallback(window, cb_scroll);

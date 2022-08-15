@@ -5,13 +5,10 @@
 # include <stdbool.h>
 # include <stdint.h>
 
-typedef struct	s_vec3d
+typedef struct	s_vec3
 {
-	float		x;
-	float		y;
-	float		z;
-	float		w;
-}				t_vec3d;
+	float		x, y, z, w;
+}				vec3;
 
 typedef union	rsqrt
 {
@@ -19,24 +16,24 @@ typedef union	rsqrt
 	uint32_t	i;
 }				u_rsqrt;
 
-t_vec3d		vec_fdiv(t_vec3d a, float n);
-t_vec3d		vec_fmult(t_vec3d a, float n);
-t_vec3d		vec_fadd(t_vec3d a, float n);
-t_vec3d		vec_fsub(t_vec3d a, float n);
+vec3		vec_fdiv(vec3 a, float n);
+vec3		vec_fmult(vec3 a, float n);
+vec3		vec_fadd(vec3 a, float n);
+vec3		vec_fsub(vec3 a, float n);
 
-t_vec3d		vec_cross(t_vec3d a, t_vec3d b);
+vec3		vec_cross(vec3 a, vec3 b);
 
-t_vec3d		zero_vector(void);
+vec3		zero_vector(void);
 
-t_vec3d		vec_add(t_vec3d a, t_vec3d b);
-t_vec3d		vec_sub(t_vec3d a, t_vec3d b);
-t_vec3d		vec_mult(t_vec3d a, t_vec3d b);
-t_vec3d		vec_div(t_vec3d a, t_vec3d b);
-t_vec3d		vec_relu(t_vec3d v);
+vec3		vec_add(vec3 a, vec3 b);
+vec3		vec_sub(vec3 a, vec3 b);
+vec3		vec_mult(vec3 a, vec3 b);
+vec3		vec_div(vec3 a, vec3 b);
+vec3		vec_relu(vec3 v);
 
 float		ft_rsqrt(float number);
-t_vec3d		vec_normalize(t_vec3d vec);
-float		vec_dot(t_vec3d a, t_vec3d b);
-float		vec3d_dist(t_vec3d o, t_vec3d v);
+vec3		vec_normalize(vec3 vec);
+float		vec_dot(vec3 a, vec3 b);
+float		vec3d_dist(vec3 o, vec3 v);
 
 #endif

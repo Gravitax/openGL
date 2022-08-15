@@ -1,4 +1,4 @@
-#include "main.h"
+#include "../includes/main.h"
 
 
 static int	scop(t_env *env)

@@ -1,4 +1,4 @@
-#include "main.h"
+#include "../../../includes/main.h"
 
 
 void		mat4_multiply(mat4 a, mat4 b)
@@ -17,9 +17,9 @@ void		mat4_multiply(mat4 a, mat4 b)
 	ft_memcpy(a, res, sizeof(mat4));
 }
 
-t_vec3d		mat4_x_vec3d(mat4 m, t_vec3d v)
+vec3		mat4_x_vec3(mat4 m, vec3 v)
 {
-	t_vec3d nv;
+	vec3	nv;
 
 	nv.x = v.x * m[0] + v.y * m[1] + v.z * m[2] + v.w * m[3];
 	nv.y = v.x * m[4] + v.y * m[5] + v.z * m[6] + v.w * m[7];

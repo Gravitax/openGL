@@ -1,4 +1,4 @@
-#include "main.h"
+#include "../../../includes/main.h"
 
 
 void		mat4_identity(mat4 m)
