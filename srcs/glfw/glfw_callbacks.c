@@ -14,14 +14,19 @@ void    	cb_key(GLFWwindow *window, int key, int scancode, int action, int mods)
 
 static void update_matrices(t_camera *camera)
 {
+	camera->yaw = camera->yaw > 180 ? -180 : camera->yaw;
+	camera->yaw = camera->yaw < -180 ? 180 : camera->yaw;
+	camera->pitch = camera->pitch > 90 ? 90 : camera->pitch;
+	camera->pitch = camera->pitch < -90 ? -90 : camera->pitch;
+
     // Rotation XYZ matrix
 	mat4_identity(camera->rot_xyz);
-	mat4_rotate(camera->rot_xyz, (float)ft_to_radians(camera->pitch), (float)ft_to_radians(camera->yaw), (float)ft_to_radians(camera->roll));
+	mat4_rotate(camera->rot_xyz, (float)ft_to_radians(camera->pitch), (float)ft_to_radians(camera->yaw), 0);
 	// Rotation XYZ reverse matrix
 	mat4_identity(camera->rot_rxyz);
-	mat4_rotate(camera->rot_rxyz, (float)ft_to_radians(-camera->pitch), (float)ft_to_radians(-camera->yaw), (float)ft_to_radians(-camera->roll));
+	mat4_rotate(camera->rot_rxyz, (float)ft_to_radians(-camera->pitch), (float)ft_to_radians(-camera->yaw), 0);
 
-    // camera->target.x = cosf(camera->yaw) * cosf(camera->pitch);
+	// camera->target.x = cosf(camera->yaw) * cosf(camera->pitch);
     // camera->target.y = sinf(camera->pitch);
     // camera->target.z = sinf(camera->yaw) * cosf(camera->pitch);
 }

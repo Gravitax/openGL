@@ -13,16 +13,11 @@ static void		window_events(GLFWwindow *window)
 
 static void		camera_translations(GLFWwindow *window, t_camera *camera, float camera_speed)
 {
-	vec3	target;
 
+	vec3	target = mat4_x_vec3(camera->rot_rxyz, camera->target);
+
+	// target = camera->target;
 	camera_speed *= 0.001f;
-
-	// target.x = cosf(-camera->yaw) * cosf(-camera->pitch);
-    // target.y = sinf(-camera->pitch);
-    // target.z = sinf(-camera->yaw) * cosf(-camera->pitch);
-
-	target = mat4_x_vec3(camera->rot_rxyz, camera->target);
-
 	// TRANSLATION FRONT / BACK
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 		camera->pos = vec_add(camera->pos, vec_fmult(target, camera_speed));

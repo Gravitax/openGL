@@ -3,14 +3,22 @@
 
 static void	mat4_view(t_camera *camera)
 {
-	vec3	pos;
+	vec3	from, forward, up;
 
-	// pos.x = cosf(camera->yaw) * cosf(camera->pitch);
-	// pos.y = sinf(camera->pitch);
-	// pos.z = sinf(camera->yaw) * cosf(camera->pitch);
+	from = mat4_x_vec3(camera->rot_xyz, camera->pos);
+	forward = camera->target;
+	up = camera->up;
 
-	pos = mat4_x_vec3(camera->rot_xyz, camera->pos);
-	mat4_lookat(camera->view, pos, vec_add(pos, camera->target), camera->up);
+	// from = camera->pos;
+	// forward = mat4_x_vec3(camera->rot_xyz, camera->target);
+	// up = mat4_x_vec3(camera->rot_xyz, camera->up);
+
+	// forward.x = cosf(camera->yaw) * cosf(camera->pitch);
+    // forward.y = sinf(camera->pitch);
+    // forward.z = sinf(camera->yaw) * cosf(camera->pitch);
+
+	mat4_lookat(camera->view, from, vec_add(from, forward), up);
+	// mat4_inverse(camera->view);
 }
 
 static void	matrices(t_gltools *gl, t_camera *camera)
