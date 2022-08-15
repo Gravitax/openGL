@@ -49,13 +49,3 @@ void		mat4_lookat(mat4 m, t_vec3d from, t_vec3d to, t_vec3d world_up)
 	m[14] = -from.z;
 	m[15] = 1;
 }
-
-void		mat4_view(t_camera *camera)
-{
-	t_vec3d	dir, up, target;
-
-	dir = mat4_x_vec3d(camera->rot_xyz, camera->target);
-	target = vec_add(camera->pos, dir);
-	up = mat4_x_vec3d(camera->rot_xyz, camera->up);
-	mat4_lookat(camera->view, camera->pos, target, up);
-}

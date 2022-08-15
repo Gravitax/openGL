@@ -20,8 +20,8 @@
 
 # define GLFW_INCLUDE_NONE
 
-# define _WIDTH     800
-# define _HEIGHT    600
+# define _WIDTH     1400
+# define _HEIGHT    800
 # define _LENGTH    _WIDTH * _HEIGHT
 
 
@@ -59,7 +59,7 @@ typedef float   mat4[16];
 
 typedef struct	s_camera
 {
-	mat4		model, view, projection, mvp, rot_xyz;
+	mat4		model, view, projection, mvp, rot_xyz, rot_rxyz;
 	float		pitch, roll, yaw;
 	float		fov, near, far, ratio;
 	t_vec3d		pos, target, up;
@@ -145,7 +145,6 @@ void		    mat4_translate(mat4 m, float x, float y, float z);
 
 void		    mat4_projection(mat4 m, float fov, float near, float far, float ratio);
 void		    mat4_lookat(mat4 m, t_vec3d from, t_vec3d to, t_vec3d world_up);
-void		    mat4_view(t_camera *camera);
 // bmp
 unsigned char	*load_bmp(char const *pathname, unsigned int *width, unsigned int *height);
 // singletons

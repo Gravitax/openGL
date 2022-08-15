@@ -25,5 +25,10 @@ t_vec3d		mat4_x_vec3d(mat4 m, t_vec3d v)
 	nv.y = v.x * m[4] + v.y * m[5] + v.z * m[6] + v.w * m[7];
 	nv.z = v.x * m[8] + v.y * m[9] + v.z * m[10] + v.w * m[11];
 	nv.w = v.x * m[12] + v.y * m[13] + v.z * m[14] + v.w * m[15];
+
+	nv.x = v.x * m[0] + v.y * m[4] + v.z * m[8] + v.w * m[12];
+	nv.y = v.x * m[1] + v.y * m[5] + v.z * m[9] + v.w * m[13];
+	nv.z = v.x * m[2] + v.y * m[6] + v.z * m[10] + v.w * m[14];
+	nv.w = v.x * m[3] + v.y * m[7] + v.z * m[11] + v.w * m[15];
 	return (nv);
 }

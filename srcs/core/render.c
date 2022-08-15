@@ -1,6 +1,14 @@
 #include "main.h"
 
 
+static void	mat4_view(t_camera *camera)
+{
+	t_vec3d	pos;
+
+	pos = mat4_x_vec3d(camera->rot_xyz, camera->pos);
+	mat4_lookat(camera->view, pos, vec_add(pos, camera->target), camera->up);
+}
+
 static void	matrices(t_gltools *gl, t_camera *camera)
 {
 	mat4_view(camera);

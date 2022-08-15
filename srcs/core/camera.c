@@ -6,13 +6,15 @@ static void	matrices(t_gltools *gl, t_camera *camera)
 	// Rotation XYZ matrix
 	mat4_identity(camera->rot_xyz);
 	mat4_rotate(camera->rot_xyz, (float)ft_to_radians(camera->pitch), (float)ft_to_radians(camera->yaw), (float)ft_to_radians(camera->roll));
+	// Rotation XYZ reverse matrix
+	mat4_identity(camera->rot_rxyz);
+	mat4_rotate(camera->rot_rxyz, (float)ft_to_radians(-camera->pitch), (float)ft_to_radians(-camera->yaw), (float)ft_to_radians(-camera->roll));
 	// Model matrix
 	mat4_identity(camera->model);
 	mat4_translate(camera->model, 0, 0, 1);
 	// View matrix
 	mat4_identity(camera->view);
 	// Projection matrix
-	mat4_identity(camera->projection);
 	mat4_projection(camera->projection, camera->fov, camera->near, camera->far, camera->ratio);
 }
 

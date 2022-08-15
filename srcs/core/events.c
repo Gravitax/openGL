@@ -1,7 +1,7 @@
 #include "main.h"
 
 
-static void	window_events(GLFWwindow *window)
+static void		window_events(GLFWwindow *window)
 {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, GLFW_TRUE);
@@ -11,53 +11,55 @@ static void	window_events(GLFWwindow *window)
 		glfwIconifyWindow(window);
 }
 
-static void	camera_translation(GLFWwindow *window, t_camera *camera, float camera_speed)
+static void		camera_translation(GLFWwindow *window, t_camera *camera, float camera_speed)
 {
+	t_vec3d	target, up;
+
 	camera_speed *= 0.01f;
+	target = mat4_x_vec3d(camera->rot_rxyz, camera->target);
+	up = mat4_x_vec3d(camera->rot_rxyz, camera->up);
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-		camera->pos = vec_add(camera->pos, vec_fmult(camera->target, camera_speed));
+		camera->pos = vec_add(camera->pos, vec_fmult(target, camera_speed));
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-		camera->pos = vec_sub(camera->pos, vec_fmult(camera->target, camera_speed));
+		camera->pos = vec_sub(camera->pos, vec_fmult(target, camera_speed));
 	if (glfwGetKey(window, GLFW_KEY_R) == GLFW_PRESS)
-		camera->pos = vec_add(camera->pos, vec_fmult(camera->up, camera_speed));
+		camera->pos = vec_add(camera->pos, vec_fmult(up, camera_speed));
 	if (glfwGetKey(window, GLFW_KEY_F) == GLFW_PRESS)
-		camera->pos = vec_sub(camera->pos, vec_fmult(camera->up, camera_speed));
+		camera->pos = vec_sub(camera->pos, vec_fmult(up, camera_speed));
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-		camera->pos = vec_add(camera->pos, vec_fmult(vec_cross(camera->target, camera->up), camera_speed));
+		camera->pos = vec_add(camera->pos, vec_fmult(vec_cross(target, up), camera_speed));
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-		camera->pos = vec_sub(camera->pos, vec_fmult(vec_cross(camera->target, camera->up), camera_speed));
+		camera->pos = vec_sub(camera->pos, vec_fmult(vec_cross(target, up), camera_speed));
 }
 
-static void	camera_update(t_camera *camera)
+static void		update_matrix(t_camera *camera)
 {
 	camera->pitch = camera->pitch > 90 ? 90 : camera->pitch;
 	camera->pitch = camera->pitch < -90 ? -90 : camera->pitch;
 	camera->yaw = camera->yaw > 180 ? -180 : camera->yaw;
 	camera->yaw = camera->yaw < -180 ? 180 : camera->yaw;
-
+	// Rotation XYZ matrix
 	mat4_identity(camera->rot_xyz);
 	mat4_rotate(camera->rot_xyz, (float)ft_to_radians(camera->pitch), (float)ft_to_radians(camera->yaw), (float)ft_to_radians(camera->roll));
-	camera->pos = mat4_x_vec3d(camera->rot_xyz, camera->pos);
+	// Rotation XYZ reverse matrix
+	mat4_identity(camera->rot_rxyz);
+	mat4_rotate(camera->rot_rxyz, (float)ft_to_radians(-camera->pitch), (float)ft_to_radians(-camera->yaw), (float)ft_to_radians(-camera->roll));
 }
 
-static void	camera_rotation(GLFWwindow *window, t_camera *camera, float camera_speed)
+static void		camera_rotation(GLFWwindow *window, t_camera *camera, float camera_speed)
 {
-	camera_speed *= 0.01f;
+	camera_speed *= 0.5f;
 	if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS) {
 		camera->yaw += camera_speed;
-		camera_update(camera);
+		update_matrix(camera);
 	}
     if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS) {
 		camera->yaw -= camera_speed;
-		camera_update(camera);
+		update_matrix(camera);
 	}
-	printf("pos    : %f %f %f\n", camera->pos.x, camera->pos.y, camera->pos.z);
-	// printf("pitch  : %f\n", camera->pitch);
-	printf("yaw    : %f\n", camera->yaw);
-	// printf("roll   : %f\n", camera->roll);
 }
 
-int			events(t_env *env)
+int				events(t_env *env)
 {
 	GLFWwindow	*window;
 	t_camera	*camera;
