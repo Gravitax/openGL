@@ -22,39 +22,24 @@ static void update_matrices(t_camera *camera)
     // Rotation XYZ matrix
 	mat4_identity(camera->rot_xyz);
 	mat4_rotate(camera->rot_xyz, (float)ft_to_radians(camera->pitch), (float)ft_to_radians(camera->yaw), 0);
-	// Rotation XYZ reverse matrix
-	mat4_identity(camera->rot_rxyz);
-	mat4_rotate(camera->rot_rxyz, (float)ft_to_radians(-camera->pitch), (float)ft_to_radians(-camera->yaw), 0);
-
-	// camera->target.x = cosf(camera->yaw) * cosf(camera->pitch);
-    // camera->target.y = sinf(camera->pitch);
-    // camera->target.z = sinf(camera->yaw) * cosf(camera->pitch);
 }
 
-void    	cb_cursor_position(GLFWwindow *window, double xposIn, double yposIn)
+static void mouse_events(t_env *env, float xpos, float ypos)
 {
-    glfwGetCursorPos(window, &xposIn, &yposIn);
-
-    t_env	    *env;
     t_camera    *camera;
-    float       xpos, ypos, xoffset, yoffset, camera_speed;
+    float       xoffset, yoffset, camera_speed;
 
-	env = st_env(NULL, false);
-	if (env == NULL)
-		return ;
     camera = &env->camera;
-    xpos = (float)xposIn;
-    ypos = (float)yposIn;
     if (camera->first_mouse)
     {
-        camera->lx = xpos;
-        camera->ly = ypos;
+        camera->mx = xpos;
+        camera->my = ypos;
         camera->first_mouse = false;
     }
-    xoffset = xpos - camera->lx;
-    yoffset = ypos - camera->ly;
-    camera->lx = xpos;
-    camera->ly = ypos;
+    xoffset = xpos - camera->mx;
+    yoffset = ypos - camera->my;
+    camera->mx = xpos;
+    camera->my = ypos;
 
     camera_speed = camera->sensitivity * 0.1f;
     xoffset *= camera_speed;
@@ -65,6 +50,17 @@ void    	cb_cursor_position(GLFWwindow *window, double xposIn, double yposIn)
     printf("pitch : %f\n", camera->pitch);
 
     update_matrices(camera);
+}
+
+void    	cb_cursor_position(GLFWwindow *window, double xpos, double ypos)
+{
+    t_env	    *env;
+
+    glfwGetCursorPos(window, &xpos, &ypos);
+	env = st_env(NULL, false);
+	if (env == NULL)
+		return ;
+    // mouse_events(env, (float)xpos, (float)ypos);
 }
 
 void    	cb_window_maximize(GLFWwindow *window, int maximized)
@@ -110,7 +106,6 @@ void		cb_framebuffer_size(GLFWwindow *window, int width, int height)
     glViewport(0, 0, width, height);
 	env->gl.window.w = width;
 	env->gl.window.h = height;
-    env->camera.ratio = (float)height / (float)width;
-    // env->camera.ratio = (float)width / (float)height;
+    env->camera.ratio = (float)width / (float)height;
     mat4_projection(env->camera.projection, env->camera.fov, env->camera.near, env->camera.far, env->camera.ratio);
 }

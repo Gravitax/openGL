@@ -59,13 +59,13 @@ typedef float   mat4[16];
 
 typedef struct	s_camera
 {
-	mat4		model, view, projection, mvp, rot_xyz, rot_rxyz;
+	mat4		model, view, projection, mvp, rot_xyz;
 	float		pitch, yaw;
 	float		fov, near, far, ratio;
-	vec3		pos, target, up;
+	vec3		pos, xaxis, yaxis, zaxis;
 	float		speed, sensitivity;
     bool        first_mouse;
-    float       lx, ly;
+    float       mx, my;
 }				t_camera;
 
 typedef struct  s_window

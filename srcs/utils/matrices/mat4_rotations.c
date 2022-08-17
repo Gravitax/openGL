@@ -1,7 +1,8 @@
 #include "../../../includes/main.h"
 
 
-/*	1  0  0  0
+/*
+	1  0  0  0
 	0  C -S  0
 	0  S  C  0
 	0  0  0  1
@@ -15,7 +16,8 @@ void		mat4_xrotation(mat4 m, float x) //
 	m[10] = cosf(x);
 }
 
-/*	C  0  S  0
+/*
+	C  0  S  0
 	0  1  0  0
 	-S 0  C  0
 	0  0  0  1	
@@ -29,7 +31,8 @@ void		mat4_yrotation(mat4 m, float y) //
 	m[10] = cosf(y);
 }
 
-/*	C -S  0  0
+/*	
+	C -S  0  0
 	S  C  0  0
 	0  0  1  0
 	0  0  0  1

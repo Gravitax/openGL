@@ -16,6 +16,15 @@ static int	load_images(t_env *env)
 	return (0);
 }
 
+static void	rect(t_dynarray *vertices)
+{
+	dynarray_push(vertices, &(t_vertice){ -0.5f, 0.5f, 0.f, 1.f, 1.f, 0.f, 0.f, 1.f, 0.f, 1.f }, false);
+	dynarray_push(vertices, &(t_vertice){ 0.5f, 0.5f, 0.f, 1.f, 0.f, 1.f, 0.f, 1.f, 1.f, 1.f }, false);
+	dynarray_push(vertices, &(t_vertice){ -0.5f, -0.5f, 0.f, 1.f,1.f, 1.f, 1.f, 1.f, 0.f, 0.f }, false);
+	dynarray_push(vertices, &(t_vertice){ 0.5f, -0.5f, 0.f, 1.f, 0.f, 0.f, 1.f, 1.f, 1.f, 0.f }, false);
+
+}
+
 static void	cube(t_dynarray *vertices)
 {
 	dynarray_push(vertices, &(t_vertice){ 0.5f, 0.5f, 0.5f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f }, false);
@@ -62,6 +71,7 @@ static int	load_element(t_env *env)
 
 	if (dynarray_init(&env->vertices, sizeof(t_vertice), 36) < 0)
 		return (-1);
+	// rect(&env->vertices);
 	cube(&env->vertices);
 	return (0);
 }
@@ -69,7 +79,7 @@ static int	load_element(t_env *env)
 static void	load_shaders(t_env *env)
 {
 	env->gl.shader_vertex_text =
-		"#version 330\n"
+		"#version 400\n"
 		"layout (location = 0) in vec4 in_position;\n"
 		"layout (location = 1) in vec4 in_color;\n"
 		"layout (location = 2) in vec2 in_texcoord;\n"
@@ -80,10 +90,10 @@ static void	load_shaders(t_env *env)
 		"{\n"
 		// "	Color = in_color;\n"
 		"	Texcoord = in_texcoord;\n"
-		"	gl_Position = mvp * in_position;\n"
+		"	gl_Position = in_position * mvp;\n"
 		"}\n";
 	env->gl.shader_fragment_text =
-		"#version 330\n"
+		"#version 400\n"
 		// "in vec4 Color;\n"
 		"in vec2 Texcoord;\n"
 		"out vec4 FragColor;\n"
