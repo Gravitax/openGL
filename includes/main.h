@@ -59,7 +59,7 @@ typedef float   mat4[16];
 
 typedef struct	s_camera
 {
-	mat4		model, view, projection, mvp, rot_xyz;
+	mat4		model, view, projection, mvp;
 	float		pitch, yaw;
 	float		fov, near, far, ratio;
 	vec3		pos, xaxis, yaxis, zaxis;
@@ -109,12 +109,12 @@ typedef struct	s_env
 // CORE
 void			camera(t_env *env);
 int				events(t_env *env);
+void            events_mouse(t_env *env, float xpos, float ypos);
 int				render(t_env *env);
 void    		scop_exit();
 int     		scop_init(t_env *env);
 
 // GLFW
-void    		glfw_fps(t_fps *fps, bool print);
 int     		glfw_init(t_env *env);
 // callbacks
 void    		cb_error(int error, const char *description);
@@ -138,6 +138,7 @@ void			mat4_xrotation(mat4 m, float x);
 void			mat4_yrotation(mat4 m, float y);
 void			mat4_zrotation(mat4 m, float z);
 void		    mat4_rotate(mat4 m, float x, float y, float z);
+void            mat4_rotation(mat4 m, vec3 axis, float angle);
 
 void		    mat4_identity(mat4 m);
 void			mat4_inverse(mat4 m);
@@ -150,5 +151,7 @@ void		    mat4_lookat(mat4 m, vec3 from, vec3 to, vec3 world_up);
 unsigned char	*load_bmp(char const *pathname, unsigned int *width, unsigned int *height);
 // singletons
 t_env			*st_env(t_env *env, bool unsave);
+// tools
+void    		fps(t_fps *fps, bool print);
 
 #endif

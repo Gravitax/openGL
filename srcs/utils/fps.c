@@ -1,7 +1,7 @@
 #include "../../includes/main.h"
 
 
-void        glfw_fps(t_fps *fps, bool print)
+void		fps(t_fps *fps, bool print)
 {
     fps->current_seconds = glfwGetTime();
 	fps->elapsed_seconds = fps->current_seconds - fps->time;

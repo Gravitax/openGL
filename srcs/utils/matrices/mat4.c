@@ -2,8 +2,8 @@
 
 /*
 	e = 1 / tan(fov / 2 ∗ π / 180)
-	a = far / (far - near)
-	b = (far * near) / (far - near)
+	a = (far + near) / (far - near)
+	b = (2 * far * near) / (far - near)
 
 	e 0 0 0
 	0 e 0 0
@@ -16,13 +16,6 @@ void		mat4_projection(mat4 m, float fov, float near, float far, float ratio)
 
 	mat4_identity(m);
 	e = 1 / tanf(fov * 0.5f * M_PI / 180);
-
-	m[0] = e / ratio; 
-	m[5] = e;
-	m[10] = (-far + near) / (far - near);
-	m[11] = (-far * near) / (far - near);
-	m[14] = -1;
-	m[15] = 0;
 
 	m[0] = e / ratio;
 	m[5] = e;
@@ -50,40 +43,20 @@ void		mat4_lookat(mat4 m, vec3 from, vec3 to, vec3 world_up)
 	right = vec_normalize(vec_cross(world_up, forward));
 	up = vec_cross(forward, right);
 
-	m[0] = -right.x;
-	m[4] = -right.y;
-	m[8] = -right.z;
+	m[0] = right.x;
+	m[4] = right.y;
+	m[8] = right.z;
 	m[12] = -vec_dot(right, from);
-	// m[12] = 0;
 	m[1] = up.x;
 	m[5] = up.y;
 	m[9] = up.z;
 	m[13] = -vec_dot(up, from);
-	// m[13] = 0;
 	m[2] = forward.x;
 	m[6] = forward.y;
 	m[10] = forward.z;
 	m[14] = -vec_dot(forward, from);
-	// m[14] = 0;
-	m[3] = -from.x;
-	m[7] = -from.y;
-	m[11] = -from.z;
+	m[3] = from.x;
+	m[7] = from.y;
+	m[11] = from.z;
 	m[15] = 1;
-
-	// m[0] = right.x;
-	// m[1] = right.y;
-	// m[2] = right.z;
-	// m[3] = -vec_dot(right, from);
-	// m[4] = up.x;
-	// m[5] = up.y;
-	// m[6] = up.z;
-	// m[7] = -vec_dot(up, from);
-	// m[8] = forward.x;
-	// m[9] = forward.y;
-	// m[10] = forward.z;
-	// m[11] = -vec_dot(forward, from);
-	// m[12] = from.x;
-	// m[13] = from.y;
-	// m[14] = from.z;
-	// m[15] = 1;
 }

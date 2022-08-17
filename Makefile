@@ -37,13 +37,13 @@ SRC_NAME=main.c\
 	gl/gl_init.c\
 	gl/gl_textures.c\
 	glfw/glfw_callbacks.c\
-	glfw/glfw_fps.c\
 	glfw/glfw_init.c\
 	utils/matrices/mat4.c\
 	utils/matrices/mat4_ops.c\
 	utils/matrices/mat4_rotations.c\
 	utils/matrices/mat4_tools.c\
 	utils/bmp.c\
+	utils/fps.c\
 	utils/singletons.c
 
 SRC=$(addprefix $(SRC_PATH), $(SRC_NAME))

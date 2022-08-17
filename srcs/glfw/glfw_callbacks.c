@@ -12,46 +12,6 @@ void    	cb_key(GLFWwindow *window, int key, int scancode, int action, int mods)
     printf("key: %d\n", key);
 }
 
-static void update_matrices(t_camera *camera)
-{
-	camera->yaw = camera->yaw > 180 ? -180 : camera->yaw;
-	camera->yaw = camera->yaw < -180 ? 180 : camera->yaw;
-	camera->pitch = camera->pitch > 90 ? 90 : camera->pitch;
-	camera->pitch = camera->pitch < -90 ? -90 : camera->pitch;
-
-    // Rotation XYZ matrix
-	mat4_identity(camera->rot_xyz);
-	mat4_rotate(camera->rot_xyz, (float)ft_to_radians(camera->pitch), (float)ft_to_radians(camera->yaw), 0);
-}
-
-static void mouse_events(t_env *env, float xpos, float ypos)
-{
-    t_camera    *camera;
-    float       xoffset, yoffset, camera_speed;
-
-    camera = &env->camera;
-    if (camera->first_mouse)
-    {
-        camera->mx = xpos;
-        camera->my = ypos;
-        camera->first_mouse = false;
-    }
-    xoffset = xpos - camera->mx;
-    yoffset = ypos - camera->my;
-    camera->mx = xpos;
-    camera->my = ypos;
-
-    camera_speed = camera->sensitivity * 0.1f;
-    xoffset *= camera_speed;
-    yoffset *= camera_speed;
-    camera->yaw += xoffset;
-    camera->pitch += yoffset;
-    printf("yaw   : %f\n", camera->yaw);
-    printf("pitch : %f\n", camera->pitch);
-
-    update_matrices(camera);
-}
-
 void    	cb_cursor_position(GLFWwindow *window, double xpos, double ypos)
 {
     t_env	    *env;
@@ -60,7 +20,7 @@ void    	cb_cursor_position(GLFWwindow *window, double xpos, double ypos)
 	env = st_env(NULL, false);
 	if (env == NULL)
 		return ;
-    // mouse_events(env, (float)xpos, (float)ypos);
+    events_mouse(env, (float)xpos, (float)ypos);
 }
 
 void    	cb_window_maximize(GLFWwindow *window, int maximized)

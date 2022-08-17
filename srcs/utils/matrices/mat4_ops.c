@@ -34,24 +34,3 @@ vec3		mat4_x_vec3(mat4 m, vec3 v)
 	} 
 	return (out);
 }
-
-void		matrix_mult_matrix(float m1[4][4], float m2[4][4], float ret[4][4])
-{
-	unsigned int	c;
-	unsigned int	r;
-	float			tmp;
-
-	c = 0;
-	while (c < 4)
-	{
-		r = 0;
-		while (r < 4)
-		{
-			tmp = m1[r][0] * m2[0][c] + m1[r][1] * m2[1][c];
-			tmp += m1[r][2] * m2[2][c] + m1[r][3] * m2[3][c];
-			ret[r][c] = tmp;
-			r++;
-		}
-		c++;
-	}
-}
