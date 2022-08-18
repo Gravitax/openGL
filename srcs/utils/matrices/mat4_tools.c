@@ -58,20 +58,7 @@ void		mat4_print(mat4 m)
 */
 void		mat4_translate(mat4 m, float x, float y, float z)
 {
-
-	// m[3] += x;
-	// m[7] += y;
-	// m[11] += z;
-
-	// m[12] += x;
-	// m[13] += y;
-	// m[14] += z;
-
 	m[3] += x;
 	m[7] += y;
 	m[11] += z;
-
-	// m[3] += x;
-	// m[7] += y;
-	// m[14] += z;
 }

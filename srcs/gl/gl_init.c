@@ -95,7 +95,6 @@ int			gl_init(t_env *env)
     gl_layouts(&env->gl);
     gl_uniforms(env);
 	gl_textures(env);
-    // glMatrixMode(GL_PROJECTION);
     //  DEPTH BUFFER
 	glEnable(GL_DEPTH_TEST);
 	// CULLING : we only draw front face in clock-wise order

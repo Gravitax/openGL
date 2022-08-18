@@ -145,7 +145,6 @@ void			mat4_xrotation(mat4 m, float x);
 void			mat4_yrotation(mat4 m, float y);
 void			mat4_zrotation(mat4 m, float z);
 void			mat4_rotate(mat4 m, float x, float y, float z);
-void			mat4_rotation(mat4 m, vec3 axis, float angle);
 
 void			mat4_identity(mat4 m);
 void			mat4_inverse(mat4 m);

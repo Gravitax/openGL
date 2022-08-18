@@ -58,34 +58,3 @@ void		mat4_rotate(mat4 m, float x, float y, float z)
 	mat4_multiply(m, rot_x);
 	mat4_multiply(m, rot_z);
 }
-
-void		mat4_rotation(mat4 m, vec3 axis, float angle)
-{
-	float	cos, sin;
-
-	angle = (float)ft_to_radians(angle);
-	cos = cosf(angle);
-	sin = sinf(angle);
-
-	mat4_identity(m);
-
-	m[0] = cos + axis.x * axis.x * (1.0 - cos);
-	m[1] = axis.x * axis.y * (1.0 - cos) + axis.z * sin;
-	m[2] = axis.x * axis.z * (1.0 - cos) - axis.y * sin;
-	m[4] = axis.x * axis.y * (1.0 - cos) - axis.z * sin;
-	m[5] = cos + axis.y * axis.y * (1.0 - cos);
-	m[6] = axis.y * axis.z * (1.0 - cos) + axis.x * sin;
-	m[8] = axis.x * axis.z * (1.0 - cos) + axis.y * sin;
-	m[9] = axis.y * axis.z * (1.0 - cos) - axis.x * sin;
-	m[10] = cos + axis.z * axis.z * (1.0 - cos);
-
-	// m[0] = cos + axis.x * axis.x * (1.0 - cos);
-	// m[4] = axis.x * axis.y * (1.0 - cos) + axis.z * sin;
-	// m[8] = axis.x * axis.z * (1.0 - cos) - axis.y * sin;
-	// m[1] = axis.x * axis.y * (1.0 - cos) - axis.z * sin;
-	// m[5] = cos + axis.y * axis.y * (1.0 - cos);
-	// m[9] = axis.y * axis.z * (1.0 - cos) + axis.x * sin;
-	// m[2] = axis.x * axis.z * (1.0 - cos) + axis.y * sin;
-	// m[6] = axis.y * axis.z * (1.0 - cos) - axis.x * sin;
-	// m[10] = cos + axis.z * axis.z * (1.0 - cos);
-}
