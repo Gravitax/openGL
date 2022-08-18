@@ -64,6 +64,7 @@ typedef struct	s_camera
 	float		fov, near, far, ratio;
 	vec3		pos, xaxis, yaxis, zaxis;
 	float		speed;
+	bool		ground_fixed;
 }				t_camera;
 
 typedef struct	s_mouse

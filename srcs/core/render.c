@@ -3,6 +3,8 @@
 
 static void	mat4_view(t_camera *camera)
 {
+	if (camera->ground_fixed == true)
+		camera->pos.y = 0;
 	mat4_lookat(camera->view, camera->pos, vec_add(camera->pos, camera->zaxis), camera->yaxis);
 	mat4_inverse(camera->view);
 }

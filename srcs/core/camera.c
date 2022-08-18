@@ -3,6 +3,7 @@
 
 static void	init_camera(t_camera *camera)
 {
+	camera->ground_fixed = true;
 	// RATIO
 	camera->ratio = (float)_WIDTH / (float)_HEIGHT;
 	// Far and near plane definitions
@@ -11,7 +12,7 @@ static void	init_camera(t_camera *camera)
 	// FOV
 	camera->fov = 45.0f;
 	// Camera starting position and orientation
-	camera->pos = (vec3){ 1, 1, -10 };
+	camera->pos = (vec3){ 1, 0, -10 };
 	camera->xaxis = (vec3){ 1, 0, 0 };
 	camera->yaxis = (vec3){ 0, 1, 0 };
 	camera->zaxis = (vec3) { 0, 0, 1 };
