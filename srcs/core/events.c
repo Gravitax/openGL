@@ -7,19 +7,24 @@ static void update_directions(t_camera *camera)
 
 	mat4_xrotation(mx, (float)ft_to_radians(-camera->yaw));
 	if (camera->ground_fixed == false)
-		camera->yaxis = mat4_x_vec3(mx, (vec3){ 0, 1, 0 });
+		;//camera->yaxis = mat4_x_vec3(mx, (vec3){ 0, 1, 0 });
 	mat4_yrotation(my, (float)ft_to_radians(-camera->pitch));
 	camera->xaxis = mat4_x_vec3(my, (vec3){ 1, 0, 0 });
-	mat4_multiply(mx, my);
-	camera->zaxis = mat4_x_vec3(mx, (vec3){ 0, 0, 1 });
+	mat4_multiply(my, mx);
+	camera->zaxis = mat4_x_vec3(my, (vec3){ 0, 0, 1 });
 }
 
 static void	wrap_angles(t_camera *camera)
 {
 	camera->pitch = camera->pitch > 360 ? 0 : camera->pitch;
 	camera->pitch = camera->pitch < 0 ? 360 : camera->pitch;
-	camera->yaw = camera->yaw > 45 ? 45 : camera->yaw;
-	camera->yaw = camera->yaw < -45 ? -45 : camera->yaw;
+	if (camera->ground_fixed == true) {
+		camera->yaw = camera->yaw > 45 ? 45 : camera->yaw;
+		camera->yaw = camera->yaw < -45 ? -45 : camera->yaw;
+	} else {
+		camera->yaw = camera->yaw > 360 ? 0 : camera->yaw;
+		camera->yaw = camera->yaw < 0 ? 360 : camera->yaw;
+	}
 }
 
 static void	update_angles(t_camera *camera, float sensitivity, float xoffset, float yoffset)

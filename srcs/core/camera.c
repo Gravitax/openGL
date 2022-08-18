@@ -3,7 +3,7 @@
 
 static void	init_camera(t_camera *camera)
 {
-	camera->ground_fixed = true;
+	camera->ground_fixed = false;
 	// RATIO
 	camera->ratio = (float)_WIDTH / (float)_HEIGHT;
 	// Far and near plane definitions
