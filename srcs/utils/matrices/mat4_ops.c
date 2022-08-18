@@ -20,17 +20,16 @@ void		mat4_multiply(mat4 a, mat4 b)
 vec3		mat4_x_vec3(mat4 m, vec3 v)
 {
 	vec3	out;
-	float	w;
 
-	out.x = v.x * m[0] + v.y * m[1] + v.z * m[2] + m[3]; 
-	out.y = v.x * m[4] + v.y * m[5] + v.z * m[6] + m[7]; 
-	out.z = v.x * m[8] + v.y * m[9] + v.z * m[10] + m[11]; 
-	out.w = v.x * m[12] + v.y * m[13] + v.z * m[14] + m[15]; 
+	out.x = m[0] * v.x + m[1] * v.y + m[2] * v.z + m[3];
+	out.y = m[4] * v.x + m[5] * v.y + m[6] * v.z + m[7];
+	out.z = m[8] * v.x + m[9] * v.y + m[10] * v.z + m[11];
+	out.w = m[12] * v.x + m[13] * v.y + m[14] * v.z + m[15];
 	// normalize if w is different than 1 (convert from homogeneous to Cartesian coordinates)
 	if (out.w != 1) { 
 		out.x /= out.w; 
 		out.y /= out.w; 
 		out.z /= out.w; 
-	} 
+	}
 	return (out);
 }

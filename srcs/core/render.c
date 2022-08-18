@@ -43,13 +43,13 @@ int         render(t_env *env)
     glfwGetFramebufferSize(env->gl.window.ptr, (int *)&env->gl.window.w, (int *)&env->gl.window.h);
 	glViewport(0, 0, (int)env->gl.window.w, (int)env->gl.window.h);
 
- 	glClearColor(255, 255, 255, 1);
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-
 	fps(&env->fps, true);
 	events(env);
 	textures(env->gl.textures, env->texture);
+
+ 	glClearColor(255, 255, 255, 1);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 	projection(&env->gl, &env->camera);
 	draw(env);
 

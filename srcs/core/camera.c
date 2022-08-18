@@ -30,12 +30,12 @@ void		camera(t_env *env)
 	camera->zaxis = (vec3) { 0, 0, 1 };
 	// Camera movements speed
 	camera->speed = 1.0f;
-	camera->sensitivity = 1.0f;
 	// Camera rotations
 	camera->pitch = 0;
 	camera->yaw = 0;
 	matrices(&env->gl, camera);
 	// Mouse
-	camera->first_mouse = true;
+	env->mouse.mounted = false;
+	env->mouse.sensitivity = 1.0f;
 	glfwSetInputMode(env->gl.window.ptr, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
