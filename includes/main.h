@@ -62,7 +62,7 @@ typedef struct	s_camera
 	mat4		model, view, projection, mvp;
 	float		pitch, yaw;
 	float		fov, near, far, ratio;
-	vec3		pos, xaxis, yaxis, zaxis;
+	vec3		pos, yaxis, zaxis;
 	float		speed;
 	bool		ground_fixed;
 }				t_camera;
