@@ -9,13 +9,13 @@ static void	mat4_view(t_camera *camera)
 	mat4_inverse(camera->view);
 }
 
-static void	mat4_mvp(t_camera *camera)
-{
-	mat4_identity(camera->mvp);
-	mat4_multiply(camera->mvp, camera->projection);
-	mat4_multiply(camera->mvp, camera->view);
-	mat4_multiply(camera->mvp, camera->model);
-}
+// static void	mat4_mvp(t_camera *camera)
+// {
+// 	mat4_identity(camera->mvp);
+// 	mat4_multiply(camera->mvp, camera->projection);
+// 	mat4_multiply(camera->mvp, camera->view);
+// 	mat4_multiply(camera->mvp, camera->model);
+// }
 
 static void	textures(GLuint *textures, int id)
 {
@@ -50,9 +50,11 @@ static void	draw(t_env *env) {
 
 	camera = &env->camera;
 	mat4_view(camera);
-	// mat4_mvp(camera);
-	// glUniformMatrix4fv(env->gl.uniform.mvp, 1, GL_FALSE, camera->mvp);
 
+	// update camera pos in shaders
+	glUniform4fv(env->gl.uniform.light_pos, 1, (GLfloat *)&env->camera.pos);
+
+	// update matrices in shaders
 	glUniformMatrix4fv(env->gl.uniform.model, 1, GL_FALSE, camera->model);
 	glUniformMatrix4fv(env->gl.uniform.view, 1, GL_FALSE, camera->view);
 	glUniformMatrix4fv(env->gl.uniform.projection, 1, GL_FALSE, camera->projection);

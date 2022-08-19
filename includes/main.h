@@ -72,7 +72,7 @@ typedef struct	s_light
 
 typedef struct	s_camera
 {
-	mat4		model, view, projection, mvp;
+	mat4		model, view, projection;
 	float		pitch, yaw;
 	float		fov, near, far, ratio;
 	vec3		pos, yaxis, zaxis;
@@ -98,8 +98,8 @@ typedef struct	s_window
 
 typedef struct	s_uniform
 {
-	GLint	texture, light_pos, light_color;
-	GLint	model, view, projection, mvp;
+	GLint	texture, light_pos, light_color, view_pos;
+	GLint	model, view, projection;
 }				t_uniform;
 
 typedef struct	s_gltools
