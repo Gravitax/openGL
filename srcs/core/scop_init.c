@@ -16,72 +16,65 @@ static int	load_images(t_env *env)
 	return (0);
 }
 
-static void	rect(t_dynarray *vertices)
+static void	cube(t_dynarray *vertices, float o)
 {
-	dynarray_push(vertices, &(t_vertice){ 0.0f, 2.0f, 0.f, 1.f, 1.f, 0.f, 0.f, 1.f, 0.f, 1.f }, false);
-	dynarray_push(vertices, &(t_vertice){ 2.0f, 2.0f, 0.f, 1.f, 0.f, 1.f, 0.f, 1.f, 1.f, 1.f }, false);
-	dynarray_push(vertices, &(t_vertice){ 0.0f, 0.0f, 0.f, 1.f,1.f, 1.f, 1.f, 1.f, 0.f, 0.f }, false);
-	dynarray_push(vertices, &(t_vertice){ 2.0f, 0.0f, 0.f, 1.f, 0.f, 0.f, 1.f, 1.f, 1.f, 0.f }, false);
-
-}
-
-static void	cube(t_dynarray *vertices)
-{
-	dynarray_push(vertices, &(t_vertice){ 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f }, false);
-	dynarray_push(vertices, &(t_vertice){ 2.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f }, false);
-	dynarray_push(vertices, &(t_vertice){ 2.0f, 2.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f }, false);
-	dynarray_push(vertices, &(t_vertice){ 2.0f, 2.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f }, false);
-	dynarray_push(vertices, &(t_vertice){ 0.0f, 2.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f }, false);
-	dynarray_push(vertices, &(t_vertice){ 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f }, false);
-	dynarray_push(vertices, &(t_vertice){ 0.0f, 0.0f, 2.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f }, false);
-	dynarray_push(vertices, &(t_vertice){ 2.0f, 0.0f, 2.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f }, false);
-	dynarray_push(vertices, &(t_vertice){ 2.0f, 2.0f, 2.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f }, false);
-	dynarray_push(vertices, &(t_vertice){ 2.0f, 2.0f, 2.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f }, false);
-	dynarray_push(vertices, &(t_vertice){ 0.0f, 2.0f, 2.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f }, false);
-	dynarray_push(vertices, &(t_vertice){ 0.0f, 0.0f, 2.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f }, false);
-	dynarray_push(vertices, &(t_vertice){ 0.0f, 2.0f, 2.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f }, false);
-	dynarray_push(vertices, &(t_vertice){ 0.0f, 2.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f }, false);
-	dynarray_push(vertices, &(t_vertice){ 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f }, false);
-	dynarray_push(vertices, &(t_vertice){ 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f }, false);
-	dynarray_push(vertices, &(t_vertice){ 0.0f, 0.0f, 2.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f }, false);
-	dynarray_push(vertices, &(t_vertice){ 0.0f, 2.0f, 2.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f }, false);
-	dynarray_push(vertices, &(t_vertice){ 2.0f, 2.0f, 2.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f }, false);
-	dynarray_push(vertices, &(t_vertice){ 2.0f, 2.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f }, false);
-	dynarray_push(vertices, &(t_vertice){ 2.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f }, false);
-	dynarray_push(vertices, &(t_vertice){ 2.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f }, false);
-	dynarray_push(vertices, &(t_vertice){ 2.0f, 0.0f, 2.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f }, false);
-	dynarray_push(vertices, &(t_vertice){ 2.0f, 2.0f, 2.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f }, false);
-	dynarray_push(vertices, &(t_vertice){ 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f }, false);
-	dynarray_push(vertices, &(t_vertice){ 2.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f }, false);
-	dynarray_push(vertices, &(t_vertice){ 2.0f, 0.0f, 2.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f }, false);
-	dynarray_push(vertices, &(t_vertice){ 2.0f, 0.0f, 2.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f }, false);
-	dynarray_push(vertices, &(t_vertice){ 0.0f, 0.0f, 2.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f }, false);
-	dynarray_push(vertices, &(t_vertice){ 0.0f, 0.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f }, false);
-	dynarray_push(vertices, &(t_vertice){ 0.0f, 2.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f }, false);
-	dynarray_push(vertices, &(t_vertice){ 2.0f, 2.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f }, false);
-	dynarray_push(vertices, &(t_vertice){ 2.0f, 2.0f, 2.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f }, false);
-	dynarray_push(vertices, &(t_vertice){ 2.0f, 2.0f, 2.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f }, false);
-	dynarray_push(vertices, &(t_vertice){ 0.0f, 2.0f, 2.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f }, false);
-	dynarray_push(vertices, &(t_vertice){ 0.0f, 2.0f, 0.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f }, false);
+	dynarray_push(vertices, &(t_vertice){ 0.0f + o, 0.0f + o, 0.0f + o, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f }, false);
+	dynarray_push(vertices, &(t_vertice){ 2.0f + o, 0.0f + o, 0.0f + o, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f }, false);
+	dynarray_push(vertices, &(t_vertice){ 2.0f + o, 2.0f + o, 0.0f + o, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f }, false);
+	dynarray_push(vertices, &(t_vertice){ 2.0f + o, 2.0f + o, 0.0f + o, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f }, false);
+	dynarray_push(vertices, &(t_vertice){ 0.0f + o, 2.0f + o, 0.0f + o, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f }, false);
+	dynarray_push(vertices, &(t_vertice){ 0.0f + o, 0.0f + o, 0.0f + o, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f }, false);
+	dynarray_push(vertices, &(t_vertice){ 0.0f + o, 0.0f + o, 2.0f + o, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f }, false);
+	dynarray_push(vertices, &(t_vertice){ 2.0f + o, 0.0f + o, 2.0f + o, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f }, false);
+	dynarray_push(vertices, &(t_vertice){ 2.0f + o, 2.0f + o, 2.0f + o, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f }, false);
+	dynarray_push(vertices, &(t_vertice){ 2.0f + o, 2.0f + o, 2.0f + o, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f }, false);
+	dynarray_push(vertices, &(t_vertice){ 0.0f + o, 2.0f + o, 2.0f + o, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f }, false);
+	dynarray_push(vertices, &(t_vertice){ 0.0f + o, 0.0f + o, 2.0f + o, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f }, false);
+	dynarray_push(vertices, &(t_vertice){ 0.0f + o, 2.0f + o, 2.0f + o, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f }, false);
+	dynarray_push(vertices, &(t_vertice){ 0.0f + o, 2.0f + o, 0.0f + o, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f }, false);
+	dynarray_push(vertices, &(t_vertice){ 0.0f + o, 0.0f + o, 0.0f + o, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f }, false);
+	dynarray_push(vertices, &(t_vertice){ 0.0f + o, 0.0f + o, 0.0f + o, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f }, false);
+	dynarray_push(vertices, &(t_vertice){ 0.0f + o, 0.0f + o, 2.0f + o, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f }, false);
+	dynarray_push(vertices, &(t_vertice){ 0.0f + o, 2.0f + o, 2.0f + o, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f }, false);
+	dynarray_push(vertices, &(t_vertice){ 2.0f + o, 2.0f + o, 2.0f + o, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f }, false);
+	dynarray_push(vertices, &(t_vertice){ 2.0f + o, 2.0f + o, 0.0f + o, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f }, false);
+	dynarray_push(vertices, &(t_vertice){ 2.0f + o, 0.0f + o, 0.0f + o, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f }, false);
+	dynarray_push(vertices, &(t_vertice){ 2.0f + o, 0.0f + o, 0.0f + o, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f }, false);
+	dynarray_push(vertices, &(t_vertice){ 2.0f + o, 0.0f + o, 2.0f + o, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f }, false);
+	dynarray_push(vertices, &(t_vertice){ 2.0f + o, 2.0f + o, 2.0f + o, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f }, false);
+	dynarray_push(vertices, &(t_vertice){ 0.0f + o, 0.0f + o, 0.0f + o, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f }, false);
+	dynarray_push(vertices, &(t_vertice){ 2.0f + o, 0.0f + o, 0.0f + o, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f }, false);
+	dynarray_push(vertices, &(t_vertice){ 2.0f + o, 0.0f + o, 2.0f + o, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f }, false);
+	dynarray_push(vertices, &(t_vertice){ 2.0f + o, 0.0f + o, 2.0f + o, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f }, false);
+	dynarray_push(vertices, &(t_vertice){ 0.0f + o, 0.0f + o, 2.0f + o, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f }, false);
+	dynarray_push(vertices, &(t_vertice){ 0.0f + o, 0.0f + o, 0.0f + o, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f }, false);
+	dynarray_push(vertices, &(t_vertice){ 0.0f + o, 2.0f + o, 0.0f + o, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f }, false);
+	dynarray_push(vertices, &(t_vertice){ 2.0f + o, 2.0f + o, 0.0f + o, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f }, false);
+	dynarray_push(vertices, &(t_vertice){ 2.0f + o, 2.0f + o, 2.0f + o, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f }, false);
+	dynarray_push(vertices, &(t_vertice){ 2.0f + o, 2.0f + o, 2.0f + o, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f }, false);
+	dynarray_push(vertices, &(t_vertice){ 0.0f + o, 2.0f + o, 2.0f + o, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f }, false);
+	dynarray_push(vertices, &(t_vertice){ 0.0f + o, 2.0f + o, 0.0f + o, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 1.0f }, false);
 }
 
 static int	load_element(t_env *env)
 {
-	t_vertice v;
+	unsigned int	i, mesh_max;
+	t_mesh			*mesh;
 
-	if (dynarray_init(&env->vertices, sizeof(t_vertice), 36) < 0)
+	mesh_max = 10;
+	if (dynarray_init(&env->mesh, sizeof(t_mesh), mesh_max) < 0)
 		return (-1);
-	// rect(&env->vertices);
-	cube(&env->vertices);
-
-	env->pos[0] = (vec3){ 0, 0, 0 };
-	env->pos[1] = (vec3){ 4, 0, 0 };
-	env->pos[2] = (vec3){ -4, 0, 0 };
-	env->pos[3] = (vec3){ 0, 4, 0 };
-	env->pos[4] = (vec3){ 0, -4, 0 };
-	env->pos[5] = (vec3){ 0, 0, 4 };
-	env->pos[6] = (vec3){ 0, 0, -4 };
-
+	for (i = 0; i < mesh_max; i++) {
+		mesh = dyacc(&env->mesh, i);
+		if (mesh == NULL)
+			continue ;
+		if (dynarray_init(&mesh->vertices, sizeof(t_vertice), 36) < 0)
+			return (-1);
+		cube(&mesh->vertices, (float)(i * 2));
+		mesh->texture = i % 2 ? TEXTURE_DS : TEXTURE_NYAN;
+		if (dynarray_push(&env->mesh, mesh, true) < 0)
+			return (-1);
+	}
 	return (0);
 }
 
@@ -124,7 +117,6 @@ int		 scop_init(t_env *env)
 	if (glfw_init(env) < 0 || gl_init(env) < 0)
 		return (-1);
 	camera(env);
-	env->texture = TEXTURE_DS;
 	env->fps.time = glfwGetTime();
 	return (0);
 }

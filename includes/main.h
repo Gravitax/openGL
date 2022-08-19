@@ -49,6 +49,13 @@ typedef struct	s_vertice
 	t_texture	tex;
 }				t_vertice;
 
+typedef struct	s_mesh
+{
+	t_dynarray		vertices;
+	unsigned int	texture;
+	GLuint			ebo, vao, vbo;
+}				t_mesh;
+
 typedef struct	s_image
 {
 	unsigned int	w, h;
@@ -106,14 +113,12 @@ typedef struct	s_fps
 
 typedef struct	s_env
 {
-	unsigned int	texture;
 	t_fps			fps;
 	t_gltools		gl;
 	t_camera		camera;
 	t_mouse		 	mouse;
-	t_dynarray		vertices;
 	t_image			images[TEXTURES_MAX];
-	vec3			pos[7];
+	t_dynarray		mesh;
 }				t_env;
 
 // CORE

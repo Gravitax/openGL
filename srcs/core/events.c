@@ -88,7 +88,5 @@ int			events(t_env *env)
 	events_window(window);
 	camera = &env->camera;
 	camera_translations(window, camera, camera->speed * env->fps.value * 0.01f);
-	if (glfwGetKey(window, GLFW_KEY_X) == GLFW_PRESS)
-		env->texture = env->texture > TEXTURES_MAX - 1 ? 0 : env->texture + 1;
 	return (0);
 };

@@ -28,35 +28,9 @@ static void	gl_program(t_gltools *gl) {
 	glDeleteShader(gl->shader_fragment);
 }
 
-static void	gl_buffers(t_env *env)
-{
-	// Create Vertex Array Object
-	glGenVertexArrays(1, &env->gl.vao);
-	glBindVertexArray(env->gl.vao);
-	// Create a Vertex Buffer Object and copy the vertex data to it
-	glGenBuffers(1, &env->gl.vbo);
-	glBindBuffer(GL_ARRAY_BUFFER, env->gl.vbo);
-	glBufferData(GL_ARRAY_BUFFER,
-		env->vertices.nb_cells * sizeof(t_vertice),
-		env->vertices.arr, GL_STATIC_DRAW);
-	// Create an Elements Buffer Object
-	glGenBuffers(1, &env->gl.ebo);
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, env->gl.ebo);
-}
-
-static void gl_uniforms(t_env* env)
-{
-	// get uniforms
-	env->gl.uniform.texture = glGetUniformLocation(env->gl.shader_program, "in_texture");
-	env->gl.uniform.mvp = glGetUniformLocation(env->gl.shader_program, "mvp");
-
-	// consume texture uniforms
-	glUniform1i(env->gl.uniform.texture, 0);
-}
-
 static void	gl_layouts(t_gltools *gl)
 {
-	GLint   position, color, texcoord;
+	GLint	position, color, texcoord;
 
 	// Specify the layout of the vertex data
 	// position
@@ -76,31 +50,59 @@ static void	gl_layouts(t_gltools *gl)
 		sizeof(t_vertice), (void *)(sizeof(vec3) + sizeof(t_color)));
 }
 
-static void	gl_load_element(t_env *env)
+static void	gl_buffers(t_gltools *gl, t_mesh *mesh)
 {
-	GLuint  elements[] = {
-		3, 1, 0,
-		2, 3, 0
-	};
+	// Create Vertex Array Object
+	glGenVertexArrays(1, &mesh->vao);
+	glBindVertexArray(mesh->vao);
+	// Create a Vertex Buffer Object and copy the vertex data to it
+	glGenBuffers(1, &mesh->vbo);
+	glBindBuffer(GL_ARRAY_BUFFER, mesh->vbo);
+	glBufferData(GL_ARRAY_BUFFER,
+		mesh->vertices.nb_cells * sizeof(t_vertice),
+		mesh->vertices.arr, GL_STATIC_DRAW);
+	// Create an Elements Buffer Object
+	glGenBuffers(1, &mesh->ebo);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->ebo);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, mesh->vertices.byte_size, mesh->vertices.arr, GL_STATIC_DRAW);
+	gl_layouts(gl);
+	glBindVertexArray(0);
+}
 
-	// glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(elements), elements, GL_STATIC_DRAW);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, env->vertices.byte_size, env->vertices.arr, GL_STATIC_DRAW);
+static void gl_uniforms(t_env* env)
+{
+	// get uniforms
+	env->gl.uniform.texture = glGetUniformLocation(env->gl.shader_program, "in_texture");
+	env->gl.uniform.mvp = glGetUniformLocation(env->gl.shader_program, "mvp");
+
+	// consume texture uniforms
+	glUniform1i(env->gl.uniform.texture, 0);
 }
 
 int			gl_init(t_env *env)
 {
+	t_mesh	*mesh;
+	int		i;
+
 	gl_shaders(&env->gl);
 	gl_program(&env->gl);
-	gl_buffers(env);
-	gl_layouts(&env->gl);
 	gl_uniforms(env);
 	gl_textures(env);
+
+	i = -1;
+	while (++i < env->mesh.nb_cells) {
+		mesh = dyacc(&env->mesh, i);
+		if(mesh == NULL)
+			continue ;
+		gl_buffers(&env->gl, mesh);
+	}
+
 	//  DEPTH BUFFER
 	glEnable(GL_DEPTH_TEST);
+
 	// CULLING : we only draw front face in clock-wise order
 	// glEnable(GL_CULL_FACE);
 	// glCullFace(GL_FRONT);
 	// glFrontFace(GL_CW);
-	gl_load_element(env);
 	return (0);
 }
