@@ -3,9 +3,9 @@
 
 static void update_directions(t_camera *camera)
 {
-	camera->zaxis.x = sinf((float)ft_to_radians(-camera->pitch)) * cosf((float)ft_to_radians(-camera->yaw));
-	camera->zaxis.y = -sinf((float)ft_to_radians(-camera->yaw));
-	camera->zaxis.z = cosf((float)ft_to_radians(-camera->pitch)) * cosf((float)ft_to_radians(-camera->yaw));
+	camera->zaxis.x = -sinf((float)ft_to_radians(camera->pitch)) * cosf((float)ft_to_radians(camera->yaw));
+	camera->zaxis.y = sinf((float)ft_to_radians(camera->yaw));
+	camera->zaxis.z = cosf((float)ft_to_radians(camera->pitch)) * cosf((float)ft_to_radians(camera->yaw));
 }
 
 static void	wrap_angles(t_camera *camera)
@@ -23,8 +23,6 @@ static void	wrap_angles(t_camera *camera)
 
 static void	update_angles(t_camera *camera, float sensitivity, float xoffset, float yoffset)
 {
-	float	camera_speed;
-
 	xoffset *= sensitivity;
 	yoffset *= sensitivity;
 	camera->pitch += xoffset;
@@ -52,7 +50,7 @@ void		events_mouse(t_env *env, float xpos, float ypos)
 	update_directions(&env->camera);
 }
 
-static void	window_events(GLFWwindow *window)
+static void	events_window(GLFWwindow *window)
 {
 	if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, GLFW_TRUE);
@@ -87,9 +85,9 @@ int			events(t_env *env)
 	t_camera	*camera;
 
 	window = env->gl.window.ptr;
-	window_events(window);
+	events_window(window);
 	camera = &env->camera;
-    camera_translations(window, camera, camera->speed * env->fps.value * 0.01f);
+	camera_translations(window, camera, camera->speed * env->fps.value * 0.01f);
 	if (glfwGetKey(window, GLFW_KEY_X) == GLFW_PRESS)
 		env->texture = env->texture > TEXTURES_MAX - 1 ? 0 : env->texture + 1;
 	return (0);

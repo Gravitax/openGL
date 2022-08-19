@@ -1,59 +1,53 @@
 #include "../../includes/main.h"
 
 
-void    	cb_error(int error, const char *description)
+void		cb_error(int error, const char *description)
 {
-    fprintf(stderr, "Error: (%d): %s\n", error, description);
-    scop_exit();
+	fprintf(stderr, "Error: (%d): %s\n", error, description);
+	scop_exit();
 }
  
-void    	cb_key(GLFWwindow *window, int key, int scancode, int action, int mods)
+void		cb_key(GLFWwindow *window, int key, int scancode, int action, int mods)
 {
-    printf("key: %d\n", key);
+	printf("key: %d\n", key);
 }
 
-void    	cb_cursor_position(GLFWwindow *window, double xpos, double ypos)
+void		cb_cursor_position(GLFWwindow *window, double xpos, double ypos)
 {
-    t_env	    *env;
+	t_env		*env;
 
-    glfwGetCursorPos(window, &xpos, &ypos);
+	glfwGetCursorPos(window, &xpos, &ypos);
 	env = st_env(NULL, false);
 	if (env == NULL)
 		return ;
-    events_mouse(env, (float)xpos, (float)ypos);
+	events_mouse(env, (float)xpos, (float)ypos);
 }
 
-void    	cb_window_maximize(GLFWwindow *window, int maximized)
+void		cb_window_focus(GLFWwindow *window, int focused)
 {
-    if (maximized)
-    {
-        // The window was maximized
-        printf("The window was maximized\n");
-    }
-    else
-    {
-        // The window was restored
-        printf("The window was restored\n");
-    }
+	if (focused)
+	{
+		// The window gained input focus
+		printf("The window gained input focus\n");
+	}
+	else
+	{
+		// The window lost input focus
+		printf("The window lost input focus\n");
+	}
 }
 
-void    	cb_window_focus(GLFWwindow *window, int focused)
+void		cb_scroll(GLFWwindow *window, double xoffset, double yoffset)
 {
-    if (focused)
-    {
-        // The window gained input focus
-        printf("The window gained input focus\n");
-    }
-    else
-    {
-        // The window lost input focus
-        printf("The window lost input focus\n");
-    }
-}
+	t_env	*env;
 
-void    	cb_scroll(GLFWwindow *window, double xoffset, double yoffset)
-{
-    printf("offset_x: %f, offset_y: %f\n", xoffset, yoffset);
+	env = st_env(NULL, false);
+	if (env == NULL)
+		return ;
+	env->camera.fov -= (float)yoffset;
+	env->camera.fov = env->camera.fov > 90 ? 90 : env->camera.fov;
+	env->camera. fov = env->camera.fov < 1 ? 1 : env->camera.fov;
+	mat4_projection(env->camera.projection, env->camera.fov, env->camera.near, env->camera.far, env->camera.ratio);
 }
 
 void		cb_framebuffer_size(GLFWwindow *window, int width, int height)
@@ -63,9 +57,9 @@ void		cb_framebuffer_size(GLFWwindow *window, int width, int height)
 	env = st_env(NULL, false);
 	if (env == NULL)
 		return ;
-    glViewport(0, 0, width, height);
+	glViewport(0, 0, width, height);
 	env->gl.window.w = width;
 	env->gl.window.h = height;
-    env->camera.ratio = (float)width / (float)height;
-    mat4_projection(env->camera.projection, env->camera.fov, env->camera.near, env->camera.far, env->camera.ratio);
+	env->camera.ratio = (float)width / (float)height;
+	mat4_projection(env->camera.projection, env->camera.fov, env->camera.near, env->camera.far, env->camera.ratio);
 }

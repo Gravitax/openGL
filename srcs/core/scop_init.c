@@ -73,6 +73,15 @@ static int	load_element(t_env *env)
 		return (-1);
 	// rect(&env->vertices);
 	cube(&env->vertices);
+
+	env->pos[0] = (vec3){ 0, 0, 0 };
+	env->pos[1] = (vec3){ 4, 0, 0 };
+	env->pos[2] = (vec3){ -4, 0, 0 };
+	env->pos[3] = (vec3){ 0, 4, 0 };
+	env->pos[4] = (vec3){ 0, -4, 0 };
+	env->pos[5] = (vec3){ 0, 0, 4 };
+	env->pos[6] = (vec3){ 0, 0, -4 };
+
 	return (0);
 }
 
@@ -111,6 +120,7 @@ int		 scop_init(t_env *env)
 	if (load_element(env) < 0 || load_images(env) < 0)
 		return (-1);
 	load_shaders(env);
+	env->gl.window.fullscreen = false;
 	if (glfw_init(env) < 0 || gl_init(env) < 0)
 		return (-1);
 	camera(env);

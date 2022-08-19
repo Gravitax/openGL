@@ -30,10 +30,10 @@ void		mat4_projection(mat4 m, float fov, float near, float far, float ratio)
 	xaxis = normal(cross(Up, zaxis))
 	yaxis = cross(zaxis, xaxis)
 
-	xaxis.x           yaxis.x           zaxis.x          0
-	xaxis.y           yaxis.y           zaxis.y          0
-	xaxis.z           yaxis.z           zaxis.z          0
-	-dot(xaxis, eye)  -dot(yaxis, eye)  -dot(zaxis, eye)  1
+	xaxis.x				yaxis.x				zaxis.x				0
+	xaxis.y				yaxis.y				zaxis.y				0
+	xaxis.z				yaxis.z				zaxis.z				0
+	-dot(xaxis, eye)	-dot(yaxis, eye)	-dot(zaxis, eye)	1
 */
 void		mat4_lookat(mat4 m, vec3 from, vec3 to, vec3 world_up)
 {

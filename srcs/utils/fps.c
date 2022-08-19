@@ -3,7 +3,7 @@
 
 void		fps(t_fps *fps, bool print)
 {
-    fps->current_seconds = glfwGetTime();
+	fps->current_seconds = glfwGetTime();
 	fps->elapsed_seconds = fps->current_seconds - fps->time;
 	if (fps->elapsed_seconds > 1) {
 		fps->time = fps->current_seconds;

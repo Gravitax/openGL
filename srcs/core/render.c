@@ -9,25 +9,34 @@ static void	mat4_view(t_camera *camera)
 	mat4_inverse(camera->view);
 }
 
-static void	projection(t_gltools *gl, t_camera *camera)
-{
+static void	draw(t_env *env) {
+	t_camera		*camera = &env->camera;
+	mat4			tmp;
+	unsigned int	i;
+
 	mat4_view(camera);
+
 	mat4_identity(camera->mvp);
 	mat4_multiply(camera->mvp, camera->projection);
 	mat4_multiply(camera->mvp, camera->view);
-	mat4_multiply(camera->mvp, camera->model);
-	glUniformMatrix4fv(gl->uniform.mvp, 1, GL_FALSE, camera->mvp);
-}
 
-static void	draw(t_env *env) {
-	glDrawArrays(GL_TRIANGLES, 0, env->vertices.nb_cells);
+	for (i = 0; i < 7; i++) {
+		mat4_identity(camera->model);
+		mat4_translate(camera->model, env->pos[i].x, env->pos[i].y, env->pos[i].z);
+		ft_memcpy(tmp, camera->mvp, sizeof(mat4));
+		mat4_multiply(tmp, camera->model);
+		glUniformMatrix4fv(env->gl.uniform.mvp, 1, GL_FALSE, tmp);
+		glDrawArrays(GL_TRIANGLES, 0, env->vertices.nb_cells);
+	}
+
+	// glDrawArrays(GL_TRIANGLES, 0, env->vertices.nb_cells);
 	// glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 }
 
 static void	textures(GLuint *textures, int id)
 {
 	int	i;
-	 
+
 	i = -1;
 	while (++i < TEXTURES_MAX) {
 		glActiveTexture(GL_TEXTURE0 + i);
@@ -35,15 +44,12 @@ static void	textures(GLuint *textures, int id)
 	}
 }
 
-int         render(t_env *env)
+int		 	render(t_env *env)
 {
-    if (glfwWindowShouldClose(env->gl.window.ptr))
-        return (-1);
+	if (glfwWindowShouldClose(env->gl.window.ptr))
+		return (-1);
 
 	glfwPollEvents();
-
-    glfwGetFramebufferSize(env->gl.window.ptr, (int *)&env->gl.window.w, (int *)&env->gl.window.h);
-	glViewport(0, 0, (int)env->gl.window.w, (int)env->gl.window.h);
 
 	fps(&env->fps, true);
 	events(env);
@@ -52,9 +58,8 @@ int         render(t_env *env)
  	glClearColor(255, 255, 255, 1);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	projection(&env->gl, &env->camera);
 	draw(env);
 
-    glfwSwapBuffers(env->gl.window.ptr);
-    return (0);
+	glfwSwapBuffers(env->gl.window.ptr);
+	return (0);
 }

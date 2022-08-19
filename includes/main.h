@@ -20,7 +20,7 @@
 
 # define GLFW_INCLUDE_NONE
 
-# define _WIDTH	 1400
+# define _WIDTH	 	1400
 # define _HEIGHT	800
 # define _LENGTH	_WIDTH * _HEIGHT
 
@@ -77,6 +77,7 @@ typedef struct	s_mouse
 
 typedef struct	s_window
 {
+	bool			fullscreen;
 	unsigned int	w, h;
 	GLFWwindow		*ptr;
 }				t_window;
@@ -109,9 +110,10 @@ typedef struct	s_env
 	t_fps			fps;
 	t_gltools		gl;
 	t_camera		camera;
-    t_mouse         mouse;
+	t_mouse		 	mouse;
 	t_dynarray		vertices;
 	t_image			images[TEXTURES_MAX];
+	vec3			pos[7];
 }				t_env;
 
 // CORE

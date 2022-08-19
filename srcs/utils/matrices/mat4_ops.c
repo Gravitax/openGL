@@ -4,7 +4,7 @@
 void		mat4_multiply(mat4 a, mat4 b)
 {
 	unsigned int	i, j;
-	mat4	res;
+	mat4			res;
 
 	for (j = 0; j < 4; j++)
 		for (i = 0; i < 4; i++)
