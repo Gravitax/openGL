@@ -77,20 +77,30 @@ static void	gl_buffers(t_gltools *gl, t_mesh *mesh)
 static void gl_uniforms(t_env* env)
 {
 	// get uniforms
-	env->gl.uniform.view_pos = glGetUniformLocation(env->gl.shader_program, "view_pos");
-	env->gl.uniform.light_pos = glGetUniformLocation(env->gl.shader_program, "light_pos");
-	env->gl.uniform.light_color = glGetUniformLocation(env->gl.shader_program, "light_color");
+	env->gl.uniform.mode = glGetUniformLocation(env->gl.shader_program, "mode");
+	env->gl.uniform.campos = glGetUniformLocation(env->gl.shader_program, "campos");
 	env->gl.uniform.texture = glGetUniformLocation(env->gl.shader_program, "texture_color");
 
 	env->gl.uniform.model = glGetUniformLocation(env->gl.shader_program, "model");
 	env->gl.uniform.view = glGetUniformLocation(env->gl.shader_program, "view");
 	env->gl.uniform.projection = glGetUniformLocation(env->gl.shader_program, "projection");
 
+	env->gl.uniform.light[LIGHT_POS] = glGetUniformLocation(env->gl.shader_program, "light.pos");
+	env->gl.uniform.light[LIGHT_COLOR] = glGetUniformLocation(env->gl.shader_program, "light.color");
+	env->gl.uniform.light[LIGHT_AMBIENT] = glGetUniformLocation(env->gl.shader_program, "light.ambient");
+	env->gl.uniform.light[LIGHT_DIFFUSE] = glGetUniformLocation(env->gl.shader_program, "light.diffuse");
+	env->gl.uniform.light[LIGHT_SPECULAR] = glGetUniformLocation(env->gl.shader_program, "light.specular");
+
 	// consume uniforms
-	glUniform4fv(env->gl.uniform.light_pos, 1, (GLfloat *)&env->camera.pos);
-	glUniform4fv(env->gl.uniform.light_pos, 1, (GLfloat *)&env->camera.light.pos);
-	glUniform4fv(env->gl.uniform.light_color, 1, (GLfloat *)&env->camera.light.color);
+	glUniform1i(env->gl.uniform.mode, env->mode);
+	glUniform4fv(env->gl.uniform.campos, 1, (GLfloat *)&env->camera.pos);
 	glUniform1i(env->gl.uniform.texture, 0);
+
+	glUniform4fv(env->gl.uniform.light[LIGHT_POS], 1, (GLfloat *)&env->light.pos);
+	glUniform4fv(env->gl.uniform.light[LIGHT_COLOR], 1, (GLfloat *)&env->light.color);
+	glUniform4fv(env->gl.uniform.light[LIGHT_AMBIENT], 1, (GLfloat *)&env->light.ambient);
+	glUniform4fv(env->gl.uniform.light[LIGHT_DIFFUSE], 1, (GLfloat *)&env->light.diffuse);
+	glUniform4fv(env->gl.uniform.light[LIGHT_SPECULAR], 1, (GLfloat *)&env->light.specular);
 }
 
 int			gl_init(t_env *env)

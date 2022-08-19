@@ -79,85 +79,25 @@ static int	load_element(t_env *env)
 	return (0);
 }
 
-static void	load_shaders(t_env *env)
+static void	light(t_light *light)
 {
-	env->gl.shader_vertex_text =
-		"#version 400\n"
-		"\n"
-		"layout (location = 0) in vec4	in_position;\n"
-		"layout (location = 1) in vec4	in_color;\n"
-		"layout (location = 2) in vec2	in_texcoord;\n"
-		"layout (location = 3) in vec3	in_normal;\n"
-		"\n"
-		"uniform mat4	model;\n"
-		"uniform mat4	view;\n"
-		"uniform mat4	projection;\n"
-		"\n"
- 		"out vec4	Color;\n"
-		"out vec3	Normal;\n"
- 		"out vec4	Position;\n"
-		"out vec2	Texcoord;\n"
-		"\n"
-		"void	main()\n"
-		"{\n"
-		"	Color		= in_color;\n"
-		"	Normal		= in_normal * mat3(transpose(inverse(model)));\n"
-		"	Position	= in_position * model;\n"
-		"	Texcoord	= in_texcoord;\n"
-		"\n"
-		"	gl_Position = in_position * model * view * projection;\n"
-		"}\n";
-	env->gl.shader_fragment_text =
-		"#version 400\n"
-		"\n"
-		"in vec4	Color;\n"
-		"in vec3	Normal;\n"
-		"in vec4	Position;\n"
-		"in vec2	Texcoord;\n"
-		"\n"
-		"uniform vec4	light_pos;\n"
-		"uniform vec4	light_color;\n"
-		"uniform vec4	view_pos;\n"
-		"\n"
-		"uniform sampler2D	texture_color;\n"
-		"\n"
-		"out vec4	FragColor;\n"
-		"\n"
-		"void	main()\n"
-		"{\n"
-		"	vec4	scale	= vec4(0.4f, 0.4f, 0.4f, 1);\n"
-		"	vec4	ambient	= scale * texture(texture_color, Texcoord).rgba;\n"
-		"\n"
-		"	vec3	n			= normalize(Normal);\n"
-		"	vec3	light_dir	= vec3(normalize(light_pos - Position));\n"
-		"	float	diff		= max(dot(n, light_dir), 0);\n"
-		"	scale				= vec4(0.75f, 0.75f, 0.75f, 1);\n"
-		"	vec4	diffuse		= scale * diff * texture(texture_color, Texcoord).rgba;\n"
-		"\n"
-		"	vec3	view_dir	= vec3(normalize(view_pos - Position));\n"
-		"	vec3	reflect_dir	= reflect(-light_dir, n);\n"
-		"	float	spec		= pow(max(dot(view_dir, reflect_dir), 0), 32);\n"
-		"\n"
-		"	scale				= vec4(1, 1, 1, 1);\n"
-		"	vec4	specular	= scale * spec * texture(texture_color, Texcoord).rgba;\n"
-		"\n"
-		"	vec4	LightingColor = ambient + diffuse + specular;\n"
-		"\n"
-		// "	FragColor = LightingColor * Color;\n"
-		"	FragColor = LightingColor;\n"
-		"}\n";
+	light->pos = (vec3){ -10, 10, -10 };
+	light->color = (vec3){ 1, 1, 1, 1 };
+	light->ambient = (vec3){ 0.4f, 0.4f, 0.4f };
+	light->diffuse = (vec3){ 0.75f, 0.75f, 0.75f };
+	light->specular = (vec3){ 1, 1, 1 };
 }
 
-int		 scop_init(t_env *env)
+int			scop_init(t_env *env)
 {
 	st_env(env, false);
+	env->mode = MODE_LIGHT_COLOR;
 	env->gl.window.fullscreen = false;
-	if (load_element(env) < 0 || load_images(env) < 0)
-		return (-1);
-	if (glfw_init(env) < 0)
+	if (load_element(env) < 0 || load_images(env) < 0 || glfw_init(env) < 0)
 		return (-1);
 	camera(env);
-	load_shaders(env);
+	light(&env->light);
+	shaders(&env->gl);
 	if (gl_init(env) < 0)
 		return (-1);
 	env->fps.time = glfwGetTime();

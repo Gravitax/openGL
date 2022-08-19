@@ -52,7 +52,7 @@ static void	draw(t_env *env) {
 	mat4_view(camera);
 
 	// update camera pos in shaders
-	glUniform4fv(env->gl.uniform.light_pos, 1, (GLfloat *)&env->camera.pos);
+	glUniform4fv(env->gl.uniform.light[LIGHT_POS], 1, (GLfloat *)&env->camera.pos);
 
 	// update matrices in shaders
 	glUniformMatrix4fv(env->gl.uniform.model, 1, GL_FALSE, camera->model);

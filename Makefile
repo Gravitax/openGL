@@ -44,6 +44,7 @@ SRC_NAME=main.c\
 	utils/matrices/mat4_tools.c\
 	utils/bmp.c\
 	utils/fps.c\
+	utils/shaders.c\
 	utils/singletons.c
 
 SRC=$(addprefix $(SRC_PATH), $(SRC_NAME))

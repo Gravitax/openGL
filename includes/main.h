@@ -25,11 +25,30 @@
 # define _LENGTH	_WIDTH * _HEIGHT
 
 
+enum			e_modes
+{
+	MODE_COLOR,
+	MODE_TEXTURE,
+	MODE_LIGHT_COLOR,
+	MODE_LIGHT_TEXTURE,
+	MODE_MAX
+};
+
 enum			e_textures
 {
 	TEXTURE_DS,
 	TEXTURE_NYAN,
 	TEXTURES_MAX
+};
+
+enum			e_light
+{
+	LIGHT_POS,
+	LIGHT_COLOR,
+	LIGHT_AMBIENT,
+	LIGHT_DIFFUSE,
+	LIGHT_SPECULAR,
+	LIGHT_MAX
 };
 
 typedef struct	s_color
@@ -68,6 +87,7 @@ typedef float	mat4[16];
 typedef struct	s_light
 {
 	vec3	pos, color;
+	vec3	ambient, diffuse, specular;
 }				t_light;
 
 typedef struct	s_camera
@@ -78,7 +98,6 @@ typedef struct	s_camera
 	vec3		pos, yaxis, zaxis;
 	float		speed;
 	bool		ground_fixed;
-	t_light		light;
 }				t_camera;
 
 typedef struct	s_mouse
@@ -98,8 +117,9 @@ typedef struct	s_window
 
 typedef struct	s_uniform
 {
-	GLint	texture, light_pos, light_color, view_pos;
+	GLint	texture, campos, mode;
 	GLint	model, view, projection;
+	GLint	light[LIGHT_MAX];
 }				t_uniform;
 
 typedef struct	s_gltools
@@ -121,9 +141,11 @@ typedef struct	s_fps
 
 typedef struct	s_env
 {
+	int				mode;
 	t_fps			fps;
 	t_gltools		gl;
 	t_camera		camera;
+	t_light			light;
 	t_mouse		 	mouse;
 	t_image			images[TEXTURES_MAX];
 	t_dynarray		mesh;
@@ -174,5 +196,6 @@ unsigned char	*load_bmp(char const *pathname, unsigned int *width, unsigned int 
 t_env			*st_env(t_env *env, bool unsave);
 // tools
 void			fps(t_fps *fps, bool print);
+void			shaders(t_gltools *gl);
 
 #endif

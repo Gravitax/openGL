@@ -20,9 +20,6 @@ static void	init_camera(t_camera *camera)
 	// Camera rotations angles
 	camera->pitch = 0;
 	camera->yaw = 0;
-	// Light
-	camera->light.pos = (vec3){ -10, 10, -10 };
-	camera->light.color = (vec3){ 1, 0, 0 };
 }
 
 static void	init_matrices(t_gltools *gl, t_camera *camera)
