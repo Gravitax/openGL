@@ -82,6 +82,7 @@ static int	load_element(t_env *env)
 static void	light(t_light *light)
 {
 	light->pos = (vec3){ -10, 10, -10 };
+	light->dir = (vec3){ -0.2f, -1.0f, -0.3f };
 	light->color = (vec3){ 1, 1, 1, 1 };
 	light->ambient = (vec3){ 0.4f, 0.4f, 0.4f };
 	light->diffuse = (vec3){ 0.75f, 0.75f, 0.75f };
@@ -91,7 +92,7 @@ static void	light(t_light *light)
 int			scop_init(t_env *env)
 {
 	st_env(env, false);
-	env->mode = MODE_LIGHT_COLOR;
+	env->mode = MODE_LIGHT_TEXTURE;
 	env->gl.window.fullscreen = false;
 	if (load_element(env) < 0 || load_images(env) < 0 || glfw_init(env) < 0)
 		return (-1);

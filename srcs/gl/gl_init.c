@@ -85,7 +85,8 @@ static void gl_uniforms(t_env* env)
 	env->gl.uniform.view = glGetUniformLocation(env->gl.shader_program, "view");
 	env->gl.uniform.projection = glGetUniformLocation(env->gl.shader_program, "projection");
 
-	env->gl.uniform.light[LIGHT_POS] = glGetUniformLocation(env->gl.shader_program, "light.pos");
+	env->gl.uniform.light[LIGHT_POSITION] = glGetUniformLocation(env->gl.shader_program, "light.pos");
+	env->gl.uniform.light[LIGHT_DIRECTION] = glGetUniformLocation(env->gl.shader_program, "light.dir");
 	env->gl.uniform.light[LIGHT_COLOR] = glGetUniformLocation(env->gl.shader_program, "light.color");
 	env->gl.uniform.light[LIGHT_AMBIENT] = glGetUniformLocation(env->gl.shader_program, "light.ambient");
 	env->gl.uniform.light[LIGHT_DIFFUSE] = glGetUniformLocation(env->gl.shader_program, "light.diffuse");
@@ -96,7 +97,8 @@ static void gl_uniforms(t_env* env)
 	glUniform4fv(env->gl.uniform.campos, 1, (GLfloat *)&env->camera.pos);
 	glUniform1i(env->gl.uniform.texture, 0);
 
-	glUniform4fv(env->gl.uniform.light[LIGHT_POS], 1, (GLfloat *)&env->light.pos);
+	glUniform4fv(env->gl.uniform.light[LIGHT_POSITION], 1, (GLfloat *)&env->light.pos);
+	glUniform4fv(env->gl.uniform.light[LIGHT_DIRECTION], 1, (GLfloat *)&env->light.dir);
 	glUniform4fv(env->gl.uniform.light[LIGHT_COLOR], 1, (GLfloat *)&env->light.color);
 	glUniform4fv(env->gl.uniform.light[LIGHT_AMBIENT], 1, (GLfloat *)&env->light.ambient);
 	glUniform4fv(env->gl.uniform.light[LIGHT_DIFFUSE], 1, (GLfloat *)&env->light.diffuse);
@@ -127,6 +129,6 @@ int			gl_init(t_env *env)
 	// CULLING : we only draw front face in clock-wise order
 	// glEnable(GL_CULL_FACE);
 	// glCullFace(GL_FRONT);
-	// glFrontFace(GL_CW);
+	// glFrontFace(GL_CCW);
 	return (0);
 }

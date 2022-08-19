@@ -43,12 +43,28 @@ enum			e_textures
 
 enum			e_light
 {
-	LIGHT_POS,
+	LIGHT_POSITION,
+	LIGHT_DIRECTION,
 	LIGHT_COLOR,
 	LIGHT_AMBIENT,
 	LIGHT_DIFFUSE,
 	LIGHT_SPECULAR,
 	LIGHT_MAX
+};
+
+enum			e_actions
+{
+	A_QUIT = 1,
+	A_FULLSCREEN,
+	A_MINIFY,
+	A_FORWARD,
+	A_BACKWARD,
+	A_RIGHT,
+	A_LEFT,
+	A_UP,
+	A_DOWN,
+	A_MODE,
+	A_MAX
 };
 
 typedef struct	s_color
@@ -86,7 +102,7 @@ typedef float	mat4[16];
 
 typedef struct	s_light
 {
-	vec3	pos, color;
+	vec3	pos, dir, color;
 	vec3	ambient, diffuse, specular;
 }				t_light;
 
@@ -141,7 +157,7 @@ typedef struct	s_fps
 
 typedef struct	s_env
 {
-	int				mode;
+	char			action, mode;
 	t_fps			fps;
 	t_gltools		gl;
 	t_camera		camera;

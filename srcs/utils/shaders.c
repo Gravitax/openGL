@@ -34,7 +34,7 @@ void		shaders(t_gltools *gl)
 		"#version 400\n"
 		"\n"
 		"struct	Light {\n"
-		"	vec4	pos, color;\n"
+		"	vec4	pos, dir, color;\n"
 		"	vec4	ambient, diffuse, specular;\n"
 		"};\n"
 		"\n"
