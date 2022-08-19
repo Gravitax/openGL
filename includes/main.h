@@ -47,6 +47,7 @@ typedef struct	s_vertice
 	vec3		pos;
 	t_color		col;
 	t_texture	tex;
+	vec3		nor;
 }				t_vertice;
 
 typedef struct	s_mesh
@@ -62,7 +63,12 @@ typedef struct	s_image
 	unsigned char	*ptr;
 }				t_image;
 
-typedef float	 mat4[16];
+typedef float	mat4[16];
+
+typedef struct	s_light
+{
+	vec3	pos, color;
+}				t_light;
 
 typedef struct	s_camera
 {
@@ -72,6 +78,7 @@ typedef struct	s_camera
 	vec3		pos, yaxis, zaxis;
 	float		speed;
 	bool		ground_fixed;
+	t_light		light;
 }				t_camera;
 
 typedef struct	s_mouse
@@ -91,7 +98,8 @@ typedef struct	s_window
 
 typedef struct	s_uniform
 {
-	GLint	texture, model, view, projection, mvp;
+	GLint	texture, light_pos, light_color;
+	GLint	model, view, projection, mvp;
 }				t_uniform;
 
 typedef struct	s_gltools
@@ -135,7 +143,6 @@ int	 			glfw_init(t_env *env);
 void			cb_error(int error, const char *description);
 void			cb_key(GLFWwindow *window, int key, int scancode, int action, int mods);
 void			cb_cursor_position(GLFWwindow *window, double xpos, double ypos);
-void			cb_window_maximize(GLFWwindow *window, int maximized);
 void			cb_window_focus(GLFWwindow *window, int focused);
 void			cb_scroll(GLFWwindow *window, double xoffset, double yoffset);
 void			cb_framebuffer_size(GLFWwindow *window, int width, int height);

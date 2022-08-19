@@ -30,7 +30,7 @@ static void	gl_program(t_gltools *gl) {
 
 static void	gl_layouts(t_gltools *gl)
 {
-	GLint	position, color, texcoord;
+	GLint	position, color, texcoord, normal;
 
 	// Specify the layout of the vertex data
 	// position
@@ -48,6 +48,11 @@ static void	gl_layouts(t_gltools *gl)
 	glEnableVertexAttribArray(texcoord);
 	glVertexAttribPointer(texcoord, sizeof(t_texture) * 0.25, GL_FLOAT, GL_FALSE,
 		sizeof(t_vertice), (void *)(sizeof(vec3) + sizeof(t_color)));
+	// normal
+	normal = glGetAttribLocation(gl->shader_program, "in_normal");
+	glEnableVertexAttribArray(normal);
+	glVertexAttribPointer(normal, sizeof(vec3) * 0.25, GL_FLOAT, GL_FALSE,
+		sizeof(t_vertice), (void *)(sizeof(vec3) + sizeof(t_color) + sizeof(t_texture)));
 }
 
 static void	gl_buffers(t_gltools *gl, t_mesh *mesh)
@@ -72,10 +77,19 @@ static void	gl_buffers(t_gltools *gl, t_mesh *mesh)
 static void gl_uniforms(t_env* env)
 {
 	// get uniforms
-	env->gl.uniform.texture = glGetUniformLocation(env->gl.shader_program, "in_texture");
+	env->gl.uniform.light_pos = glGetUniformLocation(env->gl.shader_program, "light_pos");
+	env->gl.uniform.light_color = glGetUniformLocation(env->gl.shader_program, "light_color");
+	env->gl.uniform.texture = glGetUniformLocation(env->gl.shader_program, "texture_color");
+
 	env->gl.uniform.mvp = glGetUniformLocation(env->gl.shader_program, "mvp");
 
-	// consume texture uniforms
+	env->gl.uniform.model = glGetUniformLocation(env->gl.shader_program, "model");
+	env->gl.uniform.view = glGetUniformLocation(env->gl.shader_program, "view");
+	env->gl.uniform.projection = glGetUniformLocation(env->gl.shader_program, "projection");
+
+	// consume uniforms
+	glUniform4fv(env->gl.uniform.light_pos, 1, (GLfloat *)&env->camera.light.pos);
+	glUniform4fv(env->gl.uniform.light_color, 1, (GLfloat *)&env->camera.light.color);
 	glUniform1i(env->gl.uniform.texture, 0);
 }
 

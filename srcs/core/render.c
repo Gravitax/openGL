@@ -28,18 +28,13 @@ static void	textures(GLuint *textures, int id)
 	}
 }
 
-static void	draw(t_env *env) {
-	t_camera		*camera;
-	t_mesh			*mesh;
-	unsigned int	i;
+static void	draw_mesh(t_env *env)
+{
+	t_mesh	*mesh;
+	int		i;
 
-	camera = &env->camera;;
-	mat4_view(camera);
-	mat4_mvp(camera);
-
-	glUniformMatrix4fv(env->gl.uniform.mvp, 1, GL_FALSE, camera->mvp);
-
-	for (i = 0; i < env->mesh.nb_cells; i++) {
+	i = -1;
+	while (++i < env->mesh.nb_cells) {
 		mesh = dyacc(&env->mesh, i);
 		if (mesh == NULL)
 			continue ;
@@ -48,6 +43,21 @@ static void	draw(t_env *env) {
 		glDrawArrays(GL_TRIANGLES, 0, mesh->vertices.nb_cells);
 		glBindVertexArray(0);
 	}
+}
+
+static void	draw(t_env *env) {
+	t_camera		*camera;
+
+	camera = &env->camera;
+	mat4_view(camera);
+	// mat4_mvp(camera);
+	// glUniformMatrix4fv(env->gl.uniform.mvp, 1, GL_FALSE, camera->mvp);
+
+	glUniformMatrix4fv(env->gl.uniform.model, 1, GL_FALSE, camera->model);
+	glUniformMatrix4fv(env->gl.uniform.view, 1, GL_FALSE, camera->view);
+	glUniformMatrix4fv(env->gl.uniform.projection, 1, GL_FALSE, camera->projection);
+
+	draw_mesh(env);
 }
 
 int		 	render(t_env *env)
