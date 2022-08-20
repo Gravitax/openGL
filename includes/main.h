@@ -54,24 +54,37 @@ enum			e_light
 
 enum			e_actions
 {
+	// UI
 	ACTION_UI_QUIT,
 	ACTION_UI_FULLSCREEN,
 	ACTION_UI_MINIFY,
 	ACTION_UI_MODE,
+	ACTION_UI_LSHIFT,
+	ACTION_UI_RSHIFT,
+	// CAMERA
 	ACTION_CAM_FORWARD,
 	ACTION_CAM_BACKWARD,
 	ACTION_CAM_RIGHT,
 	ACTION_CAM_LEFT,
 	ACTION_CAM_UP,
 	ACTION_CAM_DOWN,
+	// MODEL
 	ACTION_MODEL_FORWARD,
 	ACTION_MODEL_BACKWARD,
 	ACTION_MODEL_RIGHT,
 	ACTION_MODEL_LEFT,
 	ACTION_MODEL_UP,
 	ACTION_MODEL_DOWN,
+	ACTION_MODEL_PROTX,
+	ACTION_MODEL_NROTX,
+	ACTION_MODEL_PROTY,
+	ACTION_MODEL_NROTY,
+	ACTION_MODEL_PROTZ,
+	ACTION_MODEL_NROTZ,
 	ACTION_MAX
 };
+
+typedef float	mat4[16];
 
 typedef struct	s_color
 {
@@ -98,13 +111,18 @@ typedef struct	s_mesh
 	GLuint			ebo, vao, vbo;
 }				t_mesh;
 
+typedef struct	s_model
+{
+	t_dynarray	mesh;
+	mat4		model;
+	float		max, min;
+}				t_model;
+
 typedef struct	s_image
 {
 	unsigned int	w, h;
 	unsigned char	*ptr;
 }				t_image;
-
-typedef float	mat4[16];
 
 typedef struct	s_light
 {
@@ -114,7 +132,7 @@ typedef struct	s_light
 
 typedef struct	s_camera
 {
-	mat4		model, view, projection;
+	mat4		view, projection;
 	float		pitch, yaw;
 	float		fov, near, far, ratio;
 	vec3		pos, yaxis, zaxis;
@@ -171,14 +189,17 @@ typedef struct	s_env
 	t_light			light;
 	t_mouse		 	mouse;
 	t_image			images[TEXTURE_MAX];
-	t_dynarray		mesh;
+	t_model			model;
 }				t_env;
 
 // CORE
-void			events_init(t_env *env);
+void			events_camera(t_env *env);
 void			events_keyboard(t_env *env);
+void			events_model(t_env *env);
 void			events_mouse(t_env *env, float xpos, float ypos);
+void			events(t_env *env);
 void			camera(t_env *env);
+int				model(t_env *env);
 int				render(t_env *env);
 void			scop_exit();
 int	 			scop_init(t_env *env);

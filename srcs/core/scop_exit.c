@@ -15,8 +15,8 @@ static void	free_gl(t_env *env)
 	if (env->gl.shader_program)
 		glDeleteProgram(env->gl.shader_program);
 	i = -1;
-	while (++i < env->mesh.nb_cells) {
-		mesh = dyacc(&env->mesh, i);
+	while (++i < env->model.mesh.nb_cells) {
+		mesh = dyacc(&env->model.mesh, i);
 		if (mesh == NULL)
 			continue ;
 		if (mesh->ebo)
@@ -41,8 +41,8 @@ static void	free_env(t_env *env)
 	int		i;
 
 	i = -1;
-	while (++i < env->mesh.nb_cells) {
-		mesh = dyacc(&env->mesh, i);
+	while (++i < env->model.mesh.nb_cells) {
+		mesh = dyacc(&env->model.mesh, i);
 		if (mesh == NULL)
 			continue ;
 		dynarray_free(&mesh->vertices);

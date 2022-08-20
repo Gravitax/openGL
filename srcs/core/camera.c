@@ -24,8 +24,6 @@ static void	init_camera(t_camera *camera)
 
 static void	init_matrices(t_gltools *gl, t_camera *camera)
 {
-	// Model matrix
-	mat4_identity(camera->model);
 	// View matrix
 	mat4_identity(camera->view);
 	// Projection matrix

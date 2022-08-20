@@ -18,8 +18,8 @@ static void	draw_mesh(t_env *env)
 	int		i;
 
 	i = -1;
-	while (++i < env->mesh.nb_cells) {
-		mesh = dyacc(&env->mesh, i);
+	while (++i < env->model.mesh.nb_cells) {
+		mesh = dyacc(&env->model.mesh, i);
 		if (mesh == NULL)
 			continue ;
 		textures(env->gl.textures, mesh->texture);
@@ -47,7 +47,7 @@ static void	draw(t_env *env) {
 	glUniform4fv(env->gl.uniform.light[LIGHT_POSITION], 1, (GLfloat *)&env->camera.pos);
 
 	// update matrices in shaders
-	glUniformMatrix4fv(env->gl.uniform.model, 1, GL_FALSE, camera->model);
+	glUniformMatrix4fv(env->gl.uniform.model, 1, GL_FALSE, env->model.model);
 	glUniformMatrix4fv(env->gl.uniform.view, 1, GL_FALSE, camera->view);
 	glUniformMatrix4fv(env->gl.uniform.projection, 1, GL_FALSE, camera->projection);
 

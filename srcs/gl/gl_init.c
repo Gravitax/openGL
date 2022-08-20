@@ -116,8 +116,8 @@ int			gl_init(t_env *env)
 	gl_textures(env);
 
 	i = -1;
-	while (++i < env->mesh.nb_cells) {
-		mesh = dyacc(&env->mesh, i);
+	while (++i < env->model.mesh.nb_cells) {
+		mesh = dyacc(&env->model.mesh, i);
 		if(mesh == NULL)
 			continue ;
 		gl_buffers(&env->gl, mesh);

@@ -29,10 +29,13 @@ endif
 
 SRC_PATH=srcs/
 SRC_NAME=main.c\
-	core/events/functions.c\
-	core/events/keyboard.c\
-	core/events/mouse.c\
+	core/events/events_camera.c\
+	core/events/events_keyboard.c\
+	core/events/events_model.c\
+	core/events/events_mouse.c\
+	core/events/events.c\
 	core/camera.c\
+	core/model.c\
 	core/render.c\
 	core/scop_exit.c\
 	core/scop_init.c\

@@ -19,9 +19,16 @@ static void	events_release(t_env *env, char action)
 		case (ACTION_UI_MODE):
 			key = GLFW_KEY_T;
 			break ;
+		case (ACTION_UI_RSHIFT):
+			key = GLFW_KEY_RIGHT_SHIFT;
+			break ;
+		case (ACTION_UI_LSHIFT):
+			key = GLFW_KEY_LEFT_SHIFT;
+			break ;
 	}
-	if (key > 0 && glfwGetKey(env->gl.window.ptr, key) == GLFW_RELEASE) {
-		(*env->events[action])(env);
+	if (glfwGetKey(env->gl.window.ptr, key) == GLFW_RELEASE) {
+		if (env->events[action])
+			(*env->events[action])(env);
 		env->actions[action] = false;
 	}
 }
@@ -32,18 +39,18 @@ static void	events_consume(t_env *env)
 
 	i = -1;
 	while (++i < ACTION_MAX) {
-		switch (i)
-		{
-			case (ACTION_UI_QUIT): case (ACTION_UI_FULLSCREEN): case (ACTION_UI_MINIFY): case (ACTION_UI_MODE):
-				if (env->actions[i] == true)
-					events_release(env, i);
-				break;
-			default:
-				if (env->actions[i] == true) {
-					(*env->events[i])(&env->camera);
-					env->actions[i] = false;
-				}
-				break;
+		if (i <= ACTION_UI_RSHIFT && env->actions[i] == true) { // RELEASE EVENTS
+			events_release(env, i);
+		}
+		else if (i >= ACTION_CAM_FORWARD && i <= ACTION_CAM_DOWN && env->actions[i] == true) { // CAM EVENTS
+			if (env->events[i])
+				(*env->events[i])(&env->camera);
+			env->actions[i] = false;
+		}
+		else if (i >= ACTION_MODEL_FORWARD && i <= ACTION_MODEL_NROTZ && env->actions[i] == true) { // MODEL EVENTS
+			if (env->events[i])
+				(*env->events[i])(&env->model);
+			env->actions[i] = false;
 		}
 	}
 }
@@ -64,6 +71,12 @@ static void	events_detect_press(GLFWwindow *window, bool *actions)
 	// MODE
 	if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS)
 		actions[ACTION_UI_MODE] = true;
+	// RSHIFT
+	if (glfwGetKey(window, GLFW_KEY_RIGHT_SHIFT) == GLFW_PRESS)
+		actions[ACTION_UI_RSHIFT] = true;
+	// LSHIFT
+	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
+		actions[ACTION_UI_LSHIFT] = true;
 
 	// CAMERA ==========================================
 
@@ -85,21 +98,23 @@ static void	events_detect_press(GLFWwindow *window, bool *actions)
 
 	// MODEL ==========================================
 
-	// TRANSLATION FRONT / BACK
+	bool	shift = actions[ACTION_UI_RSHIFT] || actions[ACTION_UI_LSHIFT];
+
+	// FRONT / BACK / ROT X
 	if (glfwGetKey(window, GLFW_KEY_U) == GLFW_PRESS)
-		actions[ACTION_MODEL_FORWARD] = true;
+		actions[shift ? ACTION_MODEL_PROTX : ACTION_MODEL_FORWARD] = true;
 	if (glfwGetKey(window, GLFW_KEY_J) == GLFW_PRESS)
-		actions[ACTION_MODEL_BACKWARD] = true;
-	// TRANSLATION RIGHT / LEFT
+		actions[shift ? ACTION_MODEL_NROTX : ACTION_MODEL_BACKWARD] = true;
+	// RIGHT / LEFT / ROT Y
 	if (glfwGetKey(window, GLFW_KEY_K) == GLFW_PRESS)
-		actions[ACTION_MODEL_RIGHT] = true;
+		actions[shift ? ACTION_MODEL_PROTY : ACTION_MODEL_RIGHT] = true;
 	if (glfwGetKey(window, GLFW_KEY_H) == GLFW_PRESS)
-		actions[ACTION_MODEL_LEFT] = true;
-	// TRANSLATION UP / DOWN
+		actions[shift ? ACTION_MODEL_NROTY : ACTION_MODEL_LEFT] = true;
+	// UP / DOWN / ROT Z
 	if (glfwGetKey(window, GLFW_KEY_O) == GLFW_PRESS)
-		actions[ACTION_MODEL_UP] = true;
+		actions[shift ? ACTION_MODEL_PROTZ : ACTION_MODEL_UP] = true;
 	if (glfwGetKey(window, GLFW_KEY_L) == GLFW_PRESS)
-		actions[ACTION_MODEL_DOWN] = true;
+		actions[shift ? ACTION_MODEL_NROTZ : ACTION_MODEL_DOWN] = true;
 }
 
 void		events_keyboard(t_env *env)
