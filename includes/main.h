@@ -107,6 +107,7 @@ typedef struct	s_vertice
 typedef struct	s_mesh
 {
 	t_dynarray		vertices;
+	vec3			center;
 	unsigned int	texture;
 	GLuint			ebo, vao, vbo;
 }				t_mesh;
@@ -115,7 +116,8 @@ typedef struct	s_model
 {
 	t_dynarray	mesh;
 	mat4		model;
-	float		max, min;
+	vec3		trans, rot;
+	vec3		center;
 }				t_model;
 
 typedef struct	s_image

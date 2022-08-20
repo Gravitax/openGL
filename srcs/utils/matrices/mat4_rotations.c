@@ -9,7 +9,6 @@
 */
 void		mat4_xrotation(mat4 m, float x) //
 {
-	mat4_identity(m);
 	m[5] = cosf(x);
 	m[6] = -sinf(x);
 	m[9] = sinf(x);
@@ -24,7 +23,6 @@ void		mat4_xrotation(mat4 m, float x) //
 */
 void		mat4_yrotation(mat4 m, float y) //
 {
-	mat4_identity(m);
 	m[0] = cosf(y);
 	m[2] = sinf(y);
 	m[8] = -sinf(y);
@@ -39,7 +37,6 @@ void		mat4_yrotation(mat4 m, float y) //
 */
 void		mat4_zrotation(mat4 m, float z)
 {
-	mat4_identity(m);
 	m[0] = cosf(z);
 	m[1] = -sinf(z);
 	m[4] = sinf(z);
@@ -51,6 +48,9 @@ void		mat4_rotate(mat4 m, float x, float y, float z)
 {
 	mat4	rot_x, rot_y, rot_z;
 
+	mat4_identity(rot_x);
+	mat4_identity(rot_y);
+	mat4_identity(rot_z);
 	mat4_xrotation(rot_x, x);
 	mat4_yrotation(rot_y, y);
 	mat4_zrotation(rot_z, z);

@@ -1,96 +1,82 @@
 #include "../../../includes/main.h"
 
 
-// MODEL ==========================================
-
 // TRANSLATION FORWARD
 static void	model_forward(t_model *model)
 {
-	mat4_translate(model->model, 0, 0, 1);
+	model->trans.z += 1;
+	model->center.z += 1;
 }
 
 // TRANSLATION BACKWARD
 static void	model_backward(t_model *model)
 {
-	mat4_translate(model->model, 0, 0, -1);
+	model->trans.z -= 1;
+	model->center.z -= 1;
 }
 
 // TRANSLATION RIGHT
 static void	model_right(t_model *model)
 {
-	mat4_translate(model->model, -1, 0, 0);
+	model->trans.x -= 1;
+	model->center.x -= 1;
 }
 
 // TRANSLATION LEFT
 static void	model_left(t_model *model)
 {
-	mat4_translate(model->model, 1, 0, 0);
+	model->trans.x += 1;
+	model->center.x += 1;
 }
 
 // TRANSLATION UP
 static void	model_up(t_model *model)
 {
-	mat4_translate(model->model, 0, 1, 0);
+	model->trans.y += 1;
+	model->center.y += 1;
 }
 
 // TRANSLATION DOWN
 static void	model_down(t_model *model)
 {
-	mat4_translate(model->model, 0, -1, 0);
+	model->trans.y -= 1;
+	model->center.y -= 1;
 }
 
 // POSITIVE ROTX
 static void	model_protx(t_model *model)
 {
-	mat4	m;
-
-	mat4_xrotation(m, 0.1f);
-	mat4_multiply(model->model, m);
+	model->rot.x += 0.1f;
 }
 
 // NEGATIVE ROTX
 static void	model_nrotx(t_model *model)
 {
-	mat4	m;
-
-	mat4_xrotation(m, -0.1f);
-	mat4_multiply(model->model, m);
+	model->rot.x -= 0.1f;
 }
 
 // POSITIVE ROTY
 static void	model_proty(t_model *model)
 {
-	mat4	m;
-
-	mat4_yrotation(m, 0.1f);
-	mat4_multiply(model->model, m);
+	model->rot.y += 0.1f;
 }
 
 // NEGATIVE ROTY
 static void	model_nroty(t_model *model)
 {
-	mat4	m;
-
-	mat4_yrotation(m, -0.1f);
-	mat4_multiply(model->model, m);
+	model->rot.y -= 0.1f;
 }
 
 // POSITIVE ROTZ
 static void	model_protz(t_model *model)
 {
-	mat4	m;
-
-	mat4_zrotation(m, 0.1f);
-	mat4_multiply(model->model, m);
+	model->rot.z += 0.1f;
 }
 
 // NEGATIVE ROTZ
 static void	model_nrotz(t_model *model)
 {
-	mat4	m;
-
-	mat4_zrotation(m, -0.1f);
-	mat4_multiply(model->model, m);
+	model->rot.z -= 0.1f;
 }
 
 void		events_model(t_env *env)

@@ -43,6 +43,20 @@ static void	draw(t_env *env) {
 	camera = &env->camera;
 	mat4_view(camera);
 
+	mat4_identity(env->model.model);
+	mat4_translate(env->model.model, env->model.trans.x, env->model.trans.y, env->model.trans.z);
+
+	// mat4	m;
+	// vec3	center;
+
+	// mat4_rotate(m, env->model.rot.x, env->model.rot.y, env->model.rot.z);
+	// center = mat4_x_vec3(m, env->model.center);
+	// center = env->model.center;
+
+	// mat4_translate(env->model.model, -center.x, -center.y, -center.z);
+	mat4_rotate(env->model.model, env->model.rot.x, env->model.rot.y, env->model.rot.z);
+	// mat4_translate(env->model.model, center.x, center.y, center.z);
+
 	// update camera pos in shaders
 	glUniform4fv(env->gl.uniform.light[LIGHT_POSITION], 1, (GLfloat *)&env->camera.pos);
 
