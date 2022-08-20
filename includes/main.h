@@ -38,7 +38,7 @@ enum			e_textures
 {
 	TEXTURE_DS,
 	TEXTURE_NYAN,
-	TEXTURES_MAX
+	TEXTURE_MAX
 };
 
 enum			e_light
@@ -57,14 +57,14 @@ enum			e_actions
 	ACTION_QUIT,
 	ACTION_FULLSCREEN,
 	ACTION_MINIFY,
+	ACTION_MODE,
 	ACTION_FORWARD,
 	ACTION_BACKWARD,
 	ACTION_RIGHT,
 	ACTION_LEFT,
 	ACTION_UP,
 	ACTION_DOWN,
-	ACTION_MODE,
-	ACTIONS_MAX
+	ACTION_MAX
 };
 
 typedef struct	s_color
@@ -112,7 +112,7 @@ typedef struct	s_camera
 	float		pitch, yaw;
 	float		fov, near, far, ratio;
 	vec3		pos, yaxis, zaxis;
-	float		speed;
+	float		speed, tspeed;
 	bool		ground_fixed;
 }				t_camera;
 
@@ -143,7 +143,7 @@ typedef struct	s_gltools
 	GLuint			shader_program;
 	GLuint			shader_vertex, shader_fragment;
 	GLuint			ebo, vao, vbo;
-	GLuint			textures[TEXTURES_MAX];
+	GLuint			textures[TEXTURE_MAX];
 	const GLchar	*shader_vertex_text, *shader_fragment_text;
 	t_window		window;
 	t_uniform		uniform;
@@ -158,20 +158,22 @@ typedef struct	s_fps
 typedef struct	s_env
 {
 	char			mode;
-	bool			actions[ACTIONS_MAX];
+	bool			actions[ACTION_MAX];
+	void			(*events[ACTION_MAX])();
 	t_fps			fps;
 	t_gltools		gl;
 	t_camera		camera;
 	t_light			light;
 	t_mouse		 	mouse;
-	t_image			images[TEXTURES_MAX];
+	t_image			images[TEXTURE_MAX];
 	t_dynarray		mesh;
 }				t_env;
 
 // CORE
-void			camera(t_env *env);
-int				events(t_env *env);
+void			events_init(t_env *env);
+void			events_keyboard(t_env *env);
 void			events_mouse(t_env *env, float xpos, float ypos);
+void			camera(t_env *env);
 int				render(t_env *env);
 void			scop_exit();
 int	 			scop_init(t_env *env);

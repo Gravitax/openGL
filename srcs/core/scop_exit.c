@@ -7,7 +7,7 @@ static void	free_gl(t_env *env)
 	int		i;
 
 	if (*env->gl.textures)
-		glDeleteTextures(TEXTURES_MAX, env->gl.textures);
+		glDeleteTextures(TEXTURE_MAX, env->gl.textures);
 	if (env->gl.shader_vertex)
 		glDeleteShader(env->gl.shader_vertex);
 	if (env->gl.shader_fragment)
@@ -48,7 +48,7 @@ static void	free_env(t_env *env)
 		dynarray_free(&mesh->vertices);
 	}
 	i = -1;
-	while (++i < TEXTURES_MAX) {
+	while (++i < TEXTURE_MAX) {
 		if (env->images[i].ptr)
 			free(env->images[i].ptr);
 	}

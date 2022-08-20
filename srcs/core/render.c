@@ -6,7 +6,7 @@ static void	textures(GLuint *textures, int id)
 	int	i;
 
 	i = -1;
-	while (++i < TEXTURES_MAX) {
+	while (++i < TEXTURE_MAX) {
 		glActiveTexture(GL_TEXTURE0 + i);
 		glBindTexture(GL_TEXTURE_2D, textures[id]);
 	}
@@ -62,7 +62,7 @@ int		 	render(t_env *env)
 	glfwPollEvents();
 
 	fps(&env->fps, true);
-	events(env);
+	events_keyboard(env);
 
  	glClearColor(255, 255, 255, 1);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);

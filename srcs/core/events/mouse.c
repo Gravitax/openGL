@@ -1,4 +1,4 @@
-#include "../../includes/main.h"
+#include "../../../includes/main.h"
 
 
 static void update_directions(t_camera *camera)

@@ -3,13 +3,13 @@
 
 static int	load_images(t_env *env)
 {
-	const char		*images_path[TEXTURES_MAX] = {
+	const char		*images_path[TEXTURE_MAX] = {
 		"./ressources/images/darksouls.bmp",
 		"./ressources/images/nyan.bmp"
 	};
 	int				i = -1;
 
-	while (++i < TEXTURES_MAX) {
+	while (++i < TEXTURE_MAX) {
 		if (!(env->images[i].ptr = load_bmp(images_path[i], &env->images[i].w, &env->images[i].h)))
 			return (-1);
 	}
@@ -101,6 +101,7 @@ int			scop_init(t_env *env)
 	shaders(&env->gl);
 	if (gl_init(env) < 0)
 		return (-1);
+	events_init(env);
 	env->fps.time = glfwGetTime();
 	return (0);
 }

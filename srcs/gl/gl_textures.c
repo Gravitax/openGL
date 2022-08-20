@@ -6,8 +6,8 @@ void		gl_textures(t_env *env)
 	t_image	image;
 	int		i = -1;
 
-	glGenTextures(TEXTURES_MAX, env->gl.textures);
-	while (++i < TEXTURES_MAX) {
+	glGenTextures(TEXTURE_MAX, env->gl.textures);
+	while (++i < TEXTURE_MAX) {
 		glActiveTexture(GL_TEXTURE0 + i);
 		glBindTexture(GL_TEXTURE_2D, env->gl.textures[i]);
 

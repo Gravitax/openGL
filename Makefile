@@ -29,6 +29,7 @@ endif
 
 SRC_PATH=srcs/
 SRC_NAME=main.c\
+	core/events/functions.c\
 	core/events/keyboard.c\
 	core/events/mouse.c\
 	core/camera.c\
