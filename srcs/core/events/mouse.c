@@ -36,12 +36,6 @@ void		events_mouse(t_env *env, float xpos, float ypos)
 	float	xoffset, yoffset;
 
 	mouse = &env->mouse;
-	if (mouse->mounted == false)
-	{
-		mouse->pos.x = xpos;
-		mouse->pos.y = ypos;
-		mouse->mounted = true;
-	}
 	xoffset = xpos - mouse->pos.x;
 	yoffset = mouse->pos.y - ypos;
 	mouse->pos.x = xpos;

@@ -34,8 +34,9 @@ static void	init_matrices(t_gltools *gl, t_camera *camera)
 
 static void	init_mouse(GLFWwindow *window, t_mouse *mouse)
 {
-	mouse->mounted = false;
 	mouse->sensitivity = 2.0f;
+	mouse->pos.x = _WIDTH / 2;
+	mouse->pos.y = _HEIGHT / 2;
 	glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 }
 
