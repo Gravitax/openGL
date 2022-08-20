@@ -54,17 +54,17 @@ enum			e_light
 
 enum			e_actions
 {
-	A_QUIT = 1,
-	A_FULLSCREEN,
-	A_MINIFY,
-	A_FORWARD,
-	A_BACKWARD,
-	A_RIGHT,
-	A_LEFT,
-	A_UP,
-	A_DOWN,
-	A_MODE,
-	A_MAX
+	ACTION_QUIT,
+	ACTION_FULLSCREEN,
+	ACTION_MINIFY,
+	ACTION_FORWARD,
+	ACTION_BACKWARD,
+	ACTION_RIGHT,
+	ACTION_LEFT,
+	ACTION_UP,
+	ACTION_DOWN,
+	ACTION_MODE,
+	ACTIONS_MAX
 };
 
 typedef struct	s_color
@@ -157,7 +157,8 @@ typedef struct	s_fps
 
 typedef struct	s_env
 {
-	char			action, mode;
+	char			mode;
+	bool			actions[ACTIONS_MAX];
 	t_fps			fps;
 	t_gltools		gl;
 	t_camera		camera;
@@ -178,12 +179,12 @@ int	 			scop_init(t_env *env);
 // GLFW
 int	 			glfw_init(t_env *env);
 // callbacks
-void			cb_error(int error, const char *description);
-void			cb_key(GLFWwindow *window, int key, int scancode, int action, int mods);
 void			cb_cursor_position(GLFWwindow *window, double xpos, double ypos);
-void			cb_window_focus(GLFWwindow *window, int focused);
-void			cb_scroll(GLFWwindow *window, double xoffset, double yoffset);
+void			cb_error(int error, const char *description);
 void			cb_framebuffer_size(GLFWwindow *window, int width, int height);
+void			cb_key(GLFWwindow *window, int key, int scancode, int action, int mods);
+void			cb_scroll(GLFWwindow *window, double xoffset, double yoffset);
+void			cb_window_focus(GLFWwindow *window, int focused);
 
 // GL
 int	 			gl_init(t_env *env);

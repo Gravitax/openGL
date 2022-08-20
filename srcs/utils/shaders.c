@@ -54,9 +54,6 @@ void		shaders(t_gltools *gl)
 		"void	main()\n"
 		"{\n"
 		"	switch (mode) {\n" // ==========================================
-		"		case (0): \n" // ONLY COLOR
-		"			FragColor = Color;\n"
-		"			break ;\n" // ==========================================
 		"		case (1): \n" // ONLY TEXTURE
 		"			FragColor = texture(texture_color, Texcoord);\n"
 		"			break ;\n" // ==========================================
@@ -78,6 +75,9 @@ void		shaders(t_gltools *gl)
 		"			FragColor = (ambient + diffuse + specular);\n"
 		"			if (mode == 2) FragColor *= Color;\n"
 		"			break ;\n" // ==========================================
+		"		default:\n" // ONLY COLOR
+		"			FragColor = Color;\n"
+		"			break ;\n"
 		"	}\n"
 		"}\n";
 }

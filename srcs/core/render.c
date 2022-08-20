@@ -1,22 +1,6 @@
 #include "../../includes/main.h"
 
 
-static void	mat4_view(t_camera *camera)
-{
-	if (camera->ground_fixed == true)
-		camera->pos.y = 0;
-	mat4_lookat(camera->view, camera->pos, vec_add(camera->pos, camera->zaxis), camera->yaxis);
-	mat4_inverse(camera->view);
-}
-
-// static void	mat4_mvp(t_camera *camera)
-// {
-// 	mat4_identity(camera->mvp);
-// 	mat4_multiply(camera->mvp, camera->projection);
-// 	mat4_multiply(camera->mvp, camera->view);
-// 	mat4_multiply(camera->mvp, camera->model);
-// }
-
 static void	textures(GLuint *textures, int id)
 {
 	int	i;
@@ -43,6 +27,14 @@ static void	draw_mesh(t_env *env)
 		glDrawArrays(GL_TRIANGLES, 0, mesh->vertices.nb_cells);
 		glBindVertexArray(0);
 	}
+}
+
+static void	mat4_view(t_camera *camera)
+{
+	if (camera->ground_fixed == true)
+		camera->pos.y = 0;
+	mat4_lookat(camera->view, camera->pos, vec_add(camera->pos, camera->zaxis), camera->yaxis);
+	mat4_inverse(camera->view);
 }
 
 static void	draw(t_env *env) {
