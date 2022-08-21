@@ -91,7 +91,6 @@ int			model(t_env *env)
 			return (-1);
 	}
 	env->model.center = (vec3){ env->model.center.x / i, env->model.center.y / i, env->model.center.z / i };
-	// Model matrix
-	mat4_identity(env->model.model);
+	env->model.scale = 1;
 	return (0);
 }

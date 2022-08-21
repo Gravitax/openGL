@@ -47,7 +47,6 @@ void		cb_scroll(GLFWwindow *window, double xoffset, double yoffset)
 	env->camera.fov -= (float)yoffset;
 	env->camera.fov = env->camera.fov > 90 ? 90 : env->camera.fov;
 	env->camera. fov = env->camera.fov < 1 ? 1 : env->camera.fov;
-	mat4_projection(env->camera.projection, env->camera.fov, env->camera.near, env->camera.far, env->camera.ratio);
 }
 
 void		cb_framebuffer_size(GLFWwindow *window, int width, int height)
@@ -61,5 +60,4 @@ void		cb_framebuffer_size(GLFWwindow *window, int width, int height)
 	env->gl.window.w = width;
 	env->gl.window.h = height;
 	env->camera.ratio = (float)width / (float)height;
-	mat4_projection(env->camera.projection, env->camera.fov, env->camera.near, env->camera.far, env->camera.ratio);
 }

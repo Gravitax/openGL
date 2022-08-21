@@ -25,15 +25,6 @@
 # define _LENGTH	_WIDTH * _HEIGHT
 
 
-enum			e_modes
-{
-	MODE_COLOR,
-	MODE_TEXTURE,
-	MODE_LIGHT_COLOR,
-	MODE_LIGHT_TEXTURE,
-	MODE_MAX
-};
-
 enum			e_textures
 {
 	TEXTURE_DS,
@@ -43,6 +34,7 @@ enum			e_textures
 
 enum			e_light
 {
+	LIGHT_ACTIVE,
 	LIGHT_POSITION,
 	LIGHT_DIRECTION,
 	LIGHT_COLOR,
@@ -57,6 +49,7 @@ enum			e_actions
 	// UI
 	ACTION_UI_QUIT,
 	ACTION_UI_FULLSCREEN,
+	ACTION_UI_LIGHT,
 	ACTION_UI_MINIFY,
 	ACTION_UI_MODE,
 	ACTION_UI_LSHIFT,
@@ -118,6 +111,7 @@ typedef struct	s_model
 	mat4		model;
 	vec3		trans, rot;
 	vec3		center;
+	float		scale;
 }				t_model;
 
 typedef struct	s_image
@@ -128,6 +122,7 @@ typedef struct	s_image
 
 typedef struct	s_light
 {
+	bool	active;
 	vec3	pos, dir, color;
 	vec3	ambient, diffuse, specular;
 }				t_light;
@@ -158,7 +153,7 @@ typedef struct	s_window
 
 typedef struct	s_uniform
 {
-	GLint	texture, campos, mode;
+	GLint	texture, campos, progress;
 	GLint	model, view, projection;
 	GLint	light[LIGHT_MAX];
 }				t_uniform;
@@ -180,9 +175,14 @@ typedef struct	s_fps
 	double			time, current_seconds, elapsed_seconds;
 }				t_fps;
 
+typedef struct	s_animation
+{
+	float			progress, step;
+	bool			active;
+}				t_animation;
+
 typedef struct	s_env
 {
-	char			mode;
 	bool			actions[ACTION_MAX];
 	void			(*events[ACTION_MAX])();
 	t_fps			fps;
@@ -192,6 +192,7 @@ typedef struct	s_env
 	t_mouse		 	mouse;
 	t_image			images[TEXTURE_MAX];
 	t_model			model;
+	t_animation		animation;
 }				t_env;
 
 // CORE
@@ -231,6 +232,7 @@ void			mat4_zrotation(mat4 m, float z);
 void			mat4_rotate(mat4 m, float x, float y, float z);
 
 void			mat4_identity(mat4 m);
+void			mat4_scale(mat4 m, float scale);
 void			mat4_inverse(mat4 m);
 void			mat4_print(mat4 m);
 void			mat4_translate(mat4 m, float x, float y, float z);
@@ -244,5 +246,6 @@ t_env			*st_env(t_env *env, bool unsave);
 // tools
 void			fps(t_fps *fps, bool print);
 void			shaders(t_gltools *gl);
+
 
 #endif

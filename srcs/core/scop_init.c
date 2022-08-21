@@ -1,7 +1,7 @@
 #include "../../includes/main.h"
 
 
-static int	load_images(t_env *env)
+static int	images(t_env *env)
 {
 	const char		*images_path[TEXTURE_MAX] = {
 		"./ressources/images/darksouls.bmp",
@@ -29,16 +29,17 @@ static void	light(t_light *light)
 int			scop_init(t_env *env)
 {
 	st_env(env, false);
-	env->mode = MODE_LIGHT_TEXTURE;
+	env->light.active = false;
 	env->gl.window.fullscreen = false;
-	if (model(env) < 0 || load_images(env) < 0 || glfw_init(env) < 0)
+	env->animation.step = -0.1f;
+	if (model(env) < 0 || images(env) < 0 || glfw_init(env) < 0)
 		return (-1);
 	camera(env);
 	light(&env->light);
+	events(env);
 	shaders(&env->gl);
 	if (gl_init(env) < 0)
 		return (-1);
-	events(env);
 	env->fps.time = glfwGetTime();
 	return (0);
 }

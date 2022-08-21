@@ -13,11 +13,14 @@ static void	events_release(t_env *env, char action)
 		case (ACTION_UI_FULLSCREEN):
 			key = GLFW_KEY_M;
 			break;
+		case (ACTION_UI_LIGHT):
+			key = GLFW_KEY_Q;
+			break ;
 		case (ACTION_UI_MINIFY):
 			key = GLFW_KEY_I;
 			break;
 		case (ACTION_UI_MODE):
-			key = GLFW_KEY_T;
+			key = GLFW_KEY_E;
 			break ;
 		case (ACTION_UI_RSHIFT):
 			key = GLFW_KEY_RIGHT_SHIFT;
@@ -65,11 +68,14 @@ static void	events_detect_press(GLFWwindow *window, bool *actions)
 	// FULLSCREEN
 	if (glfwGetKey(window, GLFW_KEY_M) == GLFW_PRESS)
 		actions[ACTION_UI_FULLSCREEN] = true;
+	// LIGHT
+	if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
+		actions[ACTION_UI_LIGHT] = true;
 	// MINIFY
 	if (glfwGetKey(window, GLFW_KEY_I) == GLFW_PRESS)
 		actions[ACTION_UI_MINIFY] = true;
 	// MODE
-	if (glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS)
+	if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
 		actions[ACTION_UI_MODE] = true;
 	// RSHIFT
 	if (glfwGetKey(window, GLFW_KEY_RIGHT_SHIFT) == GLFW_PRESS)

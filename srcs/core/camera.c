@@ -22,14 +22,6 @@ static void	init_camera(t_camera *camera)
 	camera->yaw = 0;
 }
 
-static void	init_matrices(t_gltools *gl, t_camera *camera)
-{
-	// View matrix
-	mat4_identity(camera->view);
-	// Projection matrix
-	mat4_projection(camera->projection, camera->fov, camera->near, camera->far, camera->ratio);
-}
-
 static void	init_mouse(GLFWwindow *window, t_mouse *mouse)
 {
 	mouse->sensitivity = 2.0f;
@@ -41,6 +33,5 @@ static void	init_mouse(GLFWwindow *window, t_mouse *mouse)
 void		camera(t_env *env)
 {
 	init_camera(&env->camera);
-	init_matrices(&env->gl, &env->camera);
 	init_mouse(env->gl.window.ptr, &env->mouse);
 }

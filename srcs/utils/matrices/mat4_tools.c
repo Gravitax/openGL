@@ -16,6 +16,19 @@ void		mat4_identity(mat4 m)
 	m[15] = 1;
 }
 
+/*
+	n 0 0 0
+	0 n 0 0
+	0 0 n 0
+	0 0 0 1
+*/
+void		mat4_scale(mat4 m, float scale)
+{
+	m[0] *= scale;
+	m[5] *= scale;
+	m[10] *= scale;
+}
+
 void		mat4_inverse(mat4 m)
 {
 	mat4	tmp;

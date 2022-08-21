@@ -34,6 +34,7 @@ void		shaders(t_gltools *gl)
 		"#version 400\n"
 		"\n"
 		"struct	Light {\n"
+		"	bool	active;\n"
 		"	vec4	pos, dir, color;\n"
 		"	vec4	ambient, diffuse, specular;\n"
 		"};\n"
@@ -47,37 +48,31 @@ void		shaders(t_gltools *gl)
 		"uniform Light		light;"
 		"uniform sampler2D	texture_color;\n"
 		"uniform vec4		campos;\n"
-		"uniform int		mode;\n"
+		"uniform float		progress;"
+		"\n"
 		"\n"
 		"out vec4	FragColor;\n"
 		"\n"
 		"void	main()\n"
 		"{\n"
-		"	switch (mode) {\n" // ==========================================
-		"		case (1): \n" // ONLY TEXTURE
-		"			FragColor = texture(texture_color, Texcoord);\n"
-		"			break ;\n" // ==========================================
-		"		case (2): case (3):\n" // LIGHT COLOR / TEXTURE
-		"			vec4	color = mode == 2 ? light.color : texture(texture_color, Texcoord).rgba;\n"
-		"			\n" // ambient
-		"			vec4	ambient		= color * light.ambient;\n"
-		"			\n" // diffuse
-		"			vec3	n			= normalize(Normal);\n"
-		"			vec3	light_dir	= vec3(normalize(light.pos - Position));\n"
-		"			float	diff		= max(dot(n, light_dir), 0);\n"
-		"			vec4	diffuse		= color * light.diffuse * diff;\n"
-		"			\n" // specular
-		"			vec3	view_dir	= vec3(normalize(campos - Position));\n"
-		"			vec3	reflect_dir	= reflect(-light_dir, n);\n"
-		"			float	spec		= pow(max(dot(view_dir, reflect_dir), 0), 32);\n"
-		"			vec4	specular	= color * light.specular * spec;\n"
-		"			\n"
-		"			FragColor = (ambient + diffuse + specular);\n"
-		"			if (mode == 2) FragColor *= Color;\n"
-		"			break ;\n" // ==========================================
-		"		default:\n" // ONLY COLOR
-		"			FragColor = Color;\n"
-		"			break ;\n"
+		"	if (light.active) {\n" // ==========================================
+		"		vec4	color = mix(Color, texture(texture_color, Texcoord).rgba, progress);\n"
+		"		\n" // ambient
+		"		vec4	ambient		= color * light.ambient;\n"
+		"		\n" // diffuse
+		"		vec3	n			= normalize(Normal);\n"
+		"		vec3	light_dir	= vec3(normalize(light.pos - Position));\n"
+		"		float	diff		= max(dot(n, light_dir), 0);\n"
+		"		vec4	diffuse		= color * light.diffuse * diff;\n"
+		"		\n" // specular
+		"		vec3	view_dir	= vec3(normalize(campos - Position));\n"
+		"		vec3	reflect_dir	= reflect(-light_dir, n);\n"
+		"		float	spec		= pow(max(dot(view_dir, reflect_dir), 0), 32);\n"
+		"		vec4	specular	= color * light.specular * spec;\n"
+		"		\n"
+		"		FragColor = (ambient + diffuse + specular);\n"
+		"	} else {\n"
+		"		FragColor = mix(Color, texture(texture_color, Texcoord).rgba, progress);\n"
 		"	}\n"
 		"}\n";
 }
