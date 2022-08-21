@@ -7,11 +7,13 @@
 
 # include <stdio.h>
 # include <stdbool.h>
+# include <stdlib.h>
+# include <limits.h>
 
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <unistd.h>
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <fcntl.h>
+# include <unistd.h>
 
 
 // Homemade libs
@@ -181,6 +183,15 @@ typedef struct	s_animation
 	bool			active;
 }				t_animation;
 
+typedef struct	s_parser
+{
+	GLsizeiptr	vertex_size;
+	GLfloat		*vertex;
+
+	GLsizeiptr	element_size;
+	GLuint		*element;
+}				t_parser;
+
 typedef struct	s_env
 {
 	bool			actions[ACTION_MAX];
@@ -193,6 +204,7 @@ typedef struct	s_env
 	t_image			images[TEXTURE_MAX];
 	t_model			model;
 	t_animation		animation;
+	t_parser		parser;
 }				t_env;
 
 // CORE
@@ -207,6 +219,10 @@ int				render(t_env *env);
 void			scop_exit();
 int	 			scop_init(t_env *env);
 
+// GL
+int	 			gl_init(t_env *env);
+void			gl_textures(t_env *env);
+
 // GLFW
 int	 			glfw_init(t_env *env);
 // callbacks
@@ -217,9 +233,8 @@ void			cb_key(GLFWwindow *window, int key, int scancode, int action, int mods);
 void			cb_scroll(GLFWwindow *window, double xoffset, double yoffset);
 void			cb_window_focus(GLFWwindow *window, int focused);
 
-// GL
-int	 			gl_init(t_env *env);
-void			gl_textures(t_env *env);
+// PARSER
+int				parse_obj(t_env *env, char *filename);
 
 // UTILS
 // matrices

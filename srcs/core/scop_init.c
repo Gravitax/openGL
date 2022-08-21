@@ -18,6 +18,7 @@ static int	images(t_env *env)
 
 static void	light(t_light *light)
 {
+	light->active = false;
 	light->pos = (vec3){ -10, 10, -10 };
 	light->dir = (vec3){ -0.2f, -1.0f, -0.3f };
 	light->color = (vec3){ 1, 1, 1, 1 };
@@ -29,7 +30,8 @@ static void	light(t_light *light)
 int			scop_init(t_env *env)
 {
 	st_env(env, false);
-	env->light.active = false;
+	if (parse_obj(env, "./ressources/42.obj") < 0)
+		return (-1);
 	env->gl.window.fullscreen = false;
 	env->animation.step = -0.1f;
 	if (model(env) < 0 || images(env) < 0 || glfw_init(env) < 0)

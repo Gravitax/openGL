@@ -43,6 +43,7 @@ SRC_NAME=main.c\
 	gl/gl_textures.c\
 	glfw/glfw_callbacks.c\
 	glfw/glfw_init.c\
+	parser/parser.c\
 	utils/matrices/mat4.c\
 	utils/matrices/mat4_ops.c\
 	utils/matrices/mat4_rotations.c\

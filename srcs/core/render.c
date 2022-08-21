@@ -24,6 +24,9 @@ static void	draw_mesh(t_env *env)
 			continue ;
 		textures(env->gl.textures, mesh->texture);
 		glBindVertexArray(mesh->vao);
+
+		// glDrawElements(GL_TRIANGLES, (GLsizei)env->parser.element_size / (GLsizei)sizeof(float), GL_UNSIGNED_INT, 0);
+
 		glDrawArrays(GL_TRIANGLES, 0, mesh->vertices.nb_cells);
 		glBindVertexArray(0);
 	}
@@ -68,6 +71,7 @@ static void	mat4_mvp(t_env *env)
 static void	update_animation(t_env *env)
 {
 	env->animation.progress += env->animation.step;
+	glUniform1f(env->gl.uniform.progress, env->animation.progress);
 	if (env->animation.progress >= 1 || env->animation.progress <= 0)
 		env->animation.active = false;
 }

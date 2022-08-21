@@ -53,23 +53,41 @@ static void	gl_layouts(t_gltools *gl)
 	glEnableVertexAttribArray(normal);
 	glVertexAttribPointer(normal, sizeof(vec3) * 0.25, GL_FLOAT, GL_FALSE,
 		sizeof(t_vertice), (void *)(sizeof(vec3) + sizeof(t_color) + sizeof(t_texture)));
+
+	// position = glGetAttribLocation(gl->shader_program, "in_position");
+	// glEnableVertexAttribArray(position);
+	// glVertexAttribPointer(position, sizeof(float), GL_FLOAT, GL_FALSE,
+	// 	sizeof(float) * 4, (void *)0);
+	
+	// color = glGetAttribLocation(gl->shader_program, "in_color");
+	// glEnableVertexAttribArray(color);
+	// glVertexAttribPointer(color, sizeof(float), GL_FLOAT, GL_FALSE,
+	// 	sizeof(float) * 4, (void *)(sizeof(float) * 3));
 }
 
-static void	gl_buffers(t_gltools *gl, t_mesh *mesh)
+static void	gl_buffers(t_env *env, t_gltools *gl, t_mesh *mesh)
 {
-	// Create Vertex Array Object
+	// VAO -- Create Vertex Array Object
 	glGenVertexArrays(1, &mesh->vao);
 	glBindVertexArray(mesh->vao);
-	// Create a Vertex Buffer Object and copy the vertex data to it
+	// VBO -- Create a Vertex Buffer Object and copy the vertex data to it
 	glGenBuffers(1, &mesh->vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, mesh->vbo);
+
 	glBufferData(GL_ARRAY_BUFFER,
 		mesh->vertices.nb_cells * sizeof(t_vertice),
 		mesh->vertices.arr, GL_STATIC_DRAW);
-	// Create an Elements Buffer Object
+
+	// glBufferData(GL_ARRAY_BUFFER, env->parser.vertex_size, env->parser.vertex, GL_STATIC_DRAW);
+
+	// EBO -- Create an Elements Buffer Object
 	glGenBuffers(1, &mesh->ebo);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->ebo);
+
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, mesh->vertices.byte_size, mesh->vertices.arr, GL_STATIC_DRAW);
+
+	// glBufferData(GL_ELEMENT_ARRAY_BUFFER, env->parser.element_size, env->parser.element, GL_STATIC_DRAW);
+
 	gl_layouts(gl);
 	glBindVertexArray(0);
 }
@@ -85,7 +103,7 @@ static void gl_uniforms(t_env* env)
 	env->gl.uniform.view = glGetUniformLocation(env->gl.shader_program, "view");
 	env->gl.uniform.projection = glGetUniformLocation(env->gl.shader_program, "projection");
 
-	env->gl.uniform.light[LIGHT_ACTIVE] = glGetUniformLocation(env->gl.shader_program, "light.active");
+	env->gl.uniform.light[LIGHT_ACTIVE] = glGetUniformLocation(env->gl.shader_program, "light.is_active");
 	env->gl.uniform.light[LIGHT_POSITION] = glGetUniformLocation(env->gl.shader_program, "light.pos");
 	env->gl.uniform.light[LIGHT_DIRECTION] = glGetUniformLocation(env->gl.shader_program, "light.dir");
 	env->gl.uniform.light[LIGHT_COLOR] = glGetUniformLocation(env->gl.shader_program, "light.color");
@@ -118,10 +136,10 @@ int			gl_init(t_env *env)
 
 	i = -1;
 	while (++i < env->model.mesh.nb_cells) {
-		mesh = dyacc(&env->model.mesh, i);
+		mesh = dyacc(&env->model.mesh, i); 
 		if(mesh == NULL)
 			continue ;
-		gl_buffers(&env->gl, mesh);
+		gl_buffers(env, &env->gl, mesh);
 	}
 
 	//  DEPTH BUFFER

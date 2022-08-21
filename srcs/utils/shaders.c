@@ -34,7 +34,7 @@ void		shaders(t_gltools *gl)
 		"#version 400\n"
 		"\n"
 		"struct	Light {\n"
-		"	bool	active;\n"
+		"	bool	is_active;\n"
 		"	vec4	pos, dir, color;\n"
 		"	vec4	ambient, diffuse, specular;\n"
 		"};\n"
@@ -54,7 +54,7 @@ void		shaders(t_gltools *gl)
 		"\n"
 		"void	main()\n"
 		"{\n"
-		"	if (light.active) {\n" // ==========================================
+		"	if (light.is_active) {\n" // ==========================================
 		"		vec4	color = mix(Color, texture(texture_color, Texcoord).rgba, progress);\n"
 		"		\n" // ambient
 		"		vec4	ambient		= color * light.ambient;\n"
@@ -74,4 +74,37 @@ void		shaders(t_gltools *gl)
 		"		FragColor = mix(Color, texture(texture_color, Texcoord).rgba, progress);\n"
 		"	}\n"
 		"}\n";
+	// gl->shader_vertex_text =
+	// 	"#version 400\n"
+	// 	"\n"
+	// 	"in vec3	in_position;\n"
+	// 	"in float	in_color;\n"
+	// 	"\n"
+	// 	"uniform mat4	model;\n"
+	// 	"uniform mat4	view;\n"
+	// 	"uniform mat4	projection;\n"
+	// 	"\n"
+ 	// 	"out vec4	Color;\n"
+ 	// 	"out vec4	Position;\n"
+	// 	"\n"
+	// 	"void	main()\n"
+	// 	"{\n"
+	// 	"	Color		= vec4(in_color);\n"
+	// 	"	float	tmp = vec4(in_position, 1);\n"
+	// 	"	Position	= tmp;\n"
+	// 	"\n"
+	// 	"	gl_Position = tmp * model * view * projection;\n"
+	// 	"}\n";
+	// gl->shader_fragment_text =
+	// 	"#version 400\n"
+	// 	"\n"
+	// 	"in vec4	Color;\n"
+	// 	"in vec4	Position;\n"
+	// 	"\n"
+	// 	"out vec4	FragColor;\n"
+	// 	"\n"
+	// 	"void	main()\n"
+	// 	"{\n"
+	// 	"	FragColor = Color;\n"
+	// 	"}\n";
 }
