@@ -5,42 +5,36 @@
 static void	model_forward(t_model *model)
 {
 	model->trans.z += 1;
-	model->center.z += 1;
 }
 
 // TRANSLATION BACKWARD
 static void	model_backward(t_model *model)
 {
 	model->trans.z -= 1;
-	model->center.z -= 1;
 }
 
 // TRANSLATION RIGHT
 static void	model_right(t_model *model)
 {
 	model->trans.x -= 1;
-	model->center.x -= 1;
 }
 
 // TRANSLATION LEFT
 static void	model_left(t_model *model)
 {
 	model->trans.x += 1;
-	model->center.x += 1;
 }
 
 // TRANSLATION UP
 static void	model_up(t_model *model)
 {
 	model->trans.y += 1;
-	model->center.y += 1;
 }
 
 // TRANSLATION DOWN
 static void	model_down(t_model *model)
 {
 	model->trans.y -= 1;
-	model->center.y -= 1;
 }
 
 // POSITIVE ROTX

@@ -39,7 +39,6 @@ void		shaders(t_gltools *gl)
 		"	vec4	ambient, diffuse, specular;\n"
 		"};\n"
 		"\n"
-		"\n"
 		"in vec4	Color;\n"
 		"in vec3	Normal;\n"
 		"in vec4	Position;\n"
