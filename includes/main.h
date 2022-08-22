@@ -148,7 +148,6 @@ typedef	struct	s_face
 
 typedef struct	s_model
 {
-	t_dynarray	mesh;
 	mat4		model;
 	vec3		trans, rot;
 	vec3		center;
@@ -161,6 +160,8 @@ typedef struct	s_model
 	t_dynarray	used_mtls;
 	t_dynarray	mtls;
 	float		ct; // Color / Texture ratio
+
+	char			obj_path[256];
 }				t_model;
 
 // ==========================================
@@ -256,7 +257,6 @@ typedef struct	s_env
 	t_model			model;
 	t_animation		animation;
 	t_parser		parser;
-	char			obj_path[256];
 }				t_env;
 
 // CORE

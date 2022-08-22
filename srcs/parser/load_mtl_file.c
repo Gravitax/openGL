@@ -64,7 +64,7 @@ static int	load_mtl_file(t_env *env)
 	unsigned char	code;
 
 	// Reads file ans splits it in lines
-	if ((code = readlines(env->obj_path, &lines)) != 0)
+	if ((code = readlines(env->model.obj_path, &lines)) != 0)
 		return (code);
 
 	// Iterate through lines to load mtl data
@@ -84,7 +84,7 @@ int			obj_mtllib_loader(t_env *env, char **tokens)
 	(void)tokens;
 	/* Making new path, assuming that mtl file is named the same as its
 	 * corresponding obj file, and is located in the same directory (convention).*/
-	ft_strcpy(&env->obj_path[ft_strlen(env->obj_path) - 4], ".mtl");
+	ft_strcpy(&env->model.obj_path[ft_strlen(env->model.obj_path) - 4], ".mtl");
 
 	if ((code = load_mtl_file(env)) != 0)
 		return (code);

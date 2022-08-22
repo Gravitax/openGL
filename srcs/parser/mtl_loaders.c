@@ -74,18 +74,18 @@ static char	*make_texture_path(t_env *env, char *filename)
 	char		 *path; // Returned string containing texture file path
 	unsigned int i = 0;
 
-	while (env->obj_path[i] && env->obj_path[i] != '/') // Find slash in the string
+	while (env->model.obj_path[i] && env->model.obj_path[i] != '/') // Find slash in the string
 		i++;
 
-	if (env->obj_path[i] == '/') // If there is one, we stop the string after it.
+	if (env->model.obj_path[i] == '/') // If there is one, we stop the string after it.
 	{
 		i++;
-		env->obj_path[i] = 0;
+		env->model.obj_path[i] = 0;
 	}
 	else // Else, we set the string at empty to allow us to strjoin in both ways
-		env->obj_path[0] = 0;
+		env->model.obj_path[0] = 0;
 
-	if (!(path = ft_strjoin(env->obj_path, filename)))
+	if (!(path = ft_strjoin(env->model.obj_path, filename)))
 		return (NULL);
 
 	return (path);

@@ -198,6 +198,6 @@ int				parse_obj(t_env *env, char *filename)
 		current += next_line(file, current);
 	}
 	free((void *)file);
-	// print_result(env);
+	print_result(env);
 	return (0);
 }

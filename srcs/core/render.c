@@ -18,8 +18,8 @@ static void	draw_mesh(t_env *env)
 	int		i;
 
 	i = -1;
-	while (++i < env->model.mesh.nb_cells) {
-		mesh = dyacc(&env->model.mesh, i);
+	while (++i < env->model.meshs.nb_cells) {
+		mesh = dyacc(&env->model.meshs, i);
 		if (mesh == NULL)
 			continue ;
 		textures(env->gl.textures, mesh->texture);
@@ -29,6 +29,10 @@ static void	draw_mesh(t_env *env)
 
 		glDrawElements(GL_TRIANGLES, env->parser.vertex_size, GL_UNSIGNED_INT, 0);
 		// glDrawArrays(GL_TRIANGLES, 0, mesh->vertices.nb_cells);
+
+		// GEDEMAIS -- Draw triangles
+		// glDrawArrays(GL_TRIANGLES, 0, env->model.vertexs.nb_cells);
+
 		glBindVertexArray(0);
 	}
 }

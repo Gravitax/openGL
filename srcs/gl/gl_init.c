@@ -69,6 +69,40 @@ static void	gl_layouts(t_gltools *gl)
 	glEnableVertexAttribArray(color);
 }
 
+// GEDEMAIS -- 
+// static unsigned char	init_buffers(t_env *env)
+// {
+// 	// Generate OpenGL buffers
+// 	glGenBuffers(1, &env->vbo); // Verteex Buffer Object
+// 	glGenVertexArrays(1, &env->vao); // Vertex Attribute Object
+// 	glGenBuffers(1, &env->ebo); // Element Buffer Object
+
+// 	glBindBuffer(GL_ARRAY_BUFFER, env->vbo); // Bind vbo buffer
+// 	glBindVertexArray(env->vao); // Bind vao array
+
+// 	// Configurate vertexs buffer
+// 	GLsizeiptr	size = (GLsizeiptr)sizeof(t_stride) * env->scene.vertexs.nb_cells;
+// 	// Copies vertexs data into buffer
+// 	glBufferData(GL_ARRAY_BUFFER, size, env->scene.vertexs.c, GL_STATIC_DRAW);
+
+// 	// Specifies the disposition of components in vertexs
+// 	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(t_stride), (void*)0);
+// 	glEnableVertexAttribArray(0);
+
+// 	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(t_stride), (void*)sizeof(t_vec3d));
+// 	glEnableVertexAttribArray(1);
+
+// 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(t_stride), (void*)(sizeof(t_vec3d) + sizeof(t_color)));
+// 	glEnableVertexAttribArray(2);
+
+// 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, env->ebo); // Bind ebo buffer
+
+// 	// Copies faces indices data in ebo
+// 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, (GLsizeiptr)env->scene.faces.nb_cells * (GLsizeiptr)sizeof(uint32_t) * 3, env->scene.faces.c, GL_STATIC_DRAW);
+
+// 	return (ERR_NONE);
+// }
+
 static void	gl_buffers(t_env *env, t_gltools *gl, t_mesh *mesh)
 {
 	// VAO -- Create Vertex Array Object
@@ -146,8 +180,8 @@ int			gl_init(t_env *env)
 	gl_textures(env);
 
 	i = -1;
-	while (++i < env->model.mesh.nb_cells) {
-		mesh = dyacc(&env->model.mesh, i); 
+	while (++i < env->model.meshs.nb_cells) {
+		mesh = dyacc(&env->model.meshs, i); 
 		if(mesh == NULL)
 			continue ;
 		gl_buffers(env, &env->gl, mesh);
