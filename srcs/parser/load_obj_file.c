@@ -256,8 +256,8 @@ static int	gen_data_stride(t_env *env)
 	env->model.vertexs = data;
 
 	printf("%d polygones\n", env->model.faces.nb_cells);
-	// if (DISPLAY_DATA)
-	// {
+	if (DISPLAY_DATA)
+	{
 		printf("%d vertexs\n", env->model.vertexs.nb_cells);
 		t_stride	*st;
 		for (int i = 0; (st = dyacc(&env->model.vertexs, i)) ; i++)
@@ -267,7 +267,7 @@ static int	gen_data_stride(t_env *env)
 				(double)st->c.r, (double)st->c.g, (double)st->c.b, (double)st->c.a,
 				(double)st->t.u, (double)st->t.v);
 		}
-	// }
+	}
 	return (0);
 }
 
