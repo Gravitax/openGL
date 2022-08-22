@@ -4,9 +4,9 @@
 static int	images(t_env *env)
 {
 	const char		*images_path[TEXTURE_MAX] = {
-		"./ressources/images/texture.bmp",
-		"./ressources/images/darksouls.bmp",
-		"./ressources/images/nyan.bmp"
+		"./resources/images/texture.bmp",
+		"./resources/images/darksouls.bmp",
+		"./resources/images/nyan.bmp"
 	};
 	int				i = -1;
 

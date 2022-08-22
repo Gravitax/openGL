@@ -12,15 +12,15 @@ static int	pitriche(t_env *env)
 		return (-1);
 	if (dynarray_push(&env->model.meshs, mesh, true) < 0)
 		return (-1);
-	if (parse_obj(env, "./resources/42.obj") < 0)
+	if (parse_obj(env, "./resources/teapot.obj") < 0)
 		return (-1);
 	return (0);
 }
 
 static int	gedemais(t_env *env)
 {
-	load_obj_file(env, "./resources/42.obj");
-	return (-1);
+	// load_obj_file(env, "./ressources/42.obj");
+	return (0);
 }
 
 int			model(t_env *env)
@@ -28,8 +28,8 @@ int			model(t_env *env)
 	if (pitriche(env) < 0)
 		return (-1);
 
-	// if (gedemais(env) < 0)
-	// 	return (-1);
+	if (gedemais(env) < 0)
+		return (-1);
 
 	env->model.scale = 1;
 	return (0);
