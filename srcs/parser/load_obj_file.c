@@ -39,7 +39,7 @@ static int	obj_object_name_loader(t_env *env, char **tokens)
 
 	ft_memset(&new, 0, sizeof(t_mesh));
 	new.center = (vec3){0.0f, 0.0f, 0.0f, 0.0f};
-	if (ft_arrlen((void **)tokens) != 2) // Format check
+	if (ft_arrlen(tokens) != 2) // Format check
 		return (-1);
 
 	if (!(new.name = ft_strdup(tokens[1])) // Copies mesh's name
@@ -61,7 +61,7 @@ static int	obj_vertex_loader(t_env *env, char **tokens)
 	vec3	new; // New vertex object
 
 	ft_memset(&new, 0, sizeof(vec3));
-	if (ft_arrlen((void **)tokens) != 4) // Check format
+	if (ft_arrlen(tokens) != 4) // Check format
 		return (-1);
 
 	if (env->model.vertexs.arr == NULL // Initialization of vertexs pool
@@ -85,7 +85,7 @@ static int	obj_vertex_texture_loader(t_env *env, char **tokens)
 	t_vt	new;
 
 	ft_memset(&new, 0, sizeof(t_vt));
-	if (ft_arrlen((void **)tokens) != 3) // Check format
+	if (ft_arrlen(tokens) != 3) // Check format
 		return (-1);
 
 	if (env->model.vertexs_txt.arr == NULL // Initialization of vertexs pool
@@ -107,7 +107,7 @@ static int	obj_usemtl_loader(t_env *env, char **tokens)
 	t_mtl	*mtl; // Pointer used to iterate through materials
 	bool	found = false; // Triggers an error if the name given to usemtl is not found in materials pool
 
-	if (ft_arrlen((void **)tokens) != 2) // Syntax check
+	if (ft_arrlen(tokens) != 2) // Syntax check
 		return (-1);
 
 	for (int i = 0; i < env->model.mtls.nb_cells; i++) // Iterates through mtls pool
@@ -152,13 +152,12 @@ static void	set_mesh_origin(t_env *env)
 
 static int	obj_loader(t_env *env, char *line)
 {
-	char				**tokens;
-	unsigned char		code;
+	char	**tokens;
+	int		code;
 
 	// Split the line in tokens by whitespaces.
 	if (!(tokens = ft_strsplit(line, "\b\t\v\f\r ")))
 		return (-1);
-
 	// Identifies line type and lauches the corresponding loader.
 	for (unsigned int i = 0; i < OBJ_MAX; i++)
 		if (ft_strcmp(tokens[0], obj_lines_ids[i]) == 0)
@@ -168,14 +167,14 @@ static int	obj_loader(t_env *env, char *line)
 			{
 				// Then launch the corresponding function
 				code = obj_loading_fts[i](env, tokens);
-				 ft_arrfree((void **)tokens);
+				 ft_arrfree(tokens);
 				return (code);
 			}
-			 ft_arrfree((void **)tokens);
+			 ft_arrfree(tokens);
 			return (0);
 		}
 	// Free tokens strings array
-	 ft_arrfree((void **)tokens);
+	 ft_arrfree(tokens);
 	return (-1);
 }
 
@@ -212,7 +211,6 @@ void		print_used_mtls(t_env *env)
 	for (int i = 0; i < env->model.used_mtls.nb_cells; i++)
 	{
 		n = dyacc(&env->model.used_mtls, i);
-		printf("%d\n", *n);
 	}
 }
 
@@ -258,8 +256,8 @@ static int	gen_data_stride(t_env *env)
 	env->model.vertexs = data;
 
 	printf("%d polygones\n", env->model.faces.nb_cells);
-	if (DISPLAY_DATA)
-	{
+	// if (DISPLAY_DATA)
+	// {
 		printf("%d vertexs\n", env->model.vertexs.nb_cells);
 		t_stride	*st;
 		for (int i = 0; (st = dyacc(&env->model.vertexs, i)) ; i++)
@@ -269,15 +267,16 @@ static int	gen_data_stride(t_env *env)
 				(double)st->c.r, (double)st->c.g, (double)st->c.b, (double)st->c.a,
 				(double)st->t.u, (double)st->t.v);
 		}
-	}
+	// }
 	return (0);
 }
 
 int			load_obj_file(t_env *env, char *path)
 {
-	char			**lines;
-	unsigned char	code;
+	char	**lines;
+	int		code;
 
+	ft_memcpy(env->model.obj_path, path, sizeof(char) * 256);
 	*used_mtl() = UINT_MAX;
 	current_mesh = INT_MAX;
 	// Maps the .obj file in memory, then splits it into lines to parse it easier.
@@ -288,23 +287,20 @@ int			load_obj_file(t_env *env, char *path)
 	for (unsigned int i = 0; lines[i]; i++)
 		if ((code = obj_loader(env, lines[i])) != 0)
 		{
-			 ft_arrfree((void **)lines);
+			ft_arrfree(lines);
 			return (code);
 		}
-
 	// Creation of a default mesh to contain vertices and faces if not declared yet.
 	if (env->model.meshs.arr == NULL && (code = create_default_mesh(env)) != 0)
 	{
-		 ft_arrfree((void **)lines);
+		ft_arrfree(lines);
 		return (code);
 	}
-	 ft_arrfree((void **)lines);
-
+	ft_arrfree(lines);
 	// Normalize vertices for OpenGL display (i.e components between -1.0 and 1.0)
 	normalize_vertexs(env);
 
 	// Place the origin of the mesh on its center by averaging its vertexs
 	set_mesh_origin(env);
-
 	return (gen_data_stride(env));
 }

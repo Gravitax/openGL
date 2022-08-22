@@ -10,12 +10,16 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-int			ft_arrlen(void **arr)
-{
-	int		i;
+#include "../libft.h"
 
-	i = 0;
-	while (arr && arr[i])
-		++i;
-	return (i);
+int			ft_arrlen(char **arr)
+{
+	int		ret;
+
+	ret = 0;
+	if (!arr)
+		return (-1);
+	while (arr[ret])
+		ret++;
+	return (ret);
 }

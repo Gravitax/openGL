@@ -18,7 +18,7 @@ static int	assign_face_indexes(t_face *new, char **tokens, int indexes[3])
 		if (!(subs[i] = ft_strsplit(tokens[indexes[i]], "/")))
 			return (-1);
 
-		n[i] = ft_arrlen((void **)subs[i]);
+		n[i] = ft_arrlen(subs[i]);
 		if (i > 0 && n[i] != n[i - 1])
 			return (-1);
 	}
@@ -105,10 +105,10 @@ static int	load_face(t_env *env, char **tokens, t_mesh *parent, uint32_t face_in
 
 int			obj_face_loader(t_env *env, char **tokens)
 {
-	t_mesh			*parent; // Mesh composed by the face
-	uint32_t		face_index; // Index of the instance in the faces pool
-	uint32_t		nb_vertexs; // Number of vertexs of the face line
-	unsigned char	code;
+	t_mesh		*parent; // Mesh composed by the face
+	uint32_t	face_index; // Index of the instance in the faces pool
+	uint32_t	nb_vertexs; // Number of vertexs of the face line
+	int			code;
 
 	if (!(parent = dyacc(&env->model.meshs, (int)current_mesh))
 		&& (code = create_default_mesh(env)))
@@ -116,7 +116,7 @@ int			obj_face_loader(t_env *env, char **tokens)
 
 	parent = dyacc(&env->model.meshs, (int)current_mesh);
 	face_index = (uint32_t)env->model.faces.nb_cells;
-	nb_vertexs = (uint32_t)ft_arrlen((void **)tokens) - 1;
+	nb_vertexs = (uint32_t)ft_arrlen(tokens) - 1;
 
 	if (env->model.faces.arr == NULL // Initialization of faces pool
 		&& dynarray_init(&env->model.faces, sizeof(t_face), 256))

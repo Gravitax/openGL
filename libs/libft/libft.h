@@ -28,8 +28,8 @@ typedef union	u_rsqrt
 }				t_rsqrt;
 
 void			ft_arr_cprint(char **arr);
-void			ft_arrfree(void **arr);
-int				ft_arrlen(void **arr);
+void			ft_arrfree(char **arr);
+int				ft_arrlen(char **arr);
 
 bool            ft_inbounds(int c, int min, int max);
 bool			ft_isalnum(int c);

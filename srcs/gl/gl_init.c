@@ -32,29 +32,19 @@ static void	gl_program(t_gltools *gl) {
 
 static void	gl_layouts(t_gltools *gl)
 {
-	GLint	position, color, texcoord, normal;
-
 	// Specify the layout of the vertex data
-	// position
-	// position = glGetAttribLocation(gl->shader_program, "in_position");
-	// glEnableVertexAttribArray(position);
-	// glVertexAttribPointer(position, sizeof(vec3) * 0.25, GL_FLOAT, GL_FALSE,
-	// 	sizeof(t_vertice), (void *)0);
-	// // color
-	// color = glGetAttribLocation(gl->shader_program, "in_color");
-	// glEnableVertexAttribArray(color);
-	// glVertexAttribPointer(color, sizeof(t_color) * 0.25, GL_FLOAT, GL_FALSE,
-	// 	sizeof(t_vertice), (void *)sizeof(vec3));
-	// // texture
-	// texcoord = glGetAttribLocation(gl->shader_program, "in_texcoord");
-	// glEnableVertexAttribArray(texcoord);
-	// glVertexAttribPointer(texcoord, sizeof(t_texture) * 0.25, GL_FLOAT, GL_FALSE,
-	// 	sizeof(t_vertice), (void *)(sizeof(vec3) + sizeof(t_color)));
-	// // normal
-	// normal = glGetAttribLocation(gl->shader_program, "in_normal");
-	// glEnableVertexAttribArray(normal);
-	// glVertexAttribPointer(normal, sizeof(vec3) * 0.25, GL_FLOAT, GL_FALSE,
-	// 	sizeof(t_vertice), (void *)(sizeof(vec3) + sizeof(t_color) + sizeof(t_texture)));
+
+	// GEDEMAIS --
+	// glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(t_stride), (void *)0);
+	// glEnableVertexAttribArray(0);
+
+	// glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(t_stride), (void *)sizeof(vec3));
+	// glEnableVertexAttribArray(1);
+
+	// glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(t_stride), (void *)(sizeof(vec3) + sizeof(t_color)));
+	// glEnableVertexAttribArray(2);
+
+	GLint	position, color;
 
 	// position
 	position = glGetAttribLocation(gl->shader_program, "in_position");
@@ -69,40 +59,6 @@ static void	gl_layouts(t_gltools *gl)
 	glEnableVertexAttribArray(color);
 }
 
-// GEDEMAIS -- 
-// static unsigned char	init_buffers(t_env *env)
-// {
-// 	// Generate OpenGL buffers
-// 	glGenBuffers(1, &env->vbo); // Verteex Buffer Object
-// 	glGenVertexArrays(1, &env->vao); // Vertex Attribute Object
-// 	glGenBuffers(1, &env->ebo); // Element Buffer Object
-
-// 	glBindBuffer(GL_ARRAY_BUFFER, env->vbo); // Bind vbo buffer
-// 	glBindVertexArray(env->vao); // Bind vao array
-
-// 	// Configurate vertexs buffer
-// 	GLsizeiptr	size = (GLsizeiptr)sizeof(t_stride) * env->scene.vertexs.nb_cells;
-// 	// Copies vertexs data into buffer
-// 	glBufferData(GL_ARRAY_BUFFER, size, env->scene.vertexs.c, GL_STATIC_DRAW);
-
-// 	// Specifies the disposition of components in vertexs
-// 	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(t_stride), (void*)0);
-// 	glEnableVertexAttribArray(0);
-
-// 	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(t_stride), (void*)sizeof(t_vec3d));
-// 	glEnableVertexAttribArray(1);
-
-// 	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(t_stride), (void*)(sizeof(t_vec3d) + sizeof(t_color)));
-// 	glEnableVertexAttribArray(2);
-
-// 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, env->ebo); // Bind ebo buffer
-
-// 	// Copies faces indices data in ebo
-// 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, (GLsizeiptr)env->scene.faces.nb_cells * (GLsizeiptr)sizeof(uint32_t) * 3, env->scene.faces.c, GL_STATIC_DRAW);
-
-// 	return (ERR_NONE);
-// }
-
 static void	gl_buffers(t_env *env, t_gltools *gl, t_mesh *mesh)
 {
 	// VAO -- Create Vertex Array Object
@@ -116,22 +72,19 @@ static void	gl_buffers(t_env *env, t_gltools *gl, t_mesh *mesh)
 		env->parser.vertex_size,
 		env->parser.vertex, GL_STATIC_DRAW);
 
+	// GEDEMAIS --
+	// GLsizeiptr	size = (GLsizeiptr)sizeof(t_stride) * env->model.vertexs.nb_cells;
+	// glBufferData(GL_ARRAY_BUFFER, size, env->model.vertexs.arr, GL_STATIC_DRAW);
+
 	// EBO -- Create an Elements Buffer Object
 	glGenBuffers(1, &mesh->ebo);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->ebo);
 
-	// TEST =========================
-	// GLuint  elements[] = {
-	// 	3, 1, 0,
-	// 	2, 3, 0
-	// };
-
-	// env->parser.element = ft_memalloc(sizeof(elements));
-	// ft_memcpy(env->parser.element, elements, sizeof(elements));
-	// env->parser.element_size = sizeof(elements);
-
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, env->parser.element_size, env->parser.element, GL_STATIC_DRAW);
 
+	// GEDEMAIS --
+	// size = (GLsizeiptr)env->model.faces.nb_cells * (GLsizeiptr)sizeof(uint32_t) * 3;
+	// glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, env->model.faces.arr, GL_STATIC_DRAW);
 
 	gl_layouts(gl);
 	glBindVertexArray(0);

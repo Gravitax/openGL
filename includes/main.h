@@ -5,6 +5,9 @@
 # include "glad.h"
 # include <GLFW/glfw3.h>
 
+# include <errno.h>
+# include <string.h>
+
 # include <stdio.h>
 # include <stdbool.h>
 # include <stdlib.h>
@@ -152,6 +155,7 @@ typedef struct	s_model
 	vec3		trans, rot;
 	vec3		center;
 	float		scale;
+	char		obj_path[256];
 
 	t_dynarray	meshs;
 	t_dynarray	vertexs;
@@ -159,9 +163,6 @@ typedef struct	s_model
 	t_dynarray	faces;
 	t_dynarray	used_mtls;
 	t_dynarray	mtls;
-	float		ct; // Color / Texture ratio
-
-	char			obj_path[256];
 }				t_model;
 
 // ==========================================
@@ -220,8 +221,8 @@ typedef struct	s_fps
 
 typedef struct	s_animation
 {
-	float			progress, step;
-	bool			active;
+	float	progress, step;
+	bool	active;
 }				t_animation;
 
 typedef struct	s_light
@@ -288,8 +289,8 @@ void			cb_window_focus(GLFWwindow *window, int focused);
 // PARSER
 int				parse_obj(t_env *env, char *filename);
 // Parsing
-int				readlines(char *path, char ***lines);
 int				load_obj_file(t_env *env, char *path);
+int				readlines(char *path, char ***lines);
 int				load_settings(t_env *env);
 int				obj_mtllib_loader(t_env *env, char **tokens);
 void			normalize_vertexs(t_env *env);

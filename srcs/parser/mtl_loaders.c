@@ -6,7 +6,7 @@ int			mtl_newmtl_loader(t_env *env, char **tokens)
 	t_mtl	new; // New material object
 
 	ft_memset(&new, 0, sizeof(t_mtl));
-	if (ft_arrlen((void **)tokens) != 2) // Syntax check
+	if (ft_arrlen(tokens) != 2) // Syntax check
 		return (-1);
 
 	if (!(new.name = ft_strdup(tokens[1])) // Copies material name
@@ -25,7 +25,7 @@ int			mtl_diffuse_color_loader(t_env *env, char **tokens)
 {
 	t_mtl	*mtl; // Material to apply color at
 
-	if (ft_arrlen((void **)tokens) != 4) // Syntax check
+	if (ft_arrlen(tokens) != 4) // Syntax check
 		return (-1);
 
 	if (env->model.mtls.arr == NULL) // Checks for existing material(s) to apply color at
@@ -51,7 +51,7 @@ int			mtl_alpha_component_loader(t_env *env, char **tokens)
 {
 	t_mtl	*mtl; // Material to apply color at
 
-	if (ft_arrlen((void **)tokens) != 2) // Syntax check
+	if (ft_arrlen(tokens) != 2) // Syntax check
 		return (-1);
 
 	if (env->model.mtls.arr == NULL) // Checks for existing material(s) to apply color at
@@ -98,7 +98,7 @@ int			mtl_texture_image_loader(t_env *env, char **tokens)
 	char			*path; // Image file path string
 	unsigned int	i = 0;
 
-	if (ft_arrlen((void **)tokens) != 2) // Syntaxic check
+	if (ft_arrlen(tokens) != 2) // Syntaxic check
 		return (-1);
 
 	while (tokens[1][i] && tokens[1][i] != '.') // Find a dot in the filename

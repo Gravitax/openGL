@@ -33,8 +33,8 @@ static int	(*mtl_loading_fts[MTL_MAX])(t_env *, char **) = {
 
 static int	mtl_loader(t_env *env, char *line)
 {
-	char			**tokens;
-	unsigned char	code;
+	char	**tokens;
+	int		code;
 
 	// Splits line into words
 	if (!(tokens = ft_strsplit(line, "\b\t\v\f\r ")))
@@ -47,21 +47,21 @@ static int	mtl_loader(t_env *env, char *line)
 			if (mtl_loading_fts[i]) // If the line's type is handled
 			{
 				code = mtl_loading_fts[i](env, tokens); // Launch correponding loading function
-				 ft_arrfree((void **)tokens);
+				 ft_arrfree(tokens);
 				return (code);
 			}
-			 ft_arrfree((void **)tokens); // Free tokens array
+			 ft_arrfree(tokens); // Free tokens array
 			return (0);
 		}
 
-	 ft_arrfree((void **)tokens);
+	 ft_arrfree(tokens);
 	return (-1);
 }
 
 static int	load_mtl_file(t_env *env)
 {
-	char			**lines;
-	unsigned char	code;
+	char	**lines;
+	int		code;
 
 	// Reads file ans splits it in lines
 	if ((code = readlines(env->model.obj_path, &lines)) != 0)
@@ -73,21 +73,21 @@ static int	load_mtl_file(t_env *env)
 			return (code);
 
 	// Free lines array
-	 ft_arrfree((void **)lines);
+	 ft_arrfree(lines);
 	return (0);
 }
 
 int			obj_mtllib_loader(t_env *env, char **tokens)
 {
-	unsigned char	code;
+	int	code;
 
 	(void)tokens;
+
 	/* Making new path, assuming that mtl file is named the same as its
 	 * corresponding obj file, and is located in the same directory (convention).*/
 	ft_strcpy(&env->model.obj_path[ft_strlen(env->model.obj_path) - 4], ".mtl");
 
 	if ((code = load_mtl_file(env)) != 0)
 		return (code);
-
 	return (0);
 }

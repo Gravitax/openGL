@@ -17,9 +17,10 @@ static int	pitriche(t_env *env)
 	return (0);
 }
 
-static int	gedemais(t_env *env)
+static int	gedemais(t_env *env, t_model *model)
 {
-	// load_obj_file(env, "./ressources/42.obj");
+	if (load_obj_file(env, "./resources/42.obj") < 0)
+		return (-1);
 	return (0);
 }
 
@@ -28,8 +29,8 @@ int			model(t_env *env)
 	if (pitriche(env) < 0)
 		return (-1);
 
-	if (gedemais(env) < 0)
-		return (-1);
+	// if (gedemais(env, &env->model) < 0)
+	// 	return (-1);
 
 	env->model.scale = 1;
 	return (0);

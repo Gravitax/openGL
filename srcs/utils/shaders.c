@@ -104,4 +104,37 @@ void		shaders(t_gltools *gl)
 		"		FragColor = mix(vec4(gColor, 1), texture(texture_color, gTexture), progress);\n"
 		"	}\n"
 		"}\n";
+	// gl->shader_vertex_text =
+	// 	"#version 400\n"
+	// 	"\n"
+	// 	"layout (location = 0) in vec4	in_position;\n"
+	// 	"layout (location = 1) in vec4	in_color;\n"
+	// 	"layout (location = 2) in vec2	in_texture;\n"
+	// 	"\n"
+	// 	"uniform mat4	model;\n"
+	// 	"uniform mat4	view;\n"
+	// 	"uniform mat4	projection;\n"
+	// 	"\n"
+ 	// 	"out vec4	vColor;\n"
+	// 	"out vec2	vTexture;\n"
+	// 	"\n"
+	// 	"void	main()\n"
+	// 	"{\n"
+	// 	"	vColor		= in_color;\n"
+	// 	"	vTexture	= in_texture;\n"
+	// 	"\n"
+	// 	"	gl_Position = vec4(in_position, 1) * model * view * projection;\n"
+	// 	"}\n";
+	// gl->shader_fragment_text =
+	// 	"#version 400\n"
+	// 	"\n"
+	// 	"in vec4	vColor;\n"
+	// 	"in vec2	vTexture;\n"
+	// 	"\n"
+	// 	"out vec4	FragColor;\n"
+	// 	"\n"
+	// 	"void	main()\n"
+	// 	"{\n"
+	// 	"	FragColor = vColor;\n"
+	// 	"}\n";
 }
