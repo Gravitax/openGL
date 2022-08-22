@@ -27,7 +27,8 @@ static void	draw_mesh(t_env *env)
 
 		// glDrawElements(GL_TRIANGLES, (GLsizei)env->parser.element_size / (GLsizei)sizeof(float), GL_UNSIGNED_INT, 0);
 
-		glDrawArrays(GL_TRIANGLES, 0, mesh->vertices.nb_cells);
+		glDrawElements(GL_TRIANGLES, env->parser.vertex_size, GL_UNSIGNED_INT, 0);
+		// glDrawArrays(GL_TRIANGLES, 0, mesh->vertices.nb_cells);
 		glBindVertexArray(0);
 	}
 }

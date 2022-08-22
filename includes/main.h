@@ -163,10 +163,10 @@ typedef struct	s_uniform
 typedef struct	s_gltools
 {
 	GLuint			shader_program;
-	GLuint			shader_vertex, shader_fragment;
+	GLuint			shader_vertex, shader_geometry, shader_fragment;
 	GLuint			ebo, vao, vbo;
 	GLuint			textures[TEXTURE_MAX];
-	const GLchar	*shader_vertex_text, *shader_fragment_text;
+	const GLchar	*shader_vertex_text, *shader_fragment_text, *shader_geometry_text;
 	t_window		window;
 	t_uniform		uniform;
 }				t_gltools;

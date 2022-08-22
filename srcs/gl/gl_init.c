@@ -8,6 +8,10 @@ static void	gl_shaders(t_gltools *gl)
 	glShaderSource(gl->shader_vertex, 1, &gl->shader_vertex_text, NULL);
 	glCompileShader(gl->shader_vertex);
 	// Create and compile the fragment shader
+	gl->shader_geometry = glCreateShader(GL_GEOMETRY_SHADER);
+	glShaderSource(gl->shader_geometry, 1, &gl->shader_geometry_text, NULL);
+	glCompileShader(gl->shader_geometry);
+	// Create and compile the fragment shader
 	gl->shader_fragment = glCreateShader(GL_FRAGMENT_SHADER);
 	glShaderSource(gl->shader_fragment, 1, &gl->shader_fragment_text, NULL);
 	glCompileShader(gl->shader_fragment);
@@ -18,6 +22,7 @@ static void	gl_program(t_gltools *gl) {
 	gl->shader_program = glCreateProgram();
 	// Link the vertex and fragment shader into program
 	glAttachShader(gl->shader_program, gl->shader_vertex);
+	glAttachShader(gl->shader_program, gl->shader_geometry);
 	glAttachShader(gl->shader_program, gl->shader_fragment);
 	glBindFragDataLocation(gl->shader_program, 0, "FragColor");
 	// Link and use program
@@ -25,6 +30,7 @@ static void	gl_program(t_gltools *gl) {
 	glUseProgram(gl->shader_program);
 	// Delete used shaders
 	glDeleteShader(gl->shader_vertex);
+	glDeleteShader(gl->shader_geometry);
 	glDeleteShader(gl->shader_fragment);
 }
 
@@ -34,25 +40,36 @@ static void	gl_layouts(t_gltools *gl)
 
 	// Specify the layout of the vertex data
 	// position
+	// position = glGetAttribLocation(gl->shader_program, "in_position");
+	// glEnableVertexAttribArray(position);
+	// glVertexAttribPointer(position, sizeof(vec3) * 0.25, GL_FLOAT, GL_FALSE,
+	// 	sizeof(t_vertice), (void *)0);
+	// // color
+	// color = glGetAttribLocation(gl->shader_program, "in_color");
+	// glEnableVertexAttribArray(color);
+	// glVertexAttribPointer(color, sizeof(t_color) * 0.25, GL_FLOAT, GL_FALSE,
+	// 	sizeof(t_vertice), (void *)sizeof(vec3));
+	// // texture
+	// texcoord = glGetAttribLocation(gl->shader_program, "in_texcoord");
+	// glEnableVertexAttribArray(texcoord);
+	// glVertexAttribPointer(texcoord, sizeof(t_texture) * 0.25, GL_FLOAT, GL_FALSE,
+	// 	sizeof(t_vertice), (void *)(sizeof(vec3) + sizeof(t_color)));
+	// // normal
+	// normal = glGetAttribLocation(gl->shader_program, "in_normal");
+	// glEnableVertexAttribArray(normal);
+	// glVertexAttribPointer(normal, sizeof(vec3) * 0.25, GL_FLOAT, GL_FALSE,
+	// 	sizeof(t_vertice), (void *)(sizeof(vec3) + sizeof(t_color) + sizeof(t_texture)));
+
 	position = glGetAttribLocation(gl->shader_program, "in_position");
+	glVertexAttribPointer(position, 3, GL_FLOAT, GL_FALSE,
+		sizeof(float) * 4, (void *)0);
 	glEnableVertexAttribArray(position);
-	glVertexAttribPointer(position, sizeof(vec3) * 0.25, GL_FLOAT, GL_FALSE,
-		sizeof(t_vertice), (void *)0);
+
 	// color
 	color = glGetAttribLocation(gl->shader_program, "in_color");
+	glVertexAttribPointer(color, 1, GL_FLOAT, GL_FALSE,
+		sizeof(float) * 4, (void *)(sizeof(float) * 3));
 	glEnableVertexAttribArray(color);
-	glVertexAttribPointer(color, sizeof(t_color) * 0.25, GL_FLOAT, GL_FALSE,
-		sizeof(t_vertice), (void *)sizeof(vec3));
-	// texture
-	texcoord = glGetAttribLocation(gl->shader_program, "in_texcoord");
-	glEnableVertexAttribArray(texcoord);
-	glVertexAttribPointer(texcoord, sizeof(t_texture) * 0.25, GL_FLOAT, GL_FALSE,
-		sizeof(t_vertice), (void *)(sizeof(vec3) + sizeof(t_color)));
-	// normal
-	normal = glGetAttribLocation(gl->shader_program, "in_normal");
-	glEnableVertexAttribArray(normal);
-	glVertexAttribPointer(normal, sizeof(vec3) * 0.25, GL_FLOAT, GL_FALSE,
-		sizeof(t_vertice), (void *)(sizeof(vec3) + sizeof(t_color) + sizeof(t_texture)));
 
 	// position = glGetAttribLocation(gl->shader_program, "in_position");
 	// glEnableVertexAttribArray(position);
@@ -74,9 +91,13 @@ static void	gl_buffers(t_env *env, t_gltools *gl, t_mesh *mesh)
 	glGenBuffers(1, &mesh->vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, mesh->vbo);
 
+	// glBufferData(GL_ARRAY_BUFFER,
+	// 	mesh->vertices.nb_cells * sizeof(t_vertice),
+	// 	mesh->vertices.arr, GL_STATIC_DRAW);
+
 	glBufferData(GL_ARRAY_BUFFER,
-		mesh->vertices.nb_cells * sizeof(t_vertice),
-		mesh->vertices.arr, GL_STATIC_DRAW);
+		env->parser.vertex_size,
+		env->parser.vertex, GL_STATIC_DRAW);
 
 	// glBufferData(GL_ARRAY_BUFFER, env->parser.vertex_size, env->parser.vertex, GL_STATIC_DRAW);
 
@@ -84,9 +105,23 @@ static void	gl_buffers(t_env *env, t_gltools *gl, t_mesh *mesh)
 	glGenBuffers(1, &mesh->ebo);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->ebo);
 
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, mesh->vertices.byte_size, mesh->vertices.arr, GL_STATIC_DRAW);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, env->parser.vertex_size, env->parser.vertex, GL_STATIC_DRAW);
 
 	// glBufferData(GL_ELEMENT_ARRAY_BUFFER, env->parser.element_size, env->parser.element, GL_STATIC_DRAW);
+
+
+	// TEST =========================
+	// GLuint  elements[] = {
+	// 	3, 1, 0,
+	// 	2, 3, 0
+	// };
+
+	// env->parser.element = ft_memalloc(sizeof(elements));
+	// ft_memcpy(env->parser.element, elements, sizeof(elements));
+	// env->parser.element_size = sizeof(elements);
+
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, env->parser.element_size, env->parser.element, GL_STATIC_DRAW);
+
 
 	gl_layouts(gl);
 	glBindVertexArray(0);

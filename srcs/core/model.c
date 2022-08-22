@@ -1,6 +1,26 @@
 #include "../../includes/main.h"
 
 
+static int	face(t_env *env, t_dynarray *vertices)
+{
+	vec3	v;
+
+	env->parser.vertex = ft_memalloc(sizeof(float) * 4 * 4);
+	v = (vec3){ -0.5f, 0.5f, 0.0f, 0.2f };
+	ft_memcpy(env->parser.vertex, &v, sizeof(vec3));
+	dynarray_push(vertices, &v, false);
+	v = (vec3){ 0.5f, 0.5f, 0.0f, 0.4f };
+	ft_memcpy(env->parser.vertex + 4, &v, sizeof(vec3));
+	dynarray_push(vertices, &v, false);
+	v = (vec3){ -0.5f, -0.5f, 0.0f, 0.6f };
+	ft_memcpy(env->parser.vertex + 8, &v, sizeof(vec3));
+	dynarray_push(vertices, &v, false);
+	v = (vec3){ 0.5f, -0.5f, 0.0f, 0.8f };
+	ft_memcpy(env->parser.vertex + 12, &v, sizeof(vec3));
+	dynarray_push(vertices, &v, false);
+    return (0);
+}
+
 static void	cube(t_dynarray *vertices, float x, float y, float z)
 {
 	//										x			y		z		w		r	g		b	a		u	v		nx	ny		nz
@@ -80,9 +100,25 @@ int			model(t_env *env)
 		mesh = dyacc(&env->model.mesh, i);
 		if (mesh == NULL)
 			continue ;
-		if (dynarray_init(&mesh->vertices, sizeof(t_vertice), 36) < 0)
+
+		// if (dynarray_init(&mesh->vertices, sizeof(t_vertice), 36) < 0)
+		// 	return (-1);
+		// cube(&mesh->vertices, 0, i * 4, i * 4);
+
+
+		if (dynarray_init(&mesh->vertices, sizeof(vec3), 4) < 0)
 			return (-1);
-		cube(&mesh->vertices, 0, i * 4, i * 4);
+		face(env, &mesh->vertices);
+
+		env->parser.vertex_size = mesh->vertices.byte_size;
+
+		// vec3	tmp;
+
+		// for (int x = 0; x < mesh->vertices.nb_cells; x++) {
+		// 	tmp = *(vec3 *)dyacc(&mesh->vertices, x);
+		// 	printf("%f %f %f %f\n", tmp.x, tmp.y, tmp.z, tmp.w);
+		// }
+
 		set_mesh_center(mesh);
 		env->model.center = vec_add(env->model.center, mesh->center);
 		mesh->texture = i % 2 ? TEXTURE_NYAN : TEXTURE_DS;

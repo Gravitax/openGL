@@ -27,8 +27,8 @@ static size_t	next_char(const char *str, size_t current)
 
 static int		parse_vertex(t_env *env, const char *str, size_t current)
 {
-	// static const float	color_palette[6] = {0.2f, 0.3f, 0.4f, 0.5f, 0.6f, 0.7f};
-	// static int			current_color = 0;
+	static const float	color_palette[6] = {0.2f, 0.3f, 0.4f, 0.5f, 0.6f, 0.7f};
+	static int			current_color = 0;
 
 	static unsigned		current_vertex = 0;
 	unsigned			number_num;
@@ -56,8 +56,8 @@ static int		parse_vertex(t_env *env, const char *str, size_t current)
 		printf("Parsing error, invalid vertex (%d numbers)\n", number_num);
 		return (-1);
 	}
-	// env->parser.vertex[current_vertex + 3] = color_palette[current_color++ % 6];
-	env->parser.vertex[current_vertex + 3] = 1;
+	env->parser.vertex[current_vertex + 3] = color_palette[current_color++ % 6];
+	// env->parser.vertex[current_vertex + 3] = 1;
 	current_vertex += 4;
 	return (0);
 }
