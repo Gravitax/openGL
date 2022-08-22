@@ -99,7 +99,7 @@ typedef struct	s_vertice
 {
 	vec3		pos;
 	t_color		col;
-	t_vt	tex;
+	t_vt		tex;
 	vec3		nor;
 }				t_vertice;
 
@@ -109,8 +109,42 @@ typedef struct	s_mesh
 	vec3			center;
 	unsigned int	texture;
 	GLuint			ebo, vao, vbo;
-	unsigned char	*name;
+	char			*name;
 }				t_mesh;
+
+// ==========================================
+
+typedef struct	s_image
+{
+	unsigned int	w, h;
+	unsigned char	*ptr;
+}				t_image;
+
+typedef	struct	s_material
+{
+	t_image		texture;
+	t_color		color;
+	char		*name;
+}				t_mtl;
+
+typedef struct	s_stride
+{
+	vec3		v;
+	t_color		c;
+	t_vt		t;
+}				t_stride;
+
+typedef	struct	s_face
+{
+	uint32_t	a;
+	uint32_t	b;
+	uint32_t	c;
+	uint32_t	va;
+	uint32_t	vb;
+	uint32_t	vc;
+}				t_face;
+
+// ==========================================
 
 typedef struct	s_model
 {
@@ -119,22 +153,24 @@ typedef struct	s_model
 	vec3		trans, rot;
 	vec3		center;
 	float		scale;
-}				t_model;
 
-typedef struct	s_image
-{
-	unsigned int	w, h;
-	unsigned char	*ptr;
-}				t_image;
+	t_dynarray	meshs;
+	t_dynarray	vertexs;
+	t_dynarray	vertexs_txt;
+	t_dynarray	faces;
+	t_dynarray	used_mtls;
+	t_dynarray	mtls;
+	float		ct; // Color / Texture ratio
+}				t_model;
 
 // ==========================================
 
-typedef struct	s_light
+typedef struct	s_mouse
 {
-	bool	active;
-	vec3	pos, dir, color;
-	vec3	ambient, diffuse, specular;
-}				t_light;
+	vec3	pos;
+	float	sensitivity;
+
+}				t_mouse;
 
 typedef struct	s_camera
 {
@@ -145,13 +181,6 @@ typedef struct	s_camera
 	float		speed, tspeed;
 	bool		ground_fixed;
 }				t_camera;
-
-typedef struct	s_mouse
-{
-	vec3	pos;
-	float	sensitivity;
-
-}				t_mouse;
 
 // ==========================================
 
@@ -194,6 +223,13 @@ typedef struct	s_animation
 	bool			active;
 }				t_animation;
 
+typedef struct	s_light
+{
+	bool	active;
+	vec3	pos, dir, color;
+	vec3	ambient, diffuse, specular;
+}				t_light;
+
 // ==========================================
 
 typedef struct	s_parser
@@ -204,51 +240,6 @@ typedef struct	s_parser
 	GLsizeiptr	element_size;
 	GLuint		*element;
 }				t_parser;
-
-// ==========================================
-
-typedef struct	s_texture
-{
-	unsigned char	*img_data;
-	unsigned int	gl_id;
-	int				w;
-	int				h;
-}				t_texture;
-
-typedef	struct	s_material
-{
-	t_texture	texture;
-	t_color		color;
-	char		*name;
-}				t_mtl;
-
-typedef struct	s_stride
-{
-	vec3	v;
-	t_color	c;
-	t_vt	t;
-}				t_stride;
-
-typedef	struct	s_face
-{
-	uint32_t	a;
-	uint32_t	b;
-	uint32_t	c;
-	uint32_t	va;
-	uint32_t	vb;
-	uint32_t	vc;
-}				t_face;
-
-typedef struct	s_scene
-{
-	t_dynarray	meshs;
-	t_dynarray	vertexs;
-	t_dynarray	vertexs_txt;
-	t_dynarray	faces;
-	t_dynarray	used_mtls;
-	t_dynarray	mtls;
-	float		ct; // Color / Texture ratio
-}				t_scene;
 
 // ==========================================
 
@@ -265,7 +256,6 @@ typedef struct	s_env
 	t_model			model;
 	t_animation		animation;
 	t_parser		parser;
-	t_scene			scene;
 	char			obj_path[256];
 }				t_env;
 

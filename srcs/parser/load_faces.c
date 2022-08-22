@@ -41,15 +41,15 @@ static int	assign_face_indexes(t_face *new, char **tokens, int indexes[3])
 static int	check_face_indexes(t_env *env, t_face new)
 {
 	// Checks if vertexs indexes values are coherent with the rest of the file
-	if (new.a >= (unsigned int)env->scene.vertexs.nb_cells
-		|| new.b >= (unsigned int)env->scene.vertexs.nb_cells
-		|| new.c >= (unsigned int)env->scene.vertexs.nb_cells)
+	if (new.a >= (unsigned int)env->model.vertexs.nb_cells
+		|| new.b >= (unsigned int)env->model.vertexs.nb_cells
+		|| new.c >= (unsigned int)env->model.vertexs.nb_cells)
 		return (-1);
 
-	if (env->scene.vertexs_txt.nb_cells > 0)
-		if (new.va >= (unsigned int)env->scene.vertexs_txt.nb_cells
-			|| new.vb >= (unsigned int)env->scene.vertexs_txt.nb_cells
-			|| new.vc >= (unsigned int)env->scene.vertexs_txt.nb_cells)
+	if (env->model.vertexs_txt.nb_cells > 0)
+		if (new.va >= (unsigned int)env->model.vertexs_txt.nb_cells
+			|| new.vb >= (unsigned int)env->model.vertexs_txt.nb_cells
+			|| new.vc >= (unsigned int)env->model.vertexs_txt.nb_cells)
 			return (-1);
 
 	return (0);
@@ -72,8 +72,8 @@ static int	split_quad(t_env *env, t_mesh *parent, uint32_t a_index, char **token
 		return (-1);
 
 	// Moves new faces into pool
-	if (dynarray_push(&env->scene.faces, &news[0], false)
-		|| dynarray_push(&env->scene.faces, &news[1], false))
+	if (dynarray_push(&env->model.faces, &news[0], false)
+		|| dynarray_push(&env->model.faces, &news[1], false))
 		return (-1);
 
 	// Moves faces indexes into parent mesh
@@ -93,11 +93,11 @@ static int	load_face(t_env *env, char **tokens, t_mesh *parent, uint32_t face_in
 	assign_face_indexes(&new, tokens, (int[3]){1, 2, 3});
 
 	// Moves instance in the pool.
-	if (dynarray_push(&env->scene.faces, &new, false)
+	if (dynarray_push(&env->model.faces, &new, false)
 		// Moves instance's pool index in the parent mesh.
 		|| dynarray_push(&parent->vertices, &face_index, false)
 		// Moves used mtl to to used materials pool
-		|| dynarray_push(&env->scene.used_mtls, used_mtl(), false))
+		|| dynarray_push(&env->model.used_mtls, used_mtl(), false))
 		return (-1);
 	// Negative / pool bound test.
 	return (check_face_indexes(env, new));
@@ -110,20 +110,20 @@ int			obj_face_loader(t_env *env, char **tokens)
 	uint32_t		nb_vertexs; // Number of vertexs of the face line
 	unsigned char	code;
 
-	if (!(parent = dyacc(&env->scene.meshs, (int)current_mesh))
+	if (!(parent = dyacc(&env->model.meshs, (int)current_mesh))
 		&& (code = create_default_mesh(env)))
 		return (code);
 
-	parent = dyacc(&env->scene.meshs, (int)current_mesh);
-	face_index = (uint32_t)env->scene.faces.nb_cells;
+	parent = dyacc(&env->model.meshs, (int)current_mesh);
+	face_index = (uint32_t)env->model.faces.nb_cells;
 	nb_vertexs = (uint32_t)ft_arrlen((void **)tokens) - 1;
 
-	if (env->scene.faces.arr == NULL // Initialization of faces pool
-		&& dynarray_init(&env->scene.faces, sizeof(t_face), 256))
+	if (env->model.faces.arr == NULL // Initialization of faces pool
+		&& dynarray_init(&env->model.faces, sizeof(t_face), 256))
 		return (-1);
 
-	if (env->scene.used_mtls.arr == NULL // Initialization of faces pool
-		&& dynarray_init(&env->scene.used_mtls, sizeof(uint32_t), 16))
+	if (env->model.used_mtls.arr == NULL // Initialization of faces pool
+		&& dynarray_init(&env->model.used_mtls, sizeof(uint32_t), 16))
 		return (-1);
 
 	if (nb_vertexs == 3) // If the face is a polygon

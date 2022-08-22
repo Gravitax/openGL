@@ -12,36 +12,79 @@
 
 #include "../libft.h"
 
-static int		ft_copyin_tab(const char *s, char **split, char c, int *current)
+static int	is_sep(char c, char *charset)
 {
-	int		start;
+	int i;
 
-	while (s[*current] && s[*current] == c)
-		++(*current);
-	start = *current;
-	while (s[*current] && s[*current] != c)
-		++(*current);
-	*split = ft_strsub(s, start, *current - start);
-	return (*split ? 0 : -1);
+	i = 0;
+	if (!(c))
+		return (1);
+	while (charset[i])
+		if (charset[i++] == c)
+			return (1);
+	return (0);
 }
 
-char			**ft_strsplit(const char *str, char c)
+static char	*ft_strdup_sep(char *src, char *charset)
 {
-	char	**split;
+	char	*dest;
 	int		i;
-	int		current;
-	int		len;
 
-	if (!str || (len = ft_wordcount(str, c)) < 1
-		|| !(split = (char **)ft_memalloc(sizeof(char *) * (len + 1))))
+	i = 0;
+	while (!(is_sep(src[i], charset)))
+		i++;
+	if (!(dest = (char *)malloc(sizeof(*dest) * (i + 1))))
+		return (0);
+	i = 0;
+	while (!(is_sep(src[i], charset)))
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	dest[i] = '\0';
+	return (dest);
+}
+
+static int	c_w(char *str, char *charset)
+{
+	int words;
+	int i;
+
+	i = 0;
+	words = 1;
+	while (str[i])
+	{
+		if (is_sep(str[i], charset) && !(is_sep(str[i + 1], charset)))
+			words++;
+		i++;
+	}
+	return (words);
+}
+
+char		**ft_strsplit(char *str, char *charset)
+{
+	char	**tab;
+	int		words;
+	int		i;
+	int		j;
+
+	j = 0;
+	i = 0;
+	if (!(str) || !(charset))
 		return (NULL);
-	current = 0;
-	i = -1;
-	while (++i < len)
-		if (ft_copyin_tab(str, split + i, c, &current))
-		{
-			ft_arrfree((void **)split);
+	words = c_w(str, charset);
+	if (!(tab = (char**)malloc(sizeof(char*) * (words + 2))))
+		return (NULL);
+	while (j < words)
+	{
+		while (str[i] && is_sep(str[i], charset))
+			i++;
+		if (!(tab[j] = ft_strdup_sep(&str[i], charset)))
 			return (NULL);
-		}
-	return (split);
+		while (str[i] && !(is_sep(str[i], charset)))
+			i++;
+		j++;
+	}
+	tab[j] = NULL;
+	return (tab);
 }

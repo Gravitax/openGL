@@ -48,7 +48,7 @@ void				normalize_vertexs(t_env *env)
 	float		min;
 	float		max;
 
-	vertexs = &env->scene.vertexs;
+	vertexs = &env->model.vertexs;
 
 	// Find min and max for three dimensions
 	dim_min_max(vertexs, X, &mins[0], &maxs[0]);

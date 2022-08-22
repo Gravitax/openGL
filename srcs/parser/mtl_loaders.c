@@ -11,11 +11,11 @@ int			mtl_newmtl_loader(t_env *env, char **tokens)
 
 	if (!(new.name = ft_strdup(tokens[1])) // Copies material name
 		// Initializes materials pool if not already up
-		|| (env->scene.mtls.arr == NULL && dynarray_init(&env->scene.mtls, sizeof(t_mtl), 1)))
+		|| (env->model.mtls.arr == NULL && dynarray_init(&env->model.mtls, sizeof(t_mtl), 1)))
 		return (-1);
 
 	// Moves the new material in the pool
-	if (dynarray_push(&env->scene.mtls, &new, false))
+	if (dynarray_push(&env->model.mtls, &new, false))
 		return (-1);
 
 	return (0);
@@ -28,10 +28,10 @@ int			mtl_diffuse_color_loader(t_env *env, char **tokens)
 	if (ft_arrlen((void **)tokens) != 4) // Syntax check
 		return (-1);
 
-	if (env->scene.mtls.arr == NULL) // Checks for existing material(s) to apply color at
+	if (env->model.mtls.arr == NULL) // Checks for existing material(s) to apply color at
 		return (-1);
 
-	mtl = dyacc(&env->scene.mtls, env->scene.mtls.nb_cells - 1);
+	mtl = dyacc(&env->model.mtls, env->model.mtls.nb_cells - 1);
 
 	// Reads color rgb components
 	mtl->color.r = (float)atof(tokens[1]);
@@ -54,10 +54,10 @@ int			mtl_alpha_component_loader(t_env *env, char **tokens)
 	if (ft_arrlen((void **)tokens) != 2) // Syntax check
 		return (-1);
 
-	if (env->scene.mtls.arr == NULL) // Checks for existing material(s) to apply color at
+	if (env->model.mtls.arr == NULL) // Checks for existing material(s) to apply color at
 		return (-1);
 
-	mtl = dyacc(&env->scene.mtls, env->scene.mtls.nb_cells - 1);
+	mtl = dyacc(&env->model.mtls, env->model.mtls.nb_cells - 1);
 
 	// Reads alpha value
 	mtl->color.a = (float)atof(tokens[1]); // 0 - 1 (1 : no transparency)
@@ -94,7 +94,7 @@ static char	*make_texture_path(t_env *env, char *filename)
 int			mtl_texture_image_loader(t_env *env, char **tokens)
 {
 	t_mtl			*mtl; // Pointer used for syntaxic contraction
-	t_texture		*txt; // Texture pointer
+	t_image			*txt; // Texture pointer
 	char			*path; // Image file path string
 	unsigned int	i = 0;
 
@@ -110,10 +110,10 @@ int			mtl_texture_image_loader(t_env *env, char **tokens)
 	if (!(path = make_texture_path(env, tokens[1]))) // Create total relative path
 		return (-1);
 
-	mtl = dyacc(&env->scene.mtls, env->scene.mtls.nb_cells - 1);
+	mtl = dyacc(&env->model.mtls, env->model.mtls.nb_cells - 1);
 	txt = &mtl->texture;
 
-	if ((txt->img_data = load_bmp(path, &txt->w, &txt->h)) == NULL) // Load image from path
+	if ((txt->ptr = load_bmp(path, &txt->w, &txt->h)) == NULL) // Load image from path
 	{
 		free(path);
 		return (-1);

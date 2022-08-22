@@ -87,7 +87,7 @@ size_t			ft_strlen(const char *str);
 char			*ft_strncat(char *dst, const char *src, size_t nb);
 int				ft_strncmp(const char *s1, const char *s2, size_t n);
 char			*ft_strncpy(char *dst, const char *src, size_t n);
-char			**ft_strsplit(const char *s, char c);
+char			**ft_strsplit(char *str, char *charset);
 char			*ft_strstr(const char *str, const char *to_find);
 char			*ft_strsub(char const *str, unsigned int start, size_t len);
 double			ft_to_degrees(double radians);

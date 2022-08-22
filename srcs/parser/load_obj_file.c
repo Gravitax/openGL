@@ -46,7 +46,7 @@ static int	obj_object_name_loader(t_env *env, char **tokens)
 		|| dynarray_init(&new.vertices, sizeof(uint32_t), 256)) // Initializes faces array in the new mesh object
 		return (-1);
 
-	meshs = &env->scene.meshs;
+	meshs = &env->model.meshs;
 	if ((meshs->arr == NULL && dynarray_init(meshs, sizeof(t_mesh), 1)) // Initializes meshes pool
 		|| dynarray_push(meshs, &new, false)) // Moves the newly created mesh into the meshs pool
 		return (-1);
@@ -64,8 +64,8 @@ static int	obj_vertex_loader(t_env *env, char **tokens)
 	if (ft_arrlen((void **)tokens) != 4) // Check format
 		return (-1);
 
-	if (env->scene.vertexs.arr == NULL // Initialization of vertexs pool
-		&& dynarray_init(&env->scene.vertexs, sizeof(vec3), 256))
+	if (env->model.vertexs.arr == NULL // Initialization of vertexs pool
+		&& dynarray_init(&env->model.vertexs, sizeof(vec3), 256))
 		return (-1);
 
 	// Reads the three float components of the vertex
@@ -74,7 +74,7 @@ static int	obj_vertex_loader(t_env *env, char **tokens)
 	new.z = (float)atof(tokens[3]);
 
 	// Moves the newly created vertex into the vertexs pool
-	if (dynarray_push(&env->scene.vertexs, &new, false))
+	if (dynarray_push(&env->model.vertexs, &new, false))
 		return (-1);
 
 	return (0);
@@ -88,15 +88,15 @@ static int	obj_vertex_texture_loader(t_env *env, char **tokens)
 	if (ft_arrlen((void **)tokens) != 3) // Check format
 		return (-1);
 
-	if (env->scene.vertexs_txt.arr == NULL // Initialization of vertexs pool
-		&& dynarray_init(&env->scene.vertexs_txt, sizeof(t_vt), 256))
+	if (env->model.vertexs_txt.arr == NULL // Initialization of vertexs pool
+		&& dynarray_init(&env->model.vertexs_txt, sizeof(t_vt), 256))
 		return (-1);
 
 	new.u = (float)atof(tokens[1]);
 	new.v = (float)atof(tokens[2]);
 
 	// Moves the newly created vertex into the vertexs pool
-	if (dynarray_push(&env->scene.vertexs_txt, &new, false))
+	if (dynarray_push(&env->model.vertexs_txt, &new, false))
 		return (-1);
 
 	return (0);
@@ -110,9 +110,9 @@ static int	obj_usemtl_loader(t_env *env, char **tokens)
 	if (ft_arrlen((void **)tokens) != 2) // Syntax check
 		return (-1);
 
-	for (int i = 0; i < env->scene.mtls.nb_cells; i++) // Iterates through mtls pool
+	for (int i = 0; i < env->model.mtls.nb_cells; i++) // Iterates through mtls pool
 	{
-		mtl = dyacc(&env->scene.mtls, i); // Material pointer assignment
+		mtl = dyacc(&env->model.mtls, i); // Material pointer assignment
 		if (ft_strcmp(mtl->name, tokens[1]) == 0) // Comparison with mtl name
 		{
 			found = true;
@@ -133,17 +133,17 @@ static void	set_mesh_origin(t_env *env)
 	vec3	*v;
 	vec3	acc = {0.0f, 0.0f, 0.0f, 0.0f};
 
-	m = dyacc(&env->scene.meshs, 0);
-	for (int i = 0; i < env->scene.vertexs.nb_cells; i++)
+	m = dyacc(&env->model.meshs, 0);
+	for (int i = 0; i < env->model.vertexs.nb_cells; i++)
 	{
-		v = dyacc(&env->scene.vertexs, i);
+		v = dyacc(&env->model.vertexs, i);
 		acc = vec_add(acc, *v);
 	}
-	m->center = vec_fdiv(acc, env->scene.vertexs.nb_cells);
+	m->center = vec_fdiv(acc, env->model.vertexs.nb_cells);
 
-	for (int i = 0; i < env->scene.vertexs.nb_cells; i++)
+	for (int i = 0; i < env->model.vertexs.nb_cells; i++)
 	{
-		v = dyacc(&env->scene.vertexs, i);
+		v = dyacc(&env->model.vertexs, i);
 		*v = vec_add(*v, vec_fmult(m->center, -1.0f));
 	}
 }
@@ -185,22 +185,22 @@ int			create_default_mesh(t_env *env)
 
 	// Initializes mesh with default values
 	m.center = (vec3){0.0f, 0.0f, 0.0f, 0.0f};
-	if (dynarray_init(&env->scene.meshs, sizeof(t_mesh), 1)
+	if (dynarray_init(&env->model.meshs, sizeof(t_mesh), 1)
 		|| !(m.name = ft_strdup("default"))
 		|| dynarray_init(&m.vertices, sizeof(uint32_t), 256))
 		return (-1);
 
 	// Adds the enterity of faces indexes to the mesh faces pool
-	for (uint32_t i = 0; i < (uint32_t)env->scene.vertexs.nb_cells; i++)
-		if (dynarray_push(&env->scene.vertexs, &i, false))
+	for (uint32_t i = 0; i < (uint32_t)env->model.vertexs.nb_cells; i++)
+		if (dynarray_push(&env->model.vertexs, &i, false))
 			return (-1);
 
 	// Moves default mesh in meshs pool
-	if (dynarray_push(&env->scene.meshs, &m, false))
+	if (dynarray_push(&env->model.meshs, &m, false))
 		return (-1);
 
 	// Updates current mesh index value
-	current_mesh = env->scene.meshs.nb_cells - 1;
+	current_mesh = env->model.meshs.nb_cells - 1;
 
 	return (0);
 }
@@ -209,9 +209,9 @@ void		print_used_mtls(t_env *env)
 {
 	uint32_t	*n;
 
-	for (int i = 0; i < env->scene.used_mtls.nb_cells; i++)
+	for (int i = 0; i < env->model.used_mtls.nb_cells; i++)
 	{
-		n = dyacc(&env->scene.used_mtls, i);
+		n = dyacc(&env->model.used_mtls, i);
 		printf("%d\n", *n);
 	}
 }
@@ -226,25 +226,25 @@ static int	gen_data_stride(t_env *env)
 	t_mtl		*m;
 	t_stride	s; // New element
 
-	if (dynarray_init(&data, sizeof(t_stride), env->scene.vertexs.nb_cells))
+	if (dynarray_init(&data, sizeof(t_stride), env->model.vertexs.nb_cells))
 		return (-1);
 
 	// Iterate through faces array
-	for (int i = 0; i < env->scene.used_mtls.nb_cells; i++)
+	for (int i = 0; i < env->model.used_mtls.nb_cells; i++)
 	{
-		f = dyacc(&env->scene.faces, i); // Get face pointer
+		f = dyacc(&env->model.faces, i); // Get face pointer
 		// Get a pointer on the mtl used by the face
 
-		used = *(uint32_t*)dyacc(&env->scene.used_mtls, i);
-		if (used > (uint32_t)env->scene.mtls.nb_cells)
+		used = *(uint32_t*)dyacc(&env->model.used_mtls, i);
+		if (used > (uint32_t)env->model.mtls.nb_cells)
 			used = 0;
 
-		m = dyacc(&env->scene.mtls, (int)used);
+		m = dyacc(&env->model.mtls, (int)used);
 		// Create 3 strides for each faces and push them into the data array
 		for (unsigned int j = 0; j < 3; j++)
 		{
-			v = dyacc(&env->scene.vertexs, (int)f[j]);
-			vt = dyacc(&env->scene.vertexs_txt, (int)f[j + 3]);
+			v = dyacc(&env->model.vertexs, (int)f[j]);
+			vt = dyacc(&env->model.vertexs_txt, (int)f[j + 3]);
 			s.v = *v;
 			s.c = m  == NULL ? DEFAULT_COLOR : m->color;
 			s.t = vt == NULL ? (t_vt){0.0f, 0.0f} : *vt;
@@ -254,15 +254,15 @@ static int	gen_data_stride(t_env *env)
 	}
 
 	// Replace vertexs array with data
-	dynarray_free(&env->scene.vertexs);
-	env->scene.vertexs = data;
+	dynarray_free(&env->model.vertexs);
+	env->model.vertexs = data;
 
-	printf("%d polygones\n", env->scene.faces.nb_cells);
+	printf("%d polygones\n", env->model.faces.nb_cells);
 	if (DISPLAY_DATA)
 	{
-		printf("%d vertexs\n", env->scene.vertexs.nb_cells);
+		printf("%d vertexs\n", env->model.vertexs.nb_cells);
 		t_stride	*st;
-		for (int i = 0; (st = dyacc(&env->scene.vertexs, i)) ; i++)
+		for (int i = 0; (st = dyacc(&env->model.vertexs, i)) ; i++)
 		{
 			printf("vec : %f %f %f %f | color : %f %f %f %f | vec txt : %f %f\n",
 				(double)st->v.x, (double)st->v.y, (double)st->v.z, (double)st->v.w, 
@@ -293,7 +293,7 @@ int			load_obj_file(t_env *env, char *path)
 		}
 
 	// Creation of a default mesh to contain vertices and faces if not declared yet.
-	if (env->scene.meshs.arr == NULL && (code = create_default_mesh(env)) != 0)
+	if (env->model.meshs.arr == NULL && (code = create_default_mesh(env)) != 0)
 	{
 		 ft_arrfree((void **)lines);
 		return (code);
