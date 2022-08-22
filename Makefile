@@ -36,6 +36,7 @@ SRC_NAME=main.c\
 	core/events/events.c\
 	core/camera.c\
 	core/model.c\
+	core/parser.c\
 	core/render.c\
 	core/scop_exit.c\
 	core/scop_init.c\
@@ -43,7 +44,12 @@ SRC_NAME=main.c\
 	gl/gl_textures.c\
 	glfw/glfw_callbacks.c\
 	glfw/glfw_init.c\
-	parser/parser.c\
+	parser/load_faces.c\
+	parser/load_mtl_file.c\
+	parser/load_obj_file.c\
+	parser/mtl_loaders.c\
+	parser/normalize.c\
+	parser/utils.c\
 	utils/matrices/mat4.c\
 	utils/matrices/mat4_ops.c\
 	utils/matrices/mat4_rotations.c\
@@ -56,7 +62,8 @@ SRC_NAME=main.c\
 SRC=$(addprefix $(SRC_PATH), $(SRC_NAME))
 
 INC_PATH=includes/
-INC_NAME=main.h
+INC_NAME=main.h\
+	parser.h
 
 INC=$(addprefix $(INC_PATH), $(INC_NAME))
 

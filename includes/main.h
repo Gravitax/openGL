@@ -10,15 +10,16 @@
 # include <stdlib.h>
 # include <limits.h>
 
+# include <sys/mman.h>
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <fcntl.h>
 # include <unistd.h>
 
-
 // Homemade libs
 # include "../libs/libft/libft.h"
 # include "../libs/lib_vec/lib_vec.h"
+# include "./parser.h"
 
 # define GLFW_INCLUDE_NONE
 
@@ -26,9 +27,12 @@
 # define _HEIGHT	800
 # define _LENGTH	_WIDTH * _HEIGHT
 
+# define DEFAULT_COLOR (t_color){ 1.0f, 1.0f, 1.0f, 1.0f }
+
 
 enum			e_textures
 {
+	TEXTURE_DEFAULT,
 	TEXTURE_DS,
 	TEXTURE_NYAN,
 	TEXTURE_MAX
@@ -86,16 +90,16 @@ typedef struct	s_color
 	float	r, g, b, a;
 }				t_color;
 
-typedef struct	s_texture
+typedef struct	s_textcoord
 {
 	float	u, v;
-}				t_texture;
+}				t_vt;
 
 typedef struct	s_vertice
 {
 	vec3		pos;
 	t_color		col;
-	t_texture	tex;
+	t_vt	tex;
 	vec3		nor;
 }				t_vertice;
 
@@ -105,6 +109,7 @@ typedef struct	s_mesh
 	vec3			center;
 	unsigned int	texture;
 	GLuint			ebo, vao, vbo;
+	unsigned char	*name;
 }				t_mesh;
 
 typedef struct	s_model
@@ -121,6 +126,8 @@ typedef struct	s_image
 	unsigned int	w, h;
 	unsigned char	*ptr;
 }				t_image;
+
+// ==========================================
 
 typedef struct	s_light
 {
@@ -145,6 +152,8 @@ typedef struct	s_mouse
 	float	sensitivity;
 
 }				t_mouse;
+
+// ==========================================
 
 typedef struct	s_window
 {
@@ -171,6 +180,8 @@ typedef struct	s_gltools
 	t_uniform		uniform;
 }				t_gltools;
 
+// ==========================================
+
 typedef struct	s_fps
 {
 	unsigned int	frames, value;
@@ -183,6 +194,8 @@ typedef struct	s_animation
 	bool			active;
 }				t_animation;
 
+// ==========================================
+
 typedef struct	s_parser
 {
 	GLsizeiptr	vertex_size;
@@ -191,6 +204,53 @@ typedef struct	s_parser
 	GLsizeiptr	element_size;
 	GLuint		*element;
 }				t_parser;
+
+// ==========================================
+
+typedef struct	s_texture
+{
+	unsigned char	*img_data;
+	unsigned int	gl_id;
+	int				w;
+	int				h;
+}				t_texture;
+
+typedef	struct	s_material
+{
+	t_texture	texture;
+	t_color		color;
+	char		*name;
+}				t_mtl;
+
+typedef struct	s_stride
+{
+	vec3	v;
+	t_color	c;
+	t_vt	t;
+}				t_stride;
+
+typedef	struct	s_face
+{
+	uint32_t	a;
+	uint32_t	b;
+	uint32_t	c;
+	uint32_t	va;
+	uint32_t	vb;
+	uint32_t	vc;
+}				t_face;
+
+typedef struct	s_scene
+{
+	t_dynarray	meshs;
+	t_dynarray	vertexs;
+	t_dynarray	vertexs_txt;
+	t_dynarray	faces;
+	t_dynarray	used_mtls;
+	t_dynarray	mtls;
+	float		ct; // Color / Texture ratio
+}				t_scene;
+
+// ==========================================
 
 typedef struct	s_env
 {
@@ -205,6 +265,8 @@ typedef struct	s_env
 	t_model			model;
 	t_animation		animation;
 	t_parser		parser;
+	t_scene			scene;
+	char			obj_path[256];
 }				t_env;
 
 // CORE
@@ -235,6 +297,20 @@ void			cb_window_focus(GLFWwindow *window, int focused);
 
 // PARSER
 int				parse_obj(t_env *env, char *filename);
+// Parsing
+int				readlines(char *path, char ***lines);
+int				load_obj_file(t_env *env, char *path);
+int				load_settings(t_env *env);
+int				obj_mtllib_loader(t_env *env, char **tokens);
+void			normalize_vertexs(t_env *env);
+
+int				obj_face_loader(t_env *env, char **tokens);
+int				create_default_mesh(t_env *env);
+
+int				mtl_newmtl_loader(t_env *env, char **tokens);
+int				mtl_diffuse_color_loader(t_env *env, char **tokens);
+int				mtl_alpha_component_loader(t_env *env, char **tokens);
+int				mtl_texture_image_loader(t_env *env, char **tokens);
 
 // UTILS
 // matrices

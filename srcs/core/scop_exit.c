@@ -10,6 +10,8 @@ static void	free_gl(t_env *env)
 		glDeleteTextures(TEXTURE_MAX, env->gl.textures);
 	if (env->gl.shader_vertex)
 		glDeleteShader(env->gl.shader_vertex);
+	if (env->gl.shader_geometry)
+		glDeleteShader(env->gl.shader_geometry);
 	if (env->gl.shader_fragment)
 		glDeleteShader(env->gl.shader_fragment);
 	if (env->gl.shader_program)

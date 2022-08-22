@@ -4,6 +4,7 @@
 static int	images(t_env *env)
 {
 	const char		*images_path[TEXTURE_MAX] = {
+		"./ressources/images/texture.bmp",
 		"./ressources/images/darksouls.bmp",
 		"./ressources/images/nyan.bmp"
 	};
@@ -34,7 +35,7 @@ int			scop_init(t_env *env)
 	env->animation.step = -0.1f;
 	if (model(env) < 0 || images(env) < 0 || glfw_init(env) < 0)
 		return (-1);
-	if (parse_obj(env, "./ressources/test.obj") < 0)
+	if (parse_obj(env, "./ressources/42.obj") < 0)
 		return (-1);
 	camera(env);
 	light(&env->light);

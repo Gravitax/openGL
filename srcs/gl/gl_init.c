@@ -28,10 +28,6 @@ static void	gl_program(t_gltools *gl) {
 	// Link and use program
 	glLinkProgram(gl->shader_program);
 	glUseProgram(gl->shader_program);
-	// Delete used shaders
-	glDeleteShader(gl->shader_vertex);
-	glDeleteShader(gl->shader_geometry);
-	glDeleteShader(gl->shader_fragment);
 }
 
 static void	gl_layouts(t_gltools *gl)
@@ -60,6 +56,7 @@ static void	gl_layouts(t_gltools *gl)
 	// glVertexAttribPointer(normal, sizeof(vec3) * 0.25, GL_FLOAT, GL_FALSE,
 	// 	sizeof(t_vertice), (void *)(sizeof(vec3) + sizeof(t_color) + sizeof(t_texture)));
 
+	// position
 	position = glGetAttribLocation(gl->shader_program, "in_position");
 	glVertexAttribPointer(position, 3, GL_FLOAT, GL_FALSE,
 		sizeof(float) * 4, (void *)0);
@@ -70,16 +67,6 @@ static void	gl_layouts(t_gltools *gl)
 	glVertexAttribPointer(color, 1, GL_FLOAT, GL_FALSE,
 		sizeof(float) * 4, (void *)(sizeof(float) * 3));
 	glEnableVertexAttribArray(color);
-
-	// position = glGetAttribLocation(gl->shader_program, "in_position");
-	// glEnableVertexAttribArray(position);
-	// glVertexAttribPointer(position, sizeof(float), GL_FLOAT, GL_FALSE,
-	// 	sizeof(float) * 4, (void *)0);
-	
-	// color = glGetAttribLocation(gl->shader_program, "in_color");
-	// glEnableVertexAttribArray(color);
-	// glVertexAttribPointer(color, sizeof(float), GL_FLOAT, GL_FALSE,
-	// 	sizeof(float) * 4, (void *)(sizeof(float) * 3));
 }
 
 static void	gl_buffers(t_env *env, t_gltools *gl, t_mesh *mesh)
@@ -91,24 +78,13 @@ static void	gl_buffers(t_env *env, t_gltools *gl, t_mesh *mesh)
 	glGenBuffers(1, &mesh->vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, mesh->vbo);
 
-	// glBufferData(GL_ARRAY_BUFFER,
-	// 	mesh->vertices.nb_cells * sizeof(t_vertice),
-	// 	mesh->vertices.arr, GL_STATIC_DRAW);
-
 	glBufferData(GL_ARRAY_BUFFER,
 		env->parser.vertex_size,
 		env->parser.vertex, GL_STATIC_DRAW);
 
-	// glBufferData(GL_ARRAY_BUFFER, env->parser.vertex_size, env->parser.vertex, GL_STATIC_DRAW);
-
 	// EBO -- Create an Elements Buffer Object
 	glGenBuffers(1, &mesh->ebo);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->ebo);
-
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, env->parser.vertex_size, env->parser.vertex, GL_STATIC_DRAW);
-
-	// glBufferData(GL_ELEMENT_ARRAY_BUFFER, env->parser.element_size, env->parser.element, GL_STATIC_DRAW);
-
 
 	// TEST =========================
 	// GLuint  elements[] = {

@@ -25,7 +25,9 @@ unsigned char			*load_bmp(char const *pathname, unsigned int *width, unsigned in
 	unsigned char	header[54];
 
 	file = fopen(pathname, "rb");
-	if (!file || fread(header, 1, 54, file) != 54 || header[0] != 'B' || header[1] != 'M')
+	if (file == NULL)
+		return (NULL);
+	if (fread(header, 1, 54, file) != 54 || header[0] != 'B' || header[1] != 'M')
 	{
 		fclose(file);
 		return (NULL);
