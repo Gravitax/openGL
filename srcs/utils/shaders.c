@@ -16,7 +16,7 @@ void		shaders(t_gltools *gl)
  		"out vec3	vColor;\n"
  		// "out vec4	vPosition;\n"
 		// "out vec3	vNormal;\n"
-		"out vec2	vTexcoord;\n"
+		"out vec2	vTexture;\n"
 		"\n"
 		"void	main()\n"
 		"{\n"
@@ -24,12 +24,12 @@ void		shaders(t_gltools *gl)
 		"	vec4	tmp	= vec4(in_position, 1);\n;"
 		// "	vPosition	= tmp * model;\n"
 		// "	vNormal		= in_normal * mat3(transpose(inverse(model)));\n"
-		"	vTexcoord	= vec2(in_position.z / 3 + 0.5, in_position.y / 1.5 + 0.5);\n"
+		"	vTexture	= vec2(in_position.z / 3 + 0.5, in_position.y / 1.5 + 0.5);\n"
 		"\n"
 		"	gl_Position = tmp * model * view * projection;\n"
 		"}\n";
 	gl->shader_geometry_text = 
-		"#version 410 core\n"
+		"#version 400 core\n"
 		"\n"
 		"layout(triangles) in;\n"
 		"layout(triangle_strip, max_vertices = 3) out;\n"
@@ -40,7 +40,7 @@ void		shaders(t_gltools *gl)
 		"out vec3	gColor;\n"
 		"out vec2	gTexture;\n"
 		"\n"
-		"void main()\n"
+		"void	main()\n"
 		"{\n"
 		"	gl_Position = gl_in[0].gl_Position;\n"
 		"	gColor = vColor[1];\n"
@@ -69,10 +69,10 @@ void		shaders(t_gltools *gl)
 		"};\n"
 		"\n"
 		"in vec3	gColor;\n"
-		// 	"in vec3	gNormal;\n"
-		// 	"in vec4	gPosition;\n"
+		// "in vec3	gNormal;\n"
+		// "in vec4	gPosition;\n"
 		"in vec2	gTexture;\n"
-		"\n"
+		// "\n"
 		"uniform Light		light;"
 		// "uniform vec4		campos;\n"
 		"uniform sampler2D	texture_color;\n"
@@ -83,7 +83,7 @@ void		shaders(t_gltools *gl)
 		"void	main()\n"
 		"{\n"
 		"	if (light.is_active) {\n" // ==========================================
-		// "		vec4	color = mix(Color, texture(texture_color, Texcoord).rgba, progress);\n"
+		// "		vec4	color = mix(vec4(gColor, 1), texture(texture_color, vTexture), progress);\n"
 		// "		\n" // ambient
 		// "		vec4	ambient		= color * light.ambient;\n"
 		// "		\n" // diffuse
@@ -98,9 +98,10 @@ void		shaders(t_gltools *gl)
 		// "		vec4	specular	= color * light.specular * spec;\n"
 		// "		\n"
 		// "		FragColor = (ambient + diffuse + specular);\n"
-		"		FragColor = vec4(1, 0, 0, 1);\n"
+		// "		FragColor = texture(texture_color, vTexture);\n"
+		"		FragColor = vec4(0, 0, 0, 1);\n"
 		"	} else {\n"
-		"	FragColor = mix(vec4(gColor, 1), texture(texture_color, gTexture), progress);\n"
+		"		FragColor = mix(vec4(gColor, 1), texture(texture_color, gTexture), progress);\n"
 		"	}\n"
 		"}\n";
 }
