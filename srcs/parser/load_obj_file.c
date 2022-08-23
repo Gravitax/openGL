@@ -42,8 +42,7 @@ static int	obj_object_name_loader(t_env *env, char **tokens)
 	if (ft_arrlen(tokens) != 2) // Format check
 		return (-1);
 
-	if (!(new.name = ft_strdup(tokens[1])) // Copies mesh's name
-		|| dynarray_init(&new.vertices, sizeof(uint32_t), 256)) // Initializes faces array in the new mesh object
+	if (!(new.name = ft_strdup(tokens[1])))  // Copies mesh's name
 		return (-1);
 
 	meshs = &env->model.meshs;
@@ -186,13 +185,13 @@ int			create_default_mesh(t_env *env)
 	// Initializes mesh with default values
 	m.center = (vec3){0.0f, 0.0f, 0.0f, 0.0f};
 	if (dynarray_init(&env->model.meshs, sizeof(t_mesh), 1)
-		|| !(m.name = ft_strdup("default"))
-		|| dynarray_init(&m.vertices, sizeof(uint32_t), 256))
+		|| !(m.name = ft_strdup("default")))
 		return (-1);
 	// Adds the enterity of faces indexes to the mesh faces pool
 	for (uint32_t i = 0; i < (uint32_t)env->model.faces.nb_cells; i++)
 		if (dynarray_push(&env->model.faces, &i, false))
 			return (-1);
+	m.texture = TEXTURE_DS;
 	// Moves default mesh in meshs pool
 	if (dynarray_push(&env->model.meshs, &m, false))
 		return (-1);
@@ -202,7 +201,7 @@ int			create_default_mesh(t_env *env)
 }
 
 
-void		print_fv(t_dynarray *vertex)
+static void	print_fv(t_dynarray *vertices)
 {
 	t_stride		*elt;
 	unsigned int	i;
@@ -211,14 +210,14 @@ void		print_fv(t_dynarray *vertex)
 	t_color	c;
 	t_vt	t;	
 
-	for (i = 0; i < vertex->nb_cells; i++) {
-		elt = dyacc(vertex, i);
+	for (i = 0; i < vertices->nb_cells; i++) {
+		elt = dyacc(vertices, i);
 
 		v = elt->v;
 		c = elt->c;
 		t = elt->t;
 
-		printf("v: [%.1f %.1f %.1f %.1f] c: [%.1f %.1f %.1f %.1f] t: [%.1f %.1f]\n",
+		printf("v: [%.1f, %.1f, %.1f, %.1f] c: [%.1f, %.1f, %.1f, %.1f] t: [%.1f, %.1f]\n",
 			v.x, v.y, v.z, v.w,
 			c.r, c.g, c.b, c.a,
 			t.u, t.v
@@ -226,13 +225,17 @@ void		print_fv(t_dynarray *vertex)
 	}
 }
 
-void		print_used_mtls(t_env *env)
+static void	print_faces(t_dynarray *faces)
 {
-	uint32_t	*n;
+	t_face			*elt;
+	unsigned int	i;
 
-	for (int i = 0; i < env->model.used_mtls.nb_cells; i++)
-	{
-		n = dyacc(&env->model.used_mtls, i);
+	for (i = 0; i < faces->nb_cells; i++) {
+		elt = dyacc(faces, i);
+
+		printf("{ %d %d %d -- %d %d %d }\n",
+			elt->a, elt->b, elt->c,
+			elt->va, elt->vb, elt->vc);
 	}
 }
 
@@ -273,32 +276,23 @@ static int	gen_data_stride(t_env *env)
 		}
 	}
 
-	// Replace vertexs array with data
+	t_mesh	*mesh;
+
+	mesh = dyacc(&env->model.meshs, 0);
+	mesh->vertices = data;
+	mesh->faces = env->model.faces;
+
 	dynarray_free(&env->model.vertexs);
-	env->model.vertexs = data;
-
-	// TO FREE ----------------------
-	// t_dynarray	vertexs_txt;
-	// t_dynarray	used_mtls;
-	// t_dynarray	mtls;
-
 	dynarray_free(&env->model.vertexs_txt);
 	dynarray_free(&env->model.used_mtls);
 	dynarray_free(&env->model.mtls);
 
 	if (DISPLAY_DATA)
 	{
-		// printf("%d polygones\n", env->model.faces.nb_cells);
-		// printf("%d vertexs\n", env->model.vertexs.nb_cells);
-		// t_stride	*st;
-
-		// for (int i = 0; (st = dyacc(&env->model.vertexs, i)) ; i++)
-		// {
-		// 	printf("vec : %.2f %.2f %.2f %.2f | color : %.2f %.2f %.2f %.2f | vec txt : %.2f %.2f\n",
-		// 		(double)st->v.x, (double)st->v.y, (double)st->v.z, (double)st->v.w, 
-		// 		(double)st->c.r, (double)st->c.g, (double)st->c.b, (double)st->c.a,
-		// 		(double)st->t.u, (double)st->t.v);
-		// }
+		// print_fv(&mesh->vertices);
+		// print_faces(&mesh->faces);
+		printf("%d polygones\n", mesh->faces.nb_cells);
+		printf("%d vertices\n", mesh->vertices.nb_cells);
 	}
 	return (0);
 }
@@ -321,6 +315,7 @@ int			load_obj_file(t_env *env, char *path)
 	for (unsigned int i = 0; lines[i]; i++) {
 		if ((code = obj_loader(env, lines[i])) != 0)
 		{
+			printf("%s\n", lines[i]);
 			ft_arrfree(lines);
 			return (code);
 		}

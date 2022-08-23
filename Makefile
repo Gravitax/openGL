@@ -36,7 +36,6 @@ SRC_NAME=main.c\
 	core/events/events.c\
 	core/camera.c\
 	core/model.c\
-	core/parser.c\
 	core/render.c\
 	core/scop_exit.c\
 	core/scop_init.c\

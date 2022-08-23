@@ -53,10 +53,9 @@ static int	check_face_indexes(t_env *env, t_face new)
 	return (0);
 }
 
-static int	split_quad(t_env *env, t_mesh *parent, uint32_t a_index, char **tokens)
+static int	split_quad(t_env *env, char **tokens)
 {
 	t_face		news[2];
-	uint32_t	b_index = a_index + 1;
 
 	ft_memset(news, 0, sizeof(t_face) * 2);
 	// Polygon faces indexes assignment
@@ -74,11 +73,6 @@ static int	split_quad(t_env *env, t_mesh *parent, uint32_t a_index, char **token
 		|| dynarray_push(&env->model.faces, &news[1], false))
 		return (-1);
 
-	// Moves faces indexes into parent mesh
-	if (dynarray_push(&parent->vertices, &a_index, false)
-		|| dynarray_push(&parent->vertices, &b_index, false))
-		return (-1);
-
 	return (0);
 }
 
@@ -92,8 +86,6 @@ static int	load_face(t_env *env, char **tokens, t_mesh *parent, uint32_t face_in
 
 	// Moves instance in the pool.
 	if (dynarray_push(&env->model.faces, &new, false)
-		// Moves instance's pool index in the parent mesh.
-		|| dynarray_push(&parent->vertices, &face_index, false)
 		// Moves used mtl to to used materials pool
 		|| dynarray_push(&env->model.used_mtls, used_mtl(), false))
 		return (-1);
@@ -127,7 +119,7 @@ int			obj_face_loader(t_env *env, char **tokens)
 	if (nb_vertexs == 3) // If the face is a polygon
 		return (load_face(env, tokens, parent, face_index));
 	else if (nb_vertexs == 4) // Transforms quad faces to polygons, and moves them into the faces pool
-		return (split_quad(env, parent, face_index, tokens));
+		return (split_quad(env, tokens));
 	// If this kind of face is not handled
 	return (-1);
 }

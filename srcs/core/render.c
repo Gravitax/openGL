@@ -14,8 +14,9 @@ static void	textures(GLuint *textures, int id)
 
 static void	draw_mesh(t_env *env)
 {
-	t_mesh	*mesh;
-	int		i;
+	t_mesh		*mesh;
+	GLsizeiptr	size;
+	int			i;
 
 	i = -1;
 	while (++i < env->model.meshs.nb_cells) {
@@ -24,12 +25,7 @@ static void	draw_mesh(t_env *env)
 			continue ;
 		textures(env->gl.textures, mesh->texture);
 		glBindVertexArray(mesh->vao);
-
-		// glDrawElements(GL_TRIANGLES, env->parser.vertex_size, GL_UNSIGNED_INT, 0);
-
-		// GEDEMAIS --
-		glDrawArrays(GL_TRIANGLES, 0, env->model.vertexs.nb_cells);
-
+		glDrawArrays(GL_TRIANGLES, 0, mesh->vertices.nb_cells);
 		glBindVertexArray(0);
 	}
 }

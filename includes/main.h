@@ -30,7 +30,7 @@
 # define _HEIGHT	800
 # define _LENGTH	_WIDTH * _HEIGHT
 
-# define DEFAULT_COLOR (t_color){ 1.0f, 1.0f, 1.0f, 1.0f }
+# define DEFAULT_COLOR (t_color){ 1.0f, 0.0f, 0.0f, 1.0f }
 
 
 enum			e_textures
@@ -98,17 +98,17 @@ typedef struct	s_textcoord
 	float	u, v;
 }				t_vt;
 
-typedef struct	s_vertice
+typedef struct	s_stride
 {
-	vec3		pos;
-	t_color		col;
-	t_vt		tex;
-	vec3		nor;
-}				t_vertice;
+	vec3		v;
+	t_color		c;
+	t_vt		t;
+}				t_stride;
 
 typedef struct	s_mesh
 {
 	t_dynarray		vertices;
+	t_dynarray		faces;
 	vec3			center;
 	unsigned int	texture;
 	GLuint			ebo, vao, vbo;
@@ -129,13 +129,6 @@ typedef	struct	s_material
 	t_color		color;
 	char		*name;
 }				t_mtl;
-
-typedef struct	s_stride
-{
-	vec3		v;
-	t_color		c;
-	t_vt		t;
-}				t_stride;
 
 typedef	struct	s_face
 {
@@ -234,17 +227,6 @@ typedef struct	s_light
 
 // ==========================================
 
-typedef struct	s_parser
-{
-	GLsizeiptr	vertex_size;
-	GLfloat		*vertex;
-
-	GLsizeiptr	element_size;
-	GLuint		*element;
-}				t_parser;
-
-// ==========================================
-
 typedef struct	s_env
 {
 	bool			actions[ACTION_MAX];
@@ -257,7 +239,6 @@ typedef struct	s_env
 	t_image			images[TEXTURE_MAX];
 	t_model			model;
 	t_animation		animation;
-	t_parser		parser;
 }				t_env;
 
 // CORE
@@ -287,8 +268,6 @@ void			cb_scroll(GLFWwindow *window, double xoffset, double yoffset);
 void			cb_window_focus(GLFWwindow *window, int focused);
 
 // PARSER
-int				parse_obj(t_env *env, char *filename);
-// Parsing
 int				load_obj_file(t_env *env, char *path);
 int				readlines(char *path, char ***lines);
 int				load_settings(t_env *env);
