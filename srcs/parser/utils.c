@@ -35,14 +35,12 @@ int			readlines(char *path, char ***lines)
 	if (!(file = read_file(fd, &file_size)))
 		return (-1);
 
-
 	// Split file to lines
 	if (!(*lines = ft_strsplit(file, "\n")))
 	{
 		munmap(file, file_size);
 		return (-1);
 	}
-
 
 	// Free file mapping
 	munmap(file, file_size);

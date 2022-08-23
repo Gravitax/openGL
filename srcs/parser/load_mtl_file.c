@@ -47,14 +47,14 @@ static int	mtl_loader(t_env *env, char *line)
 			if (mtl_loading_fts[i]) // If the line's type is handled
 			{
 				code = mtl_loading_fts[i](env, tokens); // Launch correponding loading function
-				 ft_arrfree(tokens);
+				ft_arrfree(tokens);
 				return (code);
 			}
-			 ft_arrfree(tokens); // Free tokens array
+			ft_arrfree(tokens); // Free tokens array
 			return (0);
 		}
 
-	 ft_arrfree(tokens);
+	ft_arrfree(tokens);
 	return (-1);
 }
 
@@ -73,7 +73,7 @@ static int	load_mtl_file(t_env *env)
 			return (code);
 
 	// Free lines array
-	 ft_arrfree(lines);
+	ft_arrfree(lines);
 	return (0);
 }
 

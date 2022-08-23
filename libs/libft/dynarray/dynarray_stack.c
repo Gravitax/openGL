@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/10 18:04:36 by gedemais          #+#    #+#             */
-/*   Updated: 2020/08/08 20:16:32 by maboye           ###   ########.fr       */
+/*   Updated: 2022/08/23 19:43:02 by maboye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ void			dynarray_pop(t_dynarray *arr, bool front)
 		ft_memcpy(arr->tmp, (void *)(arr->arr + arr->cell_size), len);
 		ft_memcpy(arr->arr, arr->tmp, len);
 	}
-	--arr->nb_cells;
+	if (arr->nb_cells)
+		--arr->nb_cells;
 }
 
 int				dynarray_push(t_dynarray *arr, void *src, bool front)
@@ -38,7 +39,7 @@ int				dynarray_push(t_dynarray *arr, void *src, bool front)
 		ft_memcpy(arr->arr, src, arr->cell_size);
 		ft_memcpy((void *)(arr->arr + arr->cell_size), arr->tmp, len);
 	}
-	else
+	else 
 		ft_memcpy((void *)(arr->arr + len), src, arr->cell_size);
 	++arr->nb_cells;
 	return (0);

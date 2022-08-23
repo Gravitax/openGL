@@ -15,7 +15,7 @@ static void	dim_min_max(t_dynarray *vertexs, size_t dim, float *min, float *max)
 	float	*comp;
 
 	*min = 999999999.9f; // Set min to max float value and viceversa
-	*max = 999999999.9f;
+	*max = -999999999.9f;
 	for (int i = 0; i < vertexs->nb_cells; i++)
 	{
 		comp = (float*)dyacc(vertexs, i); // Access the vector, using dim to get the right component
@@ -61,8 +61,8 @@ void				normalize_vertexs(t_env *env)
 	max = maxs[0] > maxs[1] ? maxs[0] : maxs[1];
 	max = max > maxs[2] ? max : maxs[2];
 
-	//printf("%f %f %f -> %f\n", (double)mins[0], (double)mins[1], (double)mins[2], (double)min);
-	//printf("%f %f %f -> %f\n", (double)maxs[0], (double)maxs[1], (double)maxs[2], (double)max);
+	// printf("%f %f %f -> %f\n", (double)mins[0], (double)mins[1], (double)mins[2], (double)min);
+	// printf("%f %f %f -> %f\n", (double)maxs[0], (double)maxs[1], (double)maxs[2], (double)max);
 
 	// Normalize three dimensions
 	normalize_dim(vertexs, X, min, max);

@@ -25,10 +25,10 @@ static void	draw_mesh(t_env *env)
 		textures(env->gl.textures, mesh->texture);
 		glBindVertexArray(mesh->vao);
 
-		glDrawElements(GL_TRIANGLES, env->parser.vertex_size, GL_UNSIGNED_INT, 0);
+		// glDrawElements(GL_TRIANGLES, env->parser.vertex_size, GL_UNSIGNED_INT, 0);
 
 		// GEDEMAIS --
-		// glDrawArrays(GL_TRIANGLES, 0, env->model.vertexs.nb_cells);
+		glDrawArrays(GL_TRIANGLES, 0, env->model.vertexs.nb_cells);
 
 		glBindVertexArray(0);
 	}

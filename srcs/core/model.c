@@ -26,11 +26,11 @@ static int	gedemais(t_env *env, t_model *model)
 
 int			model(t_env *env)
 {
-	if (pitriche(env) < 0)
-		return (-1);
-
-	// if (gedemais(env, &env->model) < 0)
+	// if (pitriche(env) < 0)
 	// 	return (-1);
+
+	if (gedemais(env, &env->model) < 0)
+		return (-1);
 
 	env->model.scale = 1;
 	return (0);

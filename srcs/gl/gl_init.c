@@ -22,7 +22,7 @@ static void	gl_program(t_gltools *gl) {
 	gl->shader_program = glCreateProgram();
 	// Link the vertex and fragment shader into program
 	glAttachShader(gl->shader_program, gl->shader_vertex);
-	glAttachShader(gl->shader_program, gl->shader_geometry);
+	// glAttachShader(gl->shader_program, gl->shader_geometry);
 	glAttachShader(gl->shader_program, gl->shader_fragment);
 	glBindFragDataLocation(gl->shader_program, 0, "FragColor");
 	// Link and use program
@@ -35,28 +35,28 @@ static void	gl_layouts(t_gltools *gl)
 	// Specify the layout of the vertex data
 
 	// GEDEMAIS --
-	// glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(t_stride), (void *)0);
-	// glEnableVertexAttribArray(0);
+	glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, sizeof(t_stride), (void *)0);
+	glEnableVertexAttribArray(0);
 
-	// glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(t_stride), (void *)sizeof(vec3));
-	// glEnableVertexAttribArray(1);
+	glVertexAttribPointer(1, 4, GL_FLOAT, GL_FALSE, sizeof(t_stride), (void *)sizeof(vec3));
+	glEnableVertexAttribArray(1);
 
-	// glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(t_stride), (void *)(sizeof(vec3) + sizeof(t_color)));
-	// glEnableVertexAttribArray(2);
+	glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(t_stride), (void *)(sizeof(vec3) + sizeof(t_color)));
+	glEnableVertexAttribArray(2);
 
-	GLint	position, color;
+	// GLint	position, color;
 
-	// position
-	position = glGetAttribLocation(gl->shader_program, "in_position");
-	glVertexAttribPointer(position, 3, GL_FLOAT, GL_FALSE,
-		sizeof(float) * 4, (void *)0);
-	glEnableVertexAttribArray(position);
+	// // position
+	// position = glGetAttribLocation(gl->shader_program, "in_position");
+	// glVertexAttribPointer(position, 3, GL_FLOAT, GL_FALSE,
+	// 	sizeof(float) * 4, (void *)0);
+	// glEnableVertexAttribArray(position);
 
-	// color
-	color = glGetAttribLocation(gl->shader_program, "in_color");
-	glVertexAttribPointer(color, 1, GL_FLOAT, GL_FALSE,
-		sizeof(float) * 4, (void *)(sizeof(float) * 3));
-	glEnableVertexAttribArray(color);
+	// // color
+	// color = glGetAttribLocation(gl->shader_program, "in_color");
+	// glVertexAttribPointer(color, 1, GL_FLOAT, GL_FALSE,
+	// 	sizeof(float) * 4, (void *)(sizeof(float) * 3));
+	// glEnableVertexAttribArray(color);
 }
 
 static void	gl_buffers(t_env *env, t_gltools *gl, t_mesh *mesh)
@@ -68,23 +68,23 @@ static void	gl_buffers(t_env *env, t_gltools *gl, t_mesh *mesh)
 	glGenBuffers(1, &mesh->vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, mesh->vbo);
 
-	glBufferData(GL_ARRAY_BUFFER,
-		env->parser.vertex_size,
-		env->parser.vertex, GL_STATIC_DRAW);
+	// glBufferData(GL_ARRAY_BUFFER,
+	// 	env->parser.vertex_size,
+	// 	env->parser.vertex, GL_STATIC_DRAW);
 
 	// GEDEMAIS --
-	// GLsizeiptr	size = (GLsizeiptr)sizeof(t_stride) * env->model.vertexs.nb_cells;
-	// glBufferData(GL_ARRAY_BUFFER, size, env->model.vertexs.arr, GL_STATIC_DRAW);
+	GLsizeiptr	size = (GLsizeiptr)sizeof(t_stride) * env->model.vertexs.nb_cells;
+	glBufferData(GL_ARRAY_BUFFER, size, env->model.vertexs.arr, GL_STATIC_DRAW);
 
 	// EBO -- Create an Elements Buffer Object
 	glGenBuffers(1, &mesh->ebo);
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->ebo);
 
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, env->parser.element_size, env->parser.element, GL_STATIC_DRAW);
+	// glBufferData(GL_ELEMENT_ARRAY_BUFFER, env->parser.element_size, env->parser.element, GL_STATIC_DRAW);
 
 	// GEDEMAIS --
-	// size = (GLsizeiptr)env->model.faces.nb_cells * (GLsizeiptr)sizeof(uint32_t) * 3;
-	// glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, env->model.faces.arr, GL_STATIC_DRAW);
+	size = (GLsizeiptr)env->model.faces.nb_cells * (GLsizeiptr)sizeof(uint32_t) * 3;
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, env->model.faces.arr, GL_STATIC_DRAW);
 
 	gl_layouts(gl);
 	glBindVertexArray(0);

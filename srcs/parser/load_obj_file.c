@@ -139,6 +139,7 @@ static void	set_mesh_origin(t_env *env)
 		v = dyacc(&env->model.vertexs, i);
 		acc = vec_add(acc, *v);
 	}
+	
 	m->center = vec_fdiv(acc, env->model.vertexs.nb_cells);
 
 	for (int i = 0; i < env->model.vertexs.nb_cells; i++)
@@ -167,14 +168,14 @@ static int	obj_loader(t_env *env, char *line)
 			{
 				// Then launch the corresponding function
 				code = obj_loading_fts[i](env, tokens);
-				 ft_arrfree(tokens);
+				ft_arrfree(tokens);
 				return (code);
 			}
-			 ft_arrfree(tokens);
+			ft_arrfree(tokens);
 			return (0);
 		}
 	// Free tokens strings array
-	 ft_arrfree(tokens);
+	ft_arrfree(tokens);
 	return (-1);
 }
 
@@ -188,20 +189,41 @@ int			create_default_mesh(t_env *env)
 		|| !(m.name = ft_strdup("default"))
 		|| dynarray_init(&m.vertices, sizeof(uint32_t), 256))
 		return (-1);
-
 	// Adds the enterity of faces indexes to the mesh faces pool
-	for (uint32_t i = 0; i < (uint32_t)env->model.vertexs.nb_cells; i++)
-		if (dynarray_push(&env->model.vertexs, &i, false))
+	for (uint32_t i = 0; i < (uint32_t)env->model.faces.nb_cells; i++)
+		if (dynarray_push(&env->model.faces, &i, false))
 			return (-1);
-
 	// Moves default mesh in meshs pool
 	if (dynarray_push(&env->model.meshs, &m, false))
 		return (-1);
-
 	// Updates current mesh index value
 	current_mesh = env->model.meshs.nb_cells - 1;
-
 	return (0);
+}
+
+
+void		print_fv(t_dynarray *vertex)
+{
+	t_stride		*elt;
+	unsigned int	i;
+
+	vec3	v;
+	t_color	c;
+	t_vt	t;	
+
+	for (i = 0; i < vertex->nb_cells; i++) {
+		elt = dyacc(vertex, i);
+
+		v = elt->v;
+		c = elt->c;
+		t = elt->t;
+
+		printf("v: [%.1f %.1f %.1f %.1f] c: [%.1f %.1f %.1f %.1f] t: [%.1f %.1f]\n",
+			v.x, v.y, v.z, v.w,
+			c.r, c.g, c.b, c.a,
+			t.u, t.v
+		);
+	}
 }
 
 void		print_used_mtls(t_env *env)
@@ -232,7 +254,6 @@ static int	gen_data_stride(t_env *env)
 	{
 		f = dyacc(&env->model.faces, i); // Get face pointer
 		// Get a pointer on the mtl used by the face
-
 		used = *(uint32_t*)dyacc(&env->model.used_mtls, i);
 		if (used > (uint32_t)env->model.mtls.nb_cells)
 			used = 0;
@@ -241,8 +262,9 @@ static int	gen_data_stride(t_env *env)
 		// Create 3 strides for each faces and push them into the data array
 		for (unsigned int j = 0; j < 3; j++)
 		{
-			v = dyacc(&env->model.vertexs, (int)f[j]);
+			v = (vec3 *)dyacc(&env->model.vertexs, (int)f[j]);
 			vt = dyacc(&env->model.vertexs_txt, (int)f[j + 3]);
+
 			s.v = *v;
 			s.c = m  == NULL ? DEFAULT_COLOR : m->color;
 			s.t = vt == NULL ? (t_vt){0.0f, 0.0f} : *vt;
@@ -255,18 +277,28 @@ static int	gen_data_stride(t_env *env)
 	dynarray_free(&env->model.vertexs);
 	env->model.vertexs = data;
 
-	printf("%d polygones\n", env->model.faces.nb_cells);
+	// TO FREE ----------------------
+	// t_dynarray	vertexs_txt;
+	// t_dynarray	used_mtls;
+	// t_dynarray	mtls;
+
+	dynarray_free(&env->model.vertexs_txt);
+	dynarray_free(&env->model.used_mtls);
+	dynarray_free(&env->model.mtls);
+
 	if (DISPLAY_DATA)
 	{
-		printf("%d vertexs\n", env->model.vertexs.nb_cells);
-		t_stride	*st;
-		for (int i = 0; (st = dyacc(&env->model.vertexs, i)) ; i++)
-		{
-			printf("vec : %f %f %f %f | color : %f %f %f %f | vec txt : %f %f\n",
-				(double)st->v.x, (double)st->v.y, (double)st->v.z, (double)st->v.w, 
-				(double)st->c.r, (double)st->c.g, (double)st->c.b, (double)st->c.a,
-				(double)st->t.u, (double)st->t.v);
-		}
+		// printf("%d polygones\n", env->model.faces.nb_cells);
+		// printf("%d vertexs\n", env->model.vertexs.nb_cells);
+		// t_stride	*st;
+
+		// for (int i = 0; (st = dyacc(&env->model.vertexs, i)) ; i++)
+		// {
+		// 	printf("vec : %.2f %.2f %.2f %.2f | color : %.2f %.2f %.2f %.2f | vec txt : %.2f %.2f\n",
+		// 		(double)st->v.x, (double)st->v.y, (double)st->v.z, (double)st->v.w, 
+		// 		(double)st->c.r, (double)st->c.g, (double)st->c.b, (double)st->c.a,
+		// 		(double)st->t.u, (double)st->t.v);
+		// }
 	}
 	return (0);
 }
@@ -276,20 +308,23 @@ int			load_obj_file(t_env *env, char *path)
 	char	**lines;
 	int		code;
 
-	ft_memcpy(env->model.obj_path, path, sizeof(char) * 256);
+	ft_memcpy(env->model.obj_path, path, sizeof(char) * ft_strlen(path));
+
 	*used_mtl() = UINT_MAX;
 	current_mesh = INT_MAX;
+
 	// Maps the .obj file in memory, then splits it into lines to parse it easier.
 	if ((code = readlines(path, &lines)) != 0)
 		return (code);
 
 	// Iterate through lines to load obj data.
-	for (unsigned int i = 0; lines[i]; i++)
+	for (unsigned int i = 0; lines[i]; i++) {
 		if ((code = obj_loader(env, lines[i])) != 0)
 		{
 			ft_arrfree(lines);
 			return (code);
 		}
+	}
 	// Creation of a default mesh to contain vertices and faces if not declared yet.
 	if (env->model.meshs.arr == NULL && (code = create_default_mesh(env)) != 0)
 	{
@@ -297,10 +332,12 @@ int			load_obj_file(t_env *env, char *path)
 		return (code);
 	}
 	ft_arrfree(lines);
+
 	// Normalize vertices for OpenGL display (i.e components between -1.0 and 1.0)
 	normalize_vertexs(env);
 
-	// Place the origin of the mesh on its center by averaging its vertexs
+	// // Place the origin of the mesh on its center by averaging its vertexs
 	set_mesh_origin(env);
+
 	return (gen_data_stride(env));
 }

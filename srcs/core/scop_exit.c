@@ -16,18 +16,18 @@ static void	free_gl(t_env *env)
 		glDeleteShader(env->gl.shader_fragment);
 	if (env->gl.shader_program)
 		glDeleteProgram(env->gl.shader_program);
-	i = -1;
-	while (++i < env->model.meshs.nb_cells) {
-		mesh = dyacc(&env->model.meshs, i);
-		if (mesh == NULL)
-			continue ;
-		if (mesh->ebo)
-			glDeleteBuffers(1, &mesh->ebo);
-		if (mesh->vbo)
-			glDeleteBuffers(1, &mesh->vbo);
-		if (mesh->vao)
-			glDeleteVertexArrays(1, &mesh->vao);
-	}
+	// i = -1;
+	// while (++i < env->model.meshs.nb_cells) {
+	// 	mesh = dyacc(&env->model.meshs, i);
+	// 	if (mesh == NULL)
+	// 		continue ;
+	// 	if (mesh->ebo)
+	// 		glDeleteBuffers(1, &mesh->ebo);
+	// 	if (mesh->vbo)
+	// 		glDeleteBuffers(1, &mesh->vbo);
+	// 	if (mesh->vao)
+	// 		glDeleteVertexArrays(1, &mesh->vao);
+	// }
 }
 
 static void	free_glfw(t_env *env)

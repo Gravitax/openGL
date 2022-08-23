@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/10 18:04:09 by gedemais          #+#    #+#             */
-/*   Updated: 2020/08/08 20:16:37 by maboye           ###   ########.fr       */
+/*   Updated: 2022/08/23 18:48:17 by maboye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static int		realloc_content(t_dynarray *arr)
 
 int				check_space(t_dynarray *arr)
 {
-	while (arr->nb_cells * arr->cell_size >= arr->byte_size)
+	while ((arr->nb_cells + 1) * arr->cell_size >= arr->byte_size)
 		if (realloc_content(arr))
 			return (-1);
 	return (0);
