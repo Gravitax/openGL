@@ -191,7 +191,7 @@ typedef struct	s_gltools
 	GLuint			shader_vertex, shader_geometry, shader_fragment;
 	GLuint			ebo, vao, vbo;
 	GLuint			texture;
-	const GLchar	*shader_vertex_text, *shader_fragment_text, *shader_geometry_text;
+	const GLchar	*shader_vertex_text, *shader_fragment_text;
 	t_window		window;
 	t_uniform		uniform;
 }				t_gltools;
