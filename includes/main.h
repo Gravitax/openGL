@@ -97,16 +97,6 @@ typedef struct	s_stride
 	t_vt		t;
 }				t_stride;
 
-typedef struct	s_mesh
-{
-	t_dynarray		vertices;
-	t_dynarray		faces;
-	vec3			center;
-	unsigned int	texture;
-	GLuint			ebo, vao, vbo;
-	char			*name;
-}				t_mesh;
-
 // ==========================================
 
 typedef struct	s_image
@@ -133,21 +123,31 @@ typedef	struct	s_face
 
 // ==========================================
 
+typedef struct	s_mesh
+{
+	t_dynarray		vertices;
+	t_dynarray		faces;
+	vec3			center;
+	unsigned int	texture;
+	GLuint			ebo, vao, vbo;
+	char			*name;
+}				t_mesh;
+
 typedef struct	s_model
 {
+	t_dynarray	meshs;
 	mat4		model;
 	vec3		trans, rot;
 	vec3		center;
-	float		scale;
+	float		scale, strans, srot;
 	char		obj_path[256];
 	t_image		texture;
 
-	t_dynarray	meshs;
+	t_dynarray	faces;
 	t_dynarray	vertexs;
 	t_dynarray	vertexs_txt;
-	t_dynarray	faces;
-	t_dynarray	used_mtls;
 	t_dynarray	mtls;
+	t_dynarray	used_mtls;
 }				t_model;
 
 // ==========================================

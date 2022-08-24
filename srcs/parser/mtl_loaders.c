@@ -118,6 +118,7 @@ int			mtl_texture_image_loader(t_env *env, char **tokens)
 		free(path);
 		return (-1);
 	}
+
 	free(path); // Free path string
 	return (0);
 }

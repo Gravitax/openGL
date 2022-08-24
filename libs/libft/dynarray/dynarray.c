@@ -6,7 +6,7 @@
 /*   By: maboye <maboye@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/10 18:02:41 by gedemais          #+#    #+#             */
-/*   Updated: 2020/08/08 19:46:59 by maboye           ###   ########.fr       */
+/*   Updated: 2022/08/24 13:36:51 by maboye           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,11 @@ void			*dyacc(t_dynarray *arr, int index)
 
 void			dynarray_free(t_dynarray *arr)
 {
-	free(arr->arr);
-	free(arr->tmp);
-	ft_memset(arr, 0, sizeof(t_dynarray));
+	if (arr) {
+		free(arr->arr);
+		free(arr->tmp);
+		ft_memset(arr, 0, sizeof(t_dynarray));
+	}
 }
 
 static int		start_size(int size)

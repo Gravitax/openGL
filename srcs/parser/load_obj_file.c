@@ -159,7 +159,9 @@ static int	obj_loader(t_env *env, char *line)
 	if (!(tokens = ft_strsplit(line, "\b\t\v\f\r ")))
 		return (-1);
 	// Identifies line type and lauches the corresponding loader.
-	for (unsigned int i = 0; i < OBJ_MAX; i++)
+	for (unsigned int i = 0; i < OBJ_MAX; i++) {
+		if (ft_strlen(tokens[0]) < 1)
+			return (0);
 		if (ft_strcmp(tokens[0], obj_lines_ids[i]) == 0)
 		{
 			// If this line indentifier is handled
@@ -173,6 +175,7 @@ static int	obj_loader(t_env *env, char *line)
 			ft_arrfree(tokens);
 			return (0);
 		}
+	}
 	// Free tokens strings array
 	ft_arrfree(tokens);
 	return (-1);

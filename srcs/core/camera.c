@@ -16,7 +16,7 @@ static void	init_camera(t_camera *camera)
 	camera->yaxis = (vec3){ 0, 1, 0 };
 	camera->zaxis = (vec3) { 0, 0, 1 };
 	// Camera movements speed
-	camera->speed = 1.0f;
+	camera->speed = 0.5f;
 	// Camera rotations angles
 	camera->pitch = 0;
 	camera->yaw = 0;

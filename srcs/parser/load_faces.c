@@ -17,9 +17,14 @@ static int	assign_face_indexes(t_face *new, char **tokens, int indexes[3])
 	{
 		if (!(subs[i] = ft_strsplit(tokens[indexes[i]], "/")))
 			return (-1);
+
 		n[i] = ft_arrlen(subs[i]);
 		if (i > 0 && n[i] != n[i - 1])
+		{
+			for (unsigned int j = 0; j <= i; j++)
+				ft_arrfree(subs[j]);
 			return (-1);
+		}
 	}
 
 	// Reads the faces components (indexes in vertexs pool)
@@ -28,11 +33,18 @@ static int	assign_face_indexes(t_face *new, char **tokens, int indexes[3])
 	new->c = (uint32_t)ft_atoi(subs[2][0]) - 1;
 
 	if (n[0] < 2)
+	{
+		for (unsigned int j = 0; j < 3; j++)
+			ft_arrfree(subs[j]);
 		return (0);
+	}
+
 	new->va = (uint32_t)ft_atoi(subs[0][1]) - 1;
 	new->vb = (uint32_t)ft_atoi(subs[1][1]) - 1;
 	new->vc = (uint32_t)ft_atoi(subs[2][1]) - 1;
 
+	for (unsigned int i = 0; i < 3; i++)
+		ft_arrfree(subs[i]);
 	return (0);
 }
 

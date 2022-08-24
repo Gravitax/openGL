@@ -4,73 +4,73 @@
 // TRANSLATION FORWARD
 static void	model_forward(t_model *model)
 {
-	model->trans.z += 1;
+	model->trans.z += model->strans;
 }
 
 // TRANSLATION BACKWARD
 static void	model_backward(t_model *model)
 {
-	model->trans.z -= 1;
+	model->trans.z -= model->strans;
 }
 
 // TRANSLATION RIGHT
 static void	model_right(t_model *model)
 {
-	model->trans.x -= 1;
+	model->trans.x -= model->strans;
 }
 
 // TRANSLATION LEFT
 static void	model_left(t_model *model)
 {
-	model->trans.x += 1;
+	model->trans.x += model->strans;
 }
 
 // TRANSLATION UP
 static void	model_up(t_model *model)
 {
-	model->trans.y += 1;
+	model->trans.y += model->strans;
 }
 
 // TRANSLATION DOWN
 static void	model_down(t_model *model)
 {
-	model->trans.y -= 1;
+	model->trans.y -= model->strans;
 }
 
 // POSITIVE ROTX
 static void	model_protx(t_model *model)
 {
-	model->rot.x += 0.1f;
+	model->rot.x += model->srot;
 }
 
 // NEGATIVE ROTX
 static void	model_nrotx(t_model *model)
 {
-	model->rot.x -= 0.1f;
+	model->rot.x -= model->srot;
 }
 
 // POSITIVE ROTY
 static void	model_proty(t_model *model)
 {
-	model->rot.y += 0.1f;
+	model->rot.y += model->srot;
 }
 
 // NEGATIVE ROTY
 static void	model_nroty(t_model *model)
 {
-	model->rot.y -= 0.1f;
+	model->rot.y -= model->srot;
 }
 
 // POSITIVE ROTZ
 static void	model_protz(t_model *model)
 {
-	model->rot.z += 0.1f;
+	model->rot.z += model->srot;
 }
 
 // NEGATIVE ROTZ
 static void	model_nrotz(t_model *model)
 {
-	model->rot.z -= 0.1f;
+	model->rot.z -= model->srot;
 }
 
 void		events_model(t_env *env)

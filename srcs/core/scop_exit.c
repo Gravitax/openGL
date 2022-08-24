@@ -36,19 +36,31 @@ static void	free_glfw(t_env *env)
 static void	free_env(t_env *env)
 {
 	t_mesh	*mesh;
+	t_mtl	*mtl;
 	int		i;
 
+	free(env->model.texture.ptr);
 	i = -1;
 	while (++i < env->model.meshs.nb_cells) {
 		mesh = dyacc(&env->model.meshs, i);
 		if (mesh == NULL)
 			continue ;
 		dynarray_free(&mesh->vertices);
-		dynarray_free(&mesh->faces);
 		ft_strdel(&mesh->name);
 	}
 	dynarray_free(&env->model.meshs);
-	free(env->model.texture.ptr);
+	dynarray_free(&env->model.faces);
+	dynarray_free(&env->model.vertexs);
+	dynarray_free(&env->model.vertexs_txt);
+	dynarray_free(&env->model.used_mtls);
+	i = -1;
+	while (++i < env->model.mtls.nb_cells) {
+		mtl = dyacc(&env->model.mtls, i);
+		if (mtl == NULL)
+			continue ;
+		ft_strdel(&mtl->name);
+	}
+	dynarray_free(&env->model.mtls);
 }
 
 void		scop_exit()
