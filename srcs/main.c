@@ -14,10 +14,16 @@ static int	scop(t_env *env)
 	return (0);
 }
  
-int		 	main(void)
+int		 	main(int ac, char **av)
 {
 	t_env   env;
+	int		code, length;
 
-	ft_memset(&env, 0, sizeof(t_env));
-	exit(scop(&env) < 0 ? EXIT_FAILURE : EXIT_SUCCESS);
+	code = -1;
+	if (ac == 2 && (length = ft_strlen(av[1])) < 256) {
+		ft_memset(&env, 0, sizeof(t_env));
+		ft_memcpy(env.model.obj_path, av[1], length);
+		code = scop(&env);
+	}
+	return (code == 0 ? EXIT_SUCCESS : EXIT_FAILURE);
 }

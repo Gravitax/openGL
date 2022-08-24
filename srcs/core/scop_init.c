@@ -1,22 +1,6 @@
 #include "../../includes/main.h"
 
 
-static int	images(t_env *env)
-{
-	const char		*images_path[TEXTURE_MAX] = {
-		"./resources/texture.bmp",
-		"./resources/darksouls.bmp",
-		"./resources/nyan.bmp"
-	};
-	int				i = -1;
-
-	while (++i < TEXTURE_MAX) {
-		if (!(env->images[i].ptr = load_bmp(images_path[i], &env->images[i].w, &env->images[i].h)))
-			return (-1);
-	}
-	return (0);
-}
-
 static void	light(t_light *light)
 {
 	light->active = false;
@@ -33,7 +17,7 @@ int			scop_init(t_env *env)
 	st_env(env, false);
 	env->gl.window.fullscreen = false;
 	env->animation.step = -0.1f;
-	if (model(env) < 0 || images(env) < 0 || glfw_init(env) < 0)
+	if (model(env) < 0 || glfw_init(env) < 0)
 		return (-1);
 	camera(env);
 	light(&env->light);

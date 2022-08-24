@@ -53,7 +53,6 @@ static int	mtl_loader(t_env *env, char *line)
 			ft_arrfree(tokens); // Free tokens array
 			return (0);
 		}
-
 	ft_arrfree(tokens);
 	return (-1);
 }

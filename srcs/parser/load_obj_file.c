@@ -191,7 +191,6 @@ int			create_default_mesh(t_env *env)
 	for (uint32_t i = 0; i < (uint32_t)env->model.faces.nb_cells; i++)
 		if (dynarray_push(&env->model.faces, &i, false))
 			return (-1);
-	m.texture = TEXTURE_DS;
 	// Moves default mesh in meshs pool
 	if (dynarray_push(&env->model.meshs, &m, false))
 		return (-1);
@@ -285,6 +284,15 @@ static int	gen_data_stride(t_env *env)
 	dynarray_free(&env->model.vertexs);
 	dynarray_free(&env->model.vertexs_txt);
 	dynarray_free(&env->model.used_mtls);
+
+	t_mtl	*mtl;
+
+	for (int i = 0; i < env->model.mtls.nb_cells; i++) {
+		mtl = dyacc(&env->model.mtls, i);
+		if (mtl == NULL)
+			continue ;
+		ft_strdel(&mtl->name);
+	}
 	dynarray_free(&env->model.mtls);
 
 	if (DISPLAY_DATA)
@@ -302,8 +310,6 @@ int			load_obj_file(t_env *env, char *path)
 	char	**lines;
 	int		code;
 
-	ft_memcpy(env->model.obj_path, path, sizeof(char) * ft_strlen(path));
-
 	*used_mtl() = UINT_MAX;
 	current_mesh = INT_MAX;
 
@@ -315,7 +321,6 @@ int			load_obj_file(t_env *env, char *path)
 	for (unsigned int i = 0; lines[i]; i++) {
 		if ((code = obj_loader(env, lines[i])) != 0)
 		{
-			printf("%s\n", lines[i]);
 			ft_arrfree(lines);
 			return (code);
 		}

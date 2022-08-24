@@ -1,17 +1,6 @@
 #include "../../includes/main.h"
 
 
-static void	textures(GLuint *textures, int id)
-{
-	int	i;
-
-	i = -1;
-	while (++i < TEXTURE_MAX) {
-		glActiveTexture(GL_TEXTURE0 + i);
-		glBindTexture(GL_TEXTURE_2D, textures[id]);
-	}
-}
-
 static void	draw_mesh(t_env *env)
 {
 	t_mesh		*mesh;
@@ -23,7 +12,6 @@ static void	draw_mesh(t_env *env)
 		mesh = dyacc(&env->model.meshs, i);
 		if (mesh == NULL)
 			continue ;
-		textures(env->gl.textures, mesh->texture);
 		glBindVertexArray(mesh->vao);
 		glDrawArrays(GL_TRIANGLES, 0, mesh->vertices.nb_cells);
 		glBindVertexArray(0);

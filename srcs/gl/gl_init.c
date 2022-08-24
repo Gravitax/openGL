@@ -22,7 +22,7 @@ static void	gl_program(t_gltools *gl) {
 	gl->shader_program = glCreateProgram();
 	// Link the vertex and fragment shader into program
 	glAttachShader(gl->shader_program, gl->shader_vertex);
-	// glAttachShader(gl->shader_program, gl->shader_geometry);
+	glAttachShader(gl->shader_program, gl->shader_geometry);
 	glAttachShader(gl->shader_program, gl->shader_fragment);
 	glBindFragDataLocation(gl->shader_program, 0, "FragColor");
 	// Link and use program

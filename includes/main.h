@@ -33,14 +33,6 @@
 # define DEFAULT_COLOR (t_color){ 1.0f, 0.0f, 0.0f, 1.0f }
 
 
-enum			e_textures
-{
-	TEXTURE_DEFAULT,
-	TEXTURE_DS,
-	TEXTURE_NYAN,
-	TEXTURE_MAX
-};
-
 enum			e_light
 {
 	LIGHT_ACTIVE,
@@ -125,7 +117,6 @@ typedef struct	s_image
 
 typedef	struct	s_material
 {
-	t_image		texture;
 	t_color		color;
 	char		*name;
 }				t_mtl;
@@ -149,6 +140,7 @@ typedef struct	s_model
 	vec3		center;
 	float		scale;
 	char		obj_path[256];
+	t_image		texture;
 
 	t_dynarray	meshs;
 	t_dynarray	vertexs;
@@ -198,7 +190,7 @@ typedef struct	s_gltools
 	GLuint			shader_program;
 	GLuint			shader_vertex, shader_geometry, shader_fragment;
 	GLuint			ebo, vao, vbo;
-	GLuint			textures[TEXTURE_MAX];
+	GLuint			texture;
 	const GLchar	*shader_vertex_text, *shader_fragment_text, *shader_geometry_text;
 	t_window		window;
 	t_uniform		uniform;
@@ -236,7 +228,6 @@ typedef struct	s_env
 	t_camera		camera;
 	t_light			light;
 	t_mouse		 	mouse;
-	t_image			images[TEXTURE_MAX];
 	t_model			model;
 	t_animation		animation;
 }				t_env;

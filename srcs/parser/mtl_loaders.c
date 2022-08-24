@@ -111,7 +111,7 @@ int			mtl_texture_image_loader(t_env *env, char **tokens)
 		return (-1);
 
 	mtl = dyacc(&env->model.mtls, env->model.mtls.nb_cells - 1);
-	txt = &mtl->texture;
+	txt = &env->model.texture;
 
 	if ((txt->ptr = load_bmp(path, &txt->w, &txt->h)) == NULL) // Load image from path
 	{
